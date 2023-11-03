@@ -2,11 +2,9 @@
 
 namespace Adminlte3\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Page;
-use App\Models\Setting;
-use App\Models\Text;
-use Illuminate\Http\Request;
+use Adminlte3\Models\Page;
+use Adminlte3\Models\Setting;
+use Adminlte3\Models\Text;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +24,7 @@ class AdminPageController extends Controller
 //        $page = Page::findOrFail(1);
 //        dd($page->settingGroups);
 
-        return view('admin.pages.index');
+        return view('adminlte::pages.index');
     }
 
     public function getEdit($id)

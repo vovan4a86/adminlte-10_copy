@@ -2,8 +2,7 @@
 
 namespace Adminlte3\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Page;
+use Adminlte3\Models\Page;
 use App\Models\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
@@ -13,13 +12,13 @@ class AdminMainController extends Controller
 {
     public function index()
     {
-        return view('admin.main');
+        return view('adminlte::main');
     }
 
     public function getEdit($id)
     {
         $page = Page::findOrFail($id);
-        return view('admin.pages.index', [
+        return view('adminlte::pages.index', [
             'page' => $page,
             'content' => $this->postEdit($id)
         ]);
@@ -66,7 +65,7 @@ class AdminMainController extends Controller
 //        $ids = $this->getPagesTree();
 //        dd($ids);
 
-        return view('admin.pages.index');
+        return view('adminlte::pages.index');
     }
 
     public function profile()

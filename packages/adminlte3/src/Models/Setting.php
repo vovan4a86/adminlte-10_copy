@@ -1,4 +1,4 @@
-<?php namespace App\Models;;
+<?php namespace Adminlte3\Models;;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

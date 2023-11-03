@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Adminlte3\Models;
 
 class Text {
 
