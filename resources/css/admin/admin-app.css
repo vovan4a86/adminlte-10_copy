@@ -1,0 +1,4 @@
+@import '~adminlte/plugins/fontawesome-free/css/all.min.css';
+@import '~adminlte/dist/css/adminlte.min.css';
+@import '/node_modules/jquery.fancytree/dist/skin-win8/ui.fancytree.less';
+@import '/node_modules/summernote/dist/summernote-bs5.css';
