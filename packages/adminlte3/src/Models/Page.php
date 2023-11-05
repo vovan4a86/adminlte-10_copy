@@ -2,7 +2,7 @@
 
 namespace Adminlte3\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
@@ -13,11 +13,62 @@ use Illuminate\Support\Facades\Cache;
  */
 class Page extends Model
 {
-    use HasFactory;
+    use HasImage;
+
+    const UPLOAD_URL = '/uploads/pages/';
+
+    public static array $thumbs = [
+        1 => '100x100', //admin
+        2 => '180x180', //og_image
+    ];
+
+    private bool $_disableEventUpdateSlug = false;
+    private bool $_disableEventUpdatePublished = false;
 
     protected $guarded = ['id'];
-    protected $_parents = [];
-    protected $_url = null;
+    protected array $_parents = [];
+    protected string $_url = '';
+
+    public static function boot() {
+        parent::boot();
+
+        self::saved(function (self $category){
+            if($category->isDirty('alias') || $category->isDirty('parent_id')){
+                if (!$category->_disableEventUpdateSlug){
+                    self::updateUrlRecurse($category);
+                }
+            }
+            if($category->isDirty('published') && $category->published == 0){
+                if (!$category->_disableEventUpdatePublished){
+                    self::updateDisablePublishedRecurse($category);
+                }
+            }
+        });
+    }
+
+    //обновить slug страницы
+    public static function updateUrlRecurse(self $page) {
+        $parents = $page->getParents(true, true);
+        $slug_arr = [];
+        foreach ($parents as $parent){
+            $slug_arr[] = $parent->alias;
+        }
+        //чтобы событие на обновление не сработало
+        $page->_disableEventUpdateSlug = true;
+        $page->update(['slug' => implode( '/', $slug_arr)]);
+        foreach ($page->children()->get() as $child){
+            self::updateUrlRecurse($child);
+        }
+    }
+
+    public static function updateDisablePublishedRecurse(self $page) {
+        //чтобы событие на обновление не сработало
+        $page->_disableEventUpdatePublished = true;
+        $page->update(['published' => 0]);
+        foreach ($page->children()->get() as $child){
+            self::updateUrlRecurse($child);
+        }
+    }
 
     public function children()
     {

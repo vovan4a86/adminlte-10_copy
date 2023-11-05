@@ -20,7 +20,7 @@
                 <div class="box-body">
                     <ul id="setting-groups" class="tree-lvl ui-sortable">
                         @foreach ($groups as $item)
-                            @include('admin.settings.group_row', ['group' => $item, 'active' => $group])
+                            @include('admin::settings.group_row', ['group' => $item, 'active' => $group])
                         @endforeach
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
 
         <div id="settings-content" class="col-md-9">
             @if ($group->id)
-                @include('admin.settings.group_items', ['group' => $group, 'settings' => $settings])
+                @include('admin::settings.group_items', ['group' => $group, 'settings' => $settings])
             @endif
         </div>
     </div>

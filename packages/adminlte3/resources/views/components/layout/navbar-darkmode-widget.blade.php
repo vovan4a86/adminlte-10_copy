@@ -48,7 +48,7 @@
             };
 
             fetch(
-                "{{ route('adminlte.darkmode.toggle') }}",
+                "{{ route('admin.darkmode.toggle') }}",
                 fetchCfg
             )
             .catch((error) => {

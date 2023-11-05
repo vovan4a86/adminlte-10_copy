@@ -1,3 +1,22 @@
+let pageImage = null;
+
+function pageImageAttache(elem, e){
+    $.each(e.target.files, function(key, file)
+    {
+        if(file['size'] > max_file_size){
+            alert('Слишком большой размер файла. Максимальный размер 2Мб');
+        } else {
+            pageImage = file;
+            renderImage(file, function (imgSrc) {
+                const item = '<img class="img-polaroid" src="' + imgSrc + '" height="100" data-image="' + imgSrc + '" ' +
+                    'onclick="return popupImage($(this).data(\'image\'))" alt="">';
+                $('#page-image').html(item);
+            });
+        }
+    });
+    $(elem).val('');
+}
+
 function pageSave(form, e) {
     e.preventDefault();
     const url = $(form).attr('action');
@@ -9,9 +28,12 @@ function pageSave(form, e) {
         data.append(key, value);
     });
 
-    const image = $(form).find('#image').val();
-    if (image) {
-        data.append('image', image);
+    // const image = $(form).find('#image').val();
+    // if (image) {
+    //     data.append('image', image);
+    // }
+    if (pageImage) {
+        data.append('image', pageImage);
     }
 
     sendFiles(url, data, function (json) {
@@ -23,26 +45,10 @@ function pageSave(form, e) {
             }
             $(form).find('[type=submit]').after(autoHideMsg('red', urldecode(errMsg.join(' '))));
         } else {
-            newsImage = null;
+            pageImage = null;
         }
         if (typeof json.redirect != 'undefined') document.location.href = urldecode(json.redirect);
         if (typeof json.msg != 'undefined') $(form).find('[type=submit]').after(autoHideMsg('green', urldecode(json.msg)));
-        if (typeof json.row != 'undefined') {
-            var id = $('#page-id').val();
-            $('#pages-tree li[data-id=' + id + '] .tree-item').replaceWith(urldecode(json.row));
-            var parent = $('#page-content [name=parent_id]').val();
-            var cur_parent = $('#pages-tree li[data-id=' + id + ']').closest('ul').closest('li').data('id') || 0;
-            if (cur_parent != parent) {
-                var item = $('#pages-tree li[data-id=' + id + ']').clone();
-                $('#pages-tree li[data-id=' + id + ']').remove();
-                if (parent == 0) {
-                    $('#pages-tree > .tree-lvl').append(item);
-                } else {
-                    $('#pages-tree li[data-id=' + parent + '] > ul').append(item);
-                }
-            }
-            // console.log('id = ' + id + ', parent = ' + parent + ', cur_parent = ' + cur_parent);
-        }
         if (typeof json.success != 'undefined' && json.success === true) {
             settingFiles = {};
         }
@@ -50,3 +56,16 @@ function pageSave(form, e) {
     return false;
 }
 
+function deleteImage(elem, e) {
+    e.preventDefault();
+    const url = $(elem).attr('href');
+
+    sendAjax(url, {}, function(json) {
+       if (json.success) {
+           const empty = ' <p class="text-yellow">Изображение не загружено.</p>'
+           $('#page-image').html(empty);
+       }
+    });
+
+
+}

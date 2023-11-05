@@ -11,13 +11,13 @@
 							<dt>{{ Arr::get($params, 'title') }}</dt>
 							<dd>
 								@if ($params['type'] == 0)
-									@include('admin.settings.fields.input', ['name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => Arr::get($params, 'title')])
+									@include('adminlte::settings.fields.input', ['name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => Arr::get($params, 'title')])
 								@elseif ($params['type'] == 1)
-									@include('admin.settings.fields.textarea', ['name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => Arr::get($params, 'title')])
+									@include('adminlte::settings.fields.textarea', ['name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => Arr::get($params, 'title')])
 								@elseif ($params['type'] == 2)
-									@include('admin.settings.fields.editor', ['id' => 'setting_'.$setting->id.'_'.$field.'_'.$n, 'name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field)])
+									@include('adminlte::settings.fields.editor', ['id' => 'setting_'.$setting->id.'_'.$field.'_'.$n, 'name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field)])
 								@elseif ($params['type'] == 3)
-									@include('admin.settings.fields.file', ['setting' => $setting, 'name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => array_get($params, 'title')])
+									@include('adminlte::settings.fields.file', ['setting' => $setting, 'name' => "setting[".$setting->id."][$field][]", 'value' => Arr::get($item, $field, ''), 'placeholder' => array_get($params, 'title')])
 								@endif
 							</dd>
 						@endforeach
@@ -40,13 +40,13 @@
 						<dt>{{ Arr::get($params, 'title') }}</dt>
 						<dd>
 							@if ($params['type'] == 0)
-								@include('admin.settings.fields.input', ['name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
+								@include('adminlte::settings.fields.input', ['name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
 							@elseif ($params['type'] == 1)
-								@include('admin.settings.fields.textarea', ['name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
+								@include('adminlte::settings.fields.textarea', ['name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
 							@elseif ($params['type'] == 2)
 								<textarea id="{{ 'setting_'.$setting->id.'_'.$field.'_' }}" class="s-editor" name="{{ 'setting['.$setting->id.']['.$field.'][]' }}" rows="10" cols="80"></textarea>
 							@elseif ($params['type'] == 3)
-								@include('admin.settings.fields.file', ['setting' => $setting, 'name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
+								@include('adminlte::settings.fields.file', ['setting' => $setting, 'name' => "setting[".$setting->id."][$field][]", 'value' => '', 'placeholder' => Arr::get($params, 'title')])
 							@endif
 						</dd>
 					@endforeach

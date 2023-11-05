@@ -5,6 +5,10 @@ namespace Adminlte3\Http\Controllers;
 use Adminlte3\Models\Page;
 use Adminlte3\Models\Setting;
 use Adminlte3\Models\Text;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -13,17 +17,8 @@ use Illuminate\Support\Str;
 class AdminPageController extends Controller
 {
 
-    public function getPages()
+    public function getPages(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-//        $users = User::all();
-
-//        $page = Page::find(1);
-//
-//        $ids = $this->getPagesTree();
-//        dd($ids);
-//        $page = Page::findOrFail(1);
-//        dd($page->settingGroups);
-
         return view('adminlte::pages.index');
     }
 
@@ -31,7 +26,7 @@ class AdminPageController extends Controller
     {
         $page = Page::findOrFail($id);
         return view(
-            'admin.pages.index',
+            'adminlte::pages.index',
             [
                 'page' => $page,
                 'content' => $this->postEdit($id)
@@ -53,11 +48,14 @@ class AdminPageController extends Controller
             $setting_groups = $page->settingGroups ?? [];
         }
 
+        $pages_list = $this->getPageRecurse();
+
         return view(
-            'admin.pages.edit',
+            'adminlte::pages.edit',
             [
                 'page' => $page,
-                'setting_groups' => $setting_groups
+                'setting_groups' => $setting_groups,
+                'pages_list' => $pages_list
             ]
         );
     }
@@ -100,12 +98,13 @@ class AdminPageController extends Controller
         $data = array_filter($data, function ($key) {
             return !Str::startsWith($key, 'setting_file_');
         }, ARRAY_FILTER_USE_KEY);
-//        $image = request()->file('image');
-        if (!Arr::get($data, 'published')) {
-            $data['published'] = 0;
-        } else {
-            $data['published'] = 1;
-        }
+        $image = request()->file('image');
+
+        $data['published'] = !Arr::get($data, 'published') ? 0 : 1;
+        $data['on_header'] = !Arr::get($data, 'on_header') ? 0 : 1;
+        $data['on_footer'] = !Arr::get($data, 'on_footer') ? 0 : 1;
+        $data['on_mobile'] = !Arr::get($data, 'on_mobile') ? 0 : 1;
+
 
         $page = Page::findOrFail($id);
 
@@ -124,11 +123,13 @@ class AdminPageController extends Controller
         if ($validator->fails()) {
             return ['errors' => $validator->messages()];
         }
+
         // Загружаем изображение
-//        if ($image) {
-//            $file_name = Page::uploadImage($image);
-//            $data['image'] = $file_name;
-//        }
+        if ($image) {
+            $file_name = Page::uploadImage($image);
+            $data['image'] = $file_name;
+        }
+
         // сохраняем страницу
         if (!$page) {
             $check_alias = false;
@@ -178,6 +179,16 @@ class AdminPageController extends Controller
             'msg' => 'Изменения сохранены',
 //            'row' => view('admin::pages.tree_item', ['item' => $page])->render()
         ];
+    }
+
+    public function postDeleteImage($id): array
+    {
+        $page = Page::findOrFail($id);
+
+        $page->deleteImage();
+        $page->update(['image' => null]);
+
+        return ['success' => true];
     }
 
 

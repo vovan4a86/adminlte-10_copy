@@ -34,7 +34,7 @@
 	</div>
 
 	<div id="setting-params">
-		@include('admin.settings.edit_params', ['setting' => $setting])
+		@include('adminlte::settings.edit_params', ['setting' => $setting])
 	</div>
 
     <hr>

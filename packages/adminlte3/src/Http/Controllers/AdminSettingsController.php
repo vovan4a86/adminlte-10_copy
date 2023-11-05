@@ -17,7 +17,7 @@ class AdminSettingsController extends Controller
         $group = $groups[0] ?? new SettingGroup;
         $settings = $group->settings()->orderBy('order')->get();
 
-        return view('admin.settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
+        return view('adminlte::settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
     }
 
     public function getGroupItems($id)
@@ -26,7 +26,7 @@ class AdminSettingsController extends Controller
         $groups = SettingGroup::where('page_id', 0)->orderBy('order', 'asc')->get();
         $settings = $group->settings()->orderBy('order')->get();
 
-        return view('admin.settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
+        return view('adminlte::settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
     }
 
     public function postGroupSave()
@@ -44,7 +44,7 @@ class AdminSettingsController extends Controller
 
         return [
             'success' => true,
-            'view' => view('admin.settings.group_row', ['group' => $group, 'active' => new SettingGroup])->render()
+            'view' => view('adminlte::settings.group_row', ['group' => $group, 'active' => new SettingGroup])->render()
         ];
     }
 
@@ -74,7 +74,7 @@ class AdminSettingsController extends Controller
             $setting->group_id = Request::input('group');
         }
 
-        return view('admin.settings.edit', ['setting' => $setting]);
+        return view('adminlte::settings.edit', ['setting' => $setting]);
     }
 
     public function anyBlockParams()
@@ -87,7 +87,7 @@ class AdminSettingsController extends Controller
             $setting->type = $type;
         }
 
-        return view('admin.settings.edit_params', ['setting' => $setting]);
+        return view('adminlte::settings.edit_params', ['setting' => $setting]);
     }
 
     public function postEditSettingSave(): array
@@ -140,7 +140,7 @@ class AdminSettingsController extends Controller
         return [
             'success' => true,
             'msg' => 'Изменения сохранены!',
-            'row' => view('admin.settings.items', ['settings' => [$setting]])->render()
+            'row' => view('adminlte::settings.items', ['settings' => [$setting]])->render()
         ];
     }
 

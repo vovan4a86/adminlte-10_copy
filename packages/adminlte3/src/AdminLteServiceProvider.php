@@ -2,6 +2,7 @@
 
 namespace Adminlte3;
 
+use Collective\Html\FormBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -122,6 +123,38 @@ class AdminLteServiceProvider extends BaseServiceProvider
         $this->registerMenu($events, $config);
         $this->loadComponents();
         $this->loadRoutes();
+
+        FormBuilder::component('groupText', 'adminlte::components.custom.text', [
+                'name',
+                'value' => null,
+                'label' => null,
+                'attributes' => [],
+                'col' => null
+            ]
+        );
+        FormBuilder::component('groupBool', 'adminlte::components.custom.bool', [
+                'name',
+                'value' => null,
+                'label' => null,
+                'attributes' => []
+            ]
+        );
+        FormBuilder::component('groupRichtext', 'adminlte::components.custom.rich_text', [
+            'name',
+            'value' => null,
+            'label' => null,
+            'height' => 200,
+            'attributes' => []
+        ]);
+
+        FormBuilder::component('groupSelect', 'adminlte::components.custom.select', [
+            'name',
+            'list' => null,
+            'value' => null,
+            'label' => null,
+            'attributes' => []
+        ]);
+
     }
 
     /**
@@ -160,12 +193,12 @@ class AdminLteServiceProvider extends BaseServiceProvider
     /**
      * Get the absolute path to some package resource.
      *
-     * @param  string  $path  The relative path to the resource
+     * @param string $path The relative path to the resource
      * @return string
      */
     private function packagePath($path)
     {
-        return __DIR__."/../$path";
+        return __DIR__ . "/../$path";
     }
 
     /**
@@ -240,8 +273,8 @@ class AdminLteServiceProvider extends BaseServiceProvider
     private function loadRoutes()
     {
         $routesCfg = [
-            'as' => "{$this->pkgPrefix}.",
-            'prefix' => $this->pkgPrefix,
+            'as' => "admin.",
+            'prefix' => 'admin',
             'middleware' => ['web'],
         ];
 

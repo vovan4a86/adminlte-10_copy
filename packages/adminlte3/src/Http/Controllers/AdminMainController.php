@@ -44,7 +44,7 @@ class AdminMainController extends Controller
             $page->published = 1;
         }
 
-        return view('admin.pages.edit', [
+        return view('adminlte::pages.edit', [
             'page' => $page,
         ]);
     }
