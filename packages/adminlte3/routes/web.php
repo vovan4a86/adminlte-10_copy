@@ -28,7 +28,8 @@ Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
 
 
 Route::middleware('admin.auth')->group(function () {
-    Route::get('/', [AdminMainController::class, 'index']);
+    Route::get('/', [AdminMainController::class, 'index'])
+        ->name('index');
     Route::get('/users', [AdminMainController::class, 'getAllUsers'])
         ->name('users');
     Route::get('/profile', [AdminMainController::class, 'profile'])
@@ -51,6 +52,10 @@ Route::middleware('admin.auth')->group(function () {
             ->name('edit');
         Route::post('edit/{id?}', [AdminPageController::class, 'postEdit'])
             ->name('edit');
+        Route::post('reorder', [AdminPageController::class, 'postReorder'])
+            ->name('.reorder');
+        Route::post('delete/{id}', [AdminPageController::class, 'postDelete'])
+            ->name('.delete');
         Route::post('delete-image/{id?}', [AdminPageController::class, 'postDeleteImage'])
             ->name('delete-image');
         Route::get('get-pages-tree', [AdminPageController::class, 'getPagesTree'])

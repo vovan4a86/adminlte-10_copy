@@ -7,7 +7,7 @@
                 <tr>
                     <td width="40" align="center" style="vertical-align:middle;">
                         <span class="handle glyphicon glyphicon-sort" style="cursor:pointer;">
-                            <i class="bi bi-filter-left"></i>
+                            <i class="fa fa-sort"></i>
                         </span>
                     </td>
                     <td>
@@ -34,7 +34,7 @@
                     </td>
                     <td width="40" align="center" style="vertical-align:middle;">
                         <a class="glyphicon glyphicon-trash" href="#" style="color:red;" title="Удалить"
-                           onclick="return settingsListItemDel(this)"><i class="bi bi-trash"></i></a>
+                           onclick="return settingsListItemDel(this)"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             @endforeach
@@ -43,7 +43,7 @@
             <tr style="display:none;">
                 <td width="40" align="center" style="vertical-align:middle;">
                     <span class="handle glyphicon glyphicon-sort" style="cursor:pointer;">
-                        <i class="bi bi-filter-left"></i>
+                        <i class="fa fa-sort"></i>
                     </span>
                 </td>
                 <td>
@@ -68,17 +68,17 @@
                 </td>
                 <td width="40" align="center" style="vertical-align:middle;">
                     <a class="glyphicon glyphicon-trash" href="#" style="color:red;" title="Удалить"
-                       onclick="return settingsListItemDel(this)"><i class="bi bi-trash"></i></a>
+                       onclick="return settingsListItemDel(this)"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
-                <td colspan="3"><a class="btn-link" href="#" onclick="return settingsListItemAdd(this)">Добавить <i class="bi bi-plus-circle-dotted"></i></a>
+                <td colspan="3"><a class="btn-link" href="#" onclick="return settingsListItemAdd(this)">Добавить <i class="fa fa-plus"></i></a>
                 </td>
             </tr>
             </tfoot>
         </table>
     </div>
-    {{--	<script type="text/javascript"> $('.settings-params-list').sortable({handle: '.handle'}); </script>--}}
+    	<script type="text/javascript"> $('.settings-params-list').sortable({handle: '.handle'}); </script>
 @elseif ($setting->type == 7)
 
 @endif

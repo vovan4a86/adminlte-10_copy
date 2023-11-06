@@ -1,6 +1,7 @@
 {{--<form action="{{ route('admin.pages.save') }}" onsubmit="return pageSave(this, event)">--}}
 {!! Form::open(['route' => 'admin.pages.save', 'onsubmit' => "return pageSave(this, event)"]) !!}
-    <input id="page-id" type="hidden" name="id" value="{{ $page->id }}">
+{{--    <input id="page-id" type="hidden" name="id" value="{{ $page->id }}">--}}
+    {{ Form::hidden('id', $page->id) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
             <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -75,7 +76,7 @@
                                          onclick="return popupImage($(this).data('image'))" alt="">
                                     <a class="image_delete" href="{{ route('admin.pages.delete-image', [$page->id]) }}"
                                        onclick="deleteImage(this, event)">
-                                        <span class="text-red ml-2"><i class="bi bi-trash3-fill"></i></span>
+                                        <span class="text-red ml-2"><i class="fa fa-trash"></i></span>
                                     </a>
                                 @else
                                     <p class="text-yellow">Изображение не загружено.</p>
@@ -127,5 +128,5 @@
     // $('#summernote').summernote({
     //     height: 200
     // });
-    bsCustomFileInput.init();
+    // bsCustomFileInput.init();
 </script>

@@ -15,7 +15,7 @@ class AdminUserController extends Controller
     {
         $user = User::find($id);
 
-        return view('admin.users.user', compact('user'));
+        return view('adminlte::users.user', compact('user'));
     }
 
     public function postSave(Request $request)

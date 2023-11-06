@@ -4,8 +4,6 @@ namespace Adminlte3\Http\Controllers;
 
 use Adminlte3\Models\Page;
 use App\Models\User;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminMainController extends Controller
@@ -53,18 +51,11 @@ class AdminMainController extends Controller
     {
         $users = User::all();
 
-        return view('admin.users.index', compact('users'));
+        return view('adminlte::users.index', compact('users'));
     }
 
     public function getPages()
     {
-//        $users = User::all();
-
-//        $page = Page::find(1);
-//
-//        $ids = $this->getPagesTree();
-//        dd($ids);
-
         return view('adminlte::pages.index');
     }
 
@@ -73,7 +64,7 @@ class AdminMainController extends Controller
         $user = Auth::getUser();
 
         $username = $user ? $user->name : 'nobody';
-        return view('admin.profile', compact('username'));
+        return view('adminlte::profile', compact('username'));
     }
 
     public function getPagesTree(): array

@@ -38,7 +38,7 @@ class AdminPageController extends Controller
     {
         if (!$id || !($page = Page::findOrFail($id))) {
             $page = new Page;
-            $page->parent_id = 0;
+            $page->parent_id = request()->get('parent', 1);
             $page->published = 1;
         }
 
@@ -55,7 +55,7 @@ class AdminPageController extends Controller
             [
                 'page' => $page,
                 'setting_groups' => $setting_groups,
-                'pages_list' => $pages_list
+                'pages_list' => $pages_list,
             ]
         );
     }
@@ -106,7 +106,7 @@ class AdminPageController extends Controller
         $data['on_mobile'] = !Arr::get($data, 'on_mobile') ? 0 : 1;
 
 
-        $page = Page::findOrFail($id);
+        $page = Page::find($id);
 
         // Определяем правила валидации
         $rules = [
@@ -177,7 +177,6 @@ class AdminPageController extends Controller
         return [
             'success' => true,
             'msg' => 'Изменения сохранены',
-//            'row' => view('admin::pages.tree_item', ['item' => $page])->render()
         ];
     }
 
@@ -191,5 +190,30 @@ class AdminPageController extends Controller
         return ['success' => true];
     }
 
+    public function postReorder() {
+        // изменение родителя
+        $id = request()->get('id');
+        $parent = request()->get('parent');
+        DB::table('pages')->where('id', $id)->update(array('parent_id' => $parent));
+        // сортировка
+        $sorted = request()->get('sorted', []);
+        foreach ($sorted as $order => $id) {
+            DB::table('pages')->where('id', $id)->update(array('order' => $order));
+        }
+        Debugbar::log($id);
+        Debugbar::log($parent);
+
+        return ['success' => true];
+    }
+
+    public function postDelete($id) {
+        $page = Page::findOrFail($id);
+        if ($page->system == 1) {
+            return ['success' => false, 'msg' => 'Невозможно удалить системную страницу!'];
+        }
+        $page->delete();
+
+        return ['success' => true];
+    }
 
 }

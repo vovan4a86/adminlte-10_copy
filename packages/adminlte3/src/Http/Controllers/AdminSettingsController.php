@@ -2,8 +2,8 @@
 namespace Adminlte3\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
-use App\Models\SettingGroup;
+use Adminlte3\Models\Setting;
+use Adminlte3\Models\SettingGroup;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -152,7 +152,7 @@ class AdminSettingsController extends Controller
         foreach ($settings as $setting) {
             self::settingSave($setting, array_get($data, $setting->id));
         }
-        AdminLog::add('Обновлены настройки');
+//        AdminLog::add('Обновлены настройки');
 
         return ['success' => true, 'msg' => 'Изменения сохранены'];
     }

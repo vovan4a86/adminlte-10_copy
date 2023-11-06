@@ -27,14 +27,14 @@ class AdminLteServiceProvider extends BaseServiceProvider
      *
      * @var string
      */
-    protected $pkgPrefix = 'adminlte';
+    protected string $pkgPrefix = 'adminlte';
 
     /**
      * Array with the available layout components.
      *
      * @var array
      */
-    protected $layoutComponents = [
+    protected array $layoutComponents = [
         'navbar-darkmode-widget' => Layout\NavbarDarkmodeWidget::class,
         'navbar-notification' => Layout\NavbarNotification::class,
     ];
@@ -44,7 +44,7 @@ class AdminLteServiceProvider extends BaseServiceProvider
      *
      * @var array
      */
-    protected $formComponents = [
+    protected array $formComponents = [
         'button' => Form\Button::class,
         'date-range' => Form\DateRange::class,
         'input' => Form\Input::class,
@@ -67,7 +67,7 @@ class AdminLteServiceProvider extends BaseServiceProvider
      *
      * @var array
      */
-    protected $toolComponents = [
+    protected array $toolComponents = [
         'datatable' => Tool\Datatable::class,
         'modal' => Tool\Modal::class,
     ];
@@ -77,7 +77,7 @@ class AdminLteServiceProvider extends BaseServiceProvider
      *
      * @var array
      */
-    protected $widgetComponents = [
+    protected array $widgetComponents = [
         'alert' => Widget\Alert::class,
         'callout' => Widget\Callout::class,
         'card' => Widget\Card::class,
@@ -196,7 +196,7 @@ class AdminLteServiceProvider extends BaseServiceProvider
      * @param string $path The relative path to the resource
      * @return string
      */
-    private function packagePath($path)
+    private function packagePath($path): string
     {
         return __DIR__ . "/../$path";
     }
