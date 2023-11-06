@@ -7,7 +7,6 @@
 @stop
 
 @section('css')
-    {{--    /*<link rel="stylesheet" href="/css/admin_custom.css">*/--}}
 @stop
 
 @section('js')
@@ -40,9 +39,6 @@
                         </a>
                         <a href="{{ route('admin.user.delete', $user->id) }}" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Удалить">
                             <i class="fa fa-lg fa-fw fa-trash"></i>
-                        </a>
-                        <a class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                            <i class="fa fa-lg fa-fw fa-eye"></i>
                         </a>
                     </td>
                 </tr>

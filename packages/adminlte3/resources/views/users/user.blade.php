@@ -7,7 +7,6 @@
 @stop
 
 @section('css')
-    {{--    /*<link rel="stylesheet" href="/css/admin_custom.css">*/--}}
 @stop
 
 @section('js')
@@ -42,6 +41,10 @@
                 @endforeach
             </x-adminlte-select>
         </div>
+        <div class="row">
+            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" {{ $user->password }}>
+        </div>
+
         <x-adminlte-button class="btn-flat" type="submit" label="Submit" theme="success"
                            icon="fas fa-lg fa-save"></x-adminlte-button>
         <div id="answer"></div>

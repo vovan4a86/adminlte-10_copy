@@ -1,6 +1,4 @@
-{{--<form action="{{ route('admin.pages.save') }}" onsubmit="return pageSave(this, event)">--}}
 {!! Form::open(['route' => 'admin.pages.save', 'onsubmit' => "return pageSave(this, event)"]) !!}
-{{--    <input id="page-id" type="hidden" name="id" value="{{ $page->id }}">--}}
     {{ Form::hidden('id', $page->id) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
@@ -119,11 +117,12 @@
             </div>
         </div>
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i>
+                Сохранить</button>
         </div>
     </div>
 {!! Form::close() !!}
-{{--</form>--}}
 <script>
     // $('#summernote').summernote({
     //     height: 200

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -28,11 +29,25 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) {
             // Add some items to the menu...
-//            $event->menu->add('Навигация');
-//            $event->menu->add([
-//                                  'text' => 'Blog',
-//                                  'url' => 'admin/blog',
-//                              ]);
+            $event->menu->add('НАСТРОЙКИ ПРОФИЛЯ');
+            $event->menu->add([
+                                  'text' => 'Пользователи',
+                                  'url' => 'admin/users',
+                                  'icon' => 'far fa-fw fa-user',
+                                  'label' => User::all()->count(),
+                                  'label_color' => 'success',
+                              ]);
+            $event->menu->add('НАВИГАЦИЯ');
+            $event->menu->add([
+                                  'text'        => 'Структура сайта',
+                                  'url'         => 'admin/pages',
+                                  'icon'        => 'far fa-fw fa-clone',
+                              ]);
+            $event->menu->add([
+                                  'text'        => 'Каталог',
+                                  'url'         => 'admin/catalog',
+                                  'icon'        => 'far fa-fw fa-clone',
+                              ]);
         });
     }
 
