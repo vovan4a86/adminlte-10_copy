@@ -1,13 +1,12 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
-
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/admin/admin-app.css',
-                'resources/js/admin/admin-app.js',
+                'resources/admin/css/admin-app.css',
+                'resources/admin/js/admin-app.js',
             ],
             refresh: true,
         })
@@ -23,9 +22,9 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '~adminlte': path.resolve(__dirname, 'node_modules/admin-lte',),
-            // 'jquery': path.resolve(__dirname, 'node_modules/jquery'),
-            // 'jquery.fancytree': path.resolve(__dirname, 'node_modules/jquery.fancytree'),
+            '~adminlte': path.resolve(__dirname, 'node_modules/admin-lte'),
+            '~overlayscrollbars': path.resolve(__dirname, 'node_modules/overlayscrollbars'),
+            '~icheck-bootstrap': path.resolve(__dirname, 'node_modules/icheck-bootstrap'),
         }
     },
 });

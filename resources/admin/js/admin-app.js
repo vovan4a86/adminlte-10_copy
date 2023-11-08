@@ -1,6 +1,6 @@
-import '../bootstrap';
-import '~adminlte/plugins/jquery/jquery.min.js';
-import '~adminlte/dist/js/adminlte.min.js';
+import './admin-bootstrap';
+import '../js--source/index'
+// import '~adminlte/plugins/jquery/jquery.min.js';
 // import '~adminlte/plugins/jquery-ui/jquery-ui.js';
 // import '~adminlte/plugins/summernote/summernote.js';
 
@@ -26,3 +26,5 @@ import '~adminlte/dist/js/adminlte.min.js';
 //     });
 //     bsCustomFileInput.init()
 // })
+
+console.log('admin');
