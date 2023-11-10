@@ -108,7 +108,7 @@
                         <input type="hidden" name="setting_group[]" value="{{ $item->id }}">
 
                         <a class="margin popup-ajax" href="{{ route('admin.settings.edit').'?group='.$item->id }}">Добавить
-                            настройку</a>
+                            настройку <i class="fa fa-plus-circle"></i></a>
                         <div id="settings-group-{{ $item->id }}">
                             @include('adminlte::settings.items', ['settings' => $item->settings()->orderBy('order')->get()])
                         </div>
