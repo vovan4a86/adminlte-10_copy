@@ -72,7 +72,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="3"><a class="btn-link" href="#" onclick="return settingsListItemAdd(this)">Добавить <i class="fa fa-plus"></i></a>
+                <td colspan="3"><a class="btn-link" href="#" onclick="return settingsListItemAdd(this)">Добавить<i class="fa fa-plus"></i></a>
                 </td>
             </tr>
             </tfoot>

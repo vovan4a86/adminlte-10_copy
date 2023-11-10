@@ -1,9 +1,9 @@
 @foreach ($settings as $setting)
 	<div class="setting-item" data-id="{{ $setting->id }}">
 		<div class="form-group">
-			<div style="display: flex; justify-content: space-between">
+			<div style="display: flex; justify-content: space-between" class="mt-1 mb-2">
 				<label>{{ $setting->name }}</label>
-				<a class="popup-ajax pull-right" href="{{ route('admin.settings.edit', [$setting->id]) }}">редактировать</a>
+				<a class="popup-ajax pull-right btn btn-sm btn-info" href="{{ route('admin.settings.edit', [$setting->id]) }}">редактировать</a>
 			</div>
 
 			@if ($setting->type == 0)
