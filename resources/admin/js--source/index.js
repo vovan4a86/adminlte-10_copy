@@ -1,1 +1,2 @@
 import './interface';
+import './pages';

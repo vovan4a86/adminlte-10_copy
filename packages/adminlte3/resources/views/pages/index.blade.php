@@ -13,7 +13,7 @@
                 <div class="box-body">
                     <div id="tree"></div>
                 </div>
-                <ul id="myMenu" class="contextMenu">
+                <ul id="pagesContext" class="contextMenu">
                     <li><a href="#add"><i class="fa fa-plus text-green mr-1"></i>Добавить</a></li>
                     <li><a href="#edit"><i class="fa fa-pen text-yellow mr-1"></i>Редактировать</a></li>
                     <li><a href="#delete"><i class="fa fa-trash text-red mr-1"></i>Удалить</a></li>
@@ -34,17 +34,15 @@
 @stop
 
 @section('js')
-    <script src="/vendor/plugins/fancytree/jquery.fancytree-all-deps.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.dnd.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
-    <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
+        <script src="/vendor/plugins/fancytree/jquery.fancytree-all-deps.js"></script>
+        <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.dnd.js"></script>
+        <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
+        <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
 
-    <script src="/vendor/plugins/summernote/summernote-bs4.min.js"></script>
-    <script src="/vendor/plugins/custom-file-input/bs-custom-file-input.min.js"></script>
+        <script src="/vendor/plugins/summernote/summernote-bs4.min.js"></script>
+        <script src="/vendor/plugins/custom-file-input/bs-custom-file-input.min.js"></script>
 
-    <script src="/vendor/interfaces/interface.js" defer></script>
-    <script src="/vendor/interfaces/interface_pages.js" defer></script>
-    <script src="/vendor/interfaces/interface_settings.js" defer></script>
-
-    {{--    @vite(['resources/css/admin/admin-app.css', 'resources/js/admin/admin-app.js'])--}}
+        <script src="/vendor/interfaces/interface.js" defer></script>
+        <script src="/vendor/interfaces/interface_pages.js" defer></script>
+        <script src="/vendor/interfaces/interface_settings.js" defer></script>
 @stop

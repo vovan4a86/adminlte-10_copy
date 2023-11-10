@@ -1,7 +1,3 @@
-import '~adminlte/plugins/toastr/toastr.min';
-
-toastr.info('Are you the 6 fingered man?')
-
 export const sendAjax = (url, data, callback, type) => {
     data = data || {};
     if (typeof type == 'undefined') type = 'json';
@@ -19,7 +15,8 @@ export const sendAjax = (url, data, callback, type) => {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.')
+            console.log(XMLHttpRequest);
         },
     });
 }
@@ -43,7 +40,8 @@ export const sendAjaxProcess = (url, data, callback, type) => {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.')
+            console.log(XMLHttpRequest);
         },
     });
 }
@@ -53,4 +51,17 @@ export const pageContent = (url) => {
         $('#page-content').html(html);
     }, 'html');
     return false;
+}
+
+let autoHideMsgNextId = 0;
+export const autoHideMsg = (color, text, time) => {
+    if (typeof time == 'undefined') time = 5000;
+    let id = 'auto-hide-msg-' + (autoHideMsgNextId++);
+    let msg = '<div id="' + id + '" class="auto-hide-msg text-' + color + '">' + text + '</div>';
+    setTimeout(function () {
+        $('#' + id).fadeOut(500, function () {
+            $(this).remove();
+        });
+    }, time);
+    return msg;
 }

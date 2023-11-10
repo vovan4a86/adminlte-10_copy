@@ -202,6 +202,7 @@ class AdminPageController extends Controller
         }
         Debugbar::log($id);
         Debugbar::log($parent);
+        Debugbar::log($sorted);
 
         return ['success' => true];
     }

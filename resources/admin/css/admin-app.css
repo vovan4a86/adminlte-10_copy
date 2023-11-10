@@ -5,4 +5,8 @@
 @import '~adminlte/dist/css/adminlte.min.css';
 
 @import '/node_modules/jquery.fancytree/dist/skin-win8/ui.fancytree.less';
+@import '../js--source/plugins/contextmenu/jquery.contextMenu.css';
+
 @import '/node_modules/summernote/dist/summernote-bs5.css';
+@import "toastr";
+

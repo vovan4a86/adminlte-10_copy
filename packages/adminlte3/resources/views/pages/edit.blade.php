@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'admin.pages.save', 'onsubmit' => "return pageSave(this, event)"]) !!}
+{!! Form::open(['route' => 'admin.pages.save', 'id' => 'page-form']) !!}
     {{ Form::hidden('id', $page->id) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">

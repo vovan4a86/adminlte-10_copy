@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/admin/js/admin-app.js',
             ],
             refresh: true,
-        })
+        }),
     ],
     css: {
         preprocessorOptions: {

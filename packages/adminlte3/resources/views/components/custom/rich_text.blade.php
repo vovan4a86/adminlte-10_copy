@@ -1,9 +1,9 @@
 <div class="form-group">
     {{ Form::label($name, $label) }}
-    {!! Form::textarea($name, $value, array_merge(['rows' => 10, 'cols' => 80, 'id' => $name], $attributes)) !!}
+    {!! Form::textarea($name, $value, array_merge(['id' => $name], $attributes)) !!}
     <script defer>
         $({{ $name }}).summernote({
-            height: {{ $height }}
+            height: {{ $height ?? 200 }}
         });
     </script>
 </div>

@@ -74,8 +74,6 @@ function sendAjax(url, data, callback, type) {
         type: 'post',
         url: url,
         data: data,
-        // processData: false,
-        // contentType: false,
         dataType: type,
         beforeSend: function (request) {
             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
@@ -86,7 +84,8 @@ function sendAjax(url, data, callback, type) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.');
+            console.log(XMLHttpRequest);
         },
     });
 }
@@ -110,7 +109,7 @@ function sendAjaxProcess(url, data, callback, type) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.');
             console.log(XMLHttpRequest);
         },
     });
@@ -171,85 +170,39 @@ function autoHideMsg(color, text, time) {
     return msg;
 }
 
-
-// --- Implement Cut/Copy/Paste --------------------------------------------
-var clipboardNode = null;
-var pasteMode = null;
-
-function copyPaste(action, node) {
-    switch (action) {
-        case "cut":
-        case "copy":
-            clipboardNode = node;
-            pasteMode = action;
-            break;
-        case "paste":
-            if (!clipboardNode) {
-                alert("Clipoard is empty.");
-                break;
-            }
-            if (pasteMode == "cut") {
-                // Cut mode: check for recursion and remove source
-                var cb = clipboardNode.toDict(true);
-                if (node.isDescendantOf(cb)) {
-                    alert("Cannot move a node to it's sub node.");
-                    return;
-                }
-                node.addChildren(cb);
-                node.render();
-                clipboardNode.remove();
-            } else {
-                // Copy mode: prevent duplicate keys:
-                var cb = clipboardNode.toDict(true, function (dict, node) {
-                    dict.title = "Copy of " + dict.title;
-                    delete dict.key; // Remove key, so a new one will be created
-                });
-                alert("cb = " + JSON.stringify(cb));
-//        node.addChildren(cb);
-//                node.render();
-                node.applyPatch(cb);
-            }
-            clipboardNode = pasteMode = null;
-            break;
-        default:
-            alert("Unhandled clipboard action '" + action + "'");
-    }
-}
-
-// --- Contextmenu helper --------------------------------------------------
-function bindContextMenu(span) {
-    // Add context menu to this node:
-    $(span).contextMenu({menu: "myMenu"}, function (action, el, pos) {
-        // The event was bound to the <span> tag, but the node object
-        // is stored in the parent <li> tag
-        var node = $.ui.fancytree.getNode(el);
-        switch (action) {
-            case "add":
-                // alert(node.key)
-                pageContent('/admin/pages/edit?parent=' + node.key);
-                break;
-            case "edit":
-                pageContent('/admin/pages/edit/' + node.key);
-                break;
-            case "delete":
-                if (confirm("Действительно удалить страницу?")) {
-                    var url = '/admin/pages/delete/' + node.key;
-                    sendAjax(url, {}, function (json) {
-                        if (json.success) {
-                            node.remove();
-                        } else {
-                            alert(json.msg);
-                        }
-                    })
-                }
-                break;
-            default:
-                alert("Todo: appply action '" + action + "' to node " + node);
-        }
-    });
-}
-
 $(document).ready(function () {
+    function bindContextMenu(span) {
+        // Add context menu to this node:
+        $(span).contextMenu({menu: "pagesContext"}, function (action, el, pos) {
+            // The event was bound to the <span> tag, but the node object
+            // is stored in the parent <li> tag
+            var node = $.ui.fancytree.getNode(el);
+            switch (action) {
+                case "add":
+                    // alert(node.key)
+                    pageContent('/admin/pages/edit?parent=' + node.key);
+                    break;
+                case "edit":
+                    pageContent('/admin/pages/edit/' + node.key);
+                    break;
+                case "delete":
+                    if (confirm("Действительно удалить страницу?")) {
+                        var url = '/admin/pages/delete/' + node.key;
+                        sendAjax(url, {}, function (json) {
+                            if (json.success) {
+                                node.remove();
+                            } else {
+                                alert(json.msg);
+                            }
+                        })
+                    }
+                    break;
+                default:
+                    alert("Todo: apply action '" + action + "' to node " + node);
+            }
+        });
+    }
+
     $("#tree").fancytree({
         extensions: ["dnd", "persist"],
         click: function (event, data) {
@@ -331,14 +284,19 @@ $(document).ready(function () {
             },
             dragStop: function (node, data) {
                 const parent = node.parent;
+                const children = [];
+                parent.visit(function (node) {
+                    children.push(node.key);
+                })
                 const d = {
                     'id': node.key,
                     'parent': parent.key,
-                    // 'sorted': parent.children
+                    'sorted': children
                 }
                 sendAjax('/admin/pages/reorder', d, function (json) {
-                    if (json.success) {
-                        $.ui.fancytree.getTree().reload();
+                    if (!json.success) {
+                        toastr.error('Problem');
+                        // $.ui.fancytree.getTree().reload();
                     }
                 });
             },

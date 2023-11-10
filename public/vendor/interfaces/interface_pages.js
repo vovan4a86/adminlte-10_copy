@@ -28,10 +28,6 @@ function pageSave(form, e) {
         data.append(key, value);
     });
 
-    // const image = $(form).find('#image').val();
-    // if (image) {
-    //     data.append('image', image);
-    // }
     if (pageImage) {
         data.append('image', pageImage);
     }
