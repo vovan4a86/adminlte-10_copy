@@ -1,10 +1,9 @@
-<?php namespace Fanky\Admin\Models;
+<?php namespace Adminlte3\Models;
 
 use App\Traits\HasImage;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Thumb;
 
 /**
  * Fanky\Admin\Models\ProductImage

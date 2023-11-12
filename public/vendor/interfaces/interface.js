@@ -1,10 +1,16 @@
-var max_file_size = 10097152;
+let max_file_size = 10485760;
+
 $(function () {
     $(document).on('click', '.popup-ajax', function (e) {
         e.preventDefault();
         popupAjax($(this).attr('href'));
     });
 });
+$(document).ready(function () {
+    $('.summernote').summernote({
+        height: 250
+    });
+})
 
 //modal window
 function popup(content) {
@@ -46,7 +52,9 @@ function popupClose(el) {
 }
 
 function popupImage(src) {
-    popup('<img class="img-polaroid popup-image" src="' + src + '"/>');
+    popup('<div style="text-align: center;">' +
+        '<img class="img-polaroid popup-image" src="' + src + '" alt=""/>' +
+        '</div>');
 }
 
 function popupAjax(url) {
@@ -157,7 +165,6 @@ function pageContent(url) {
 }
 
 let autoHideMsgNextId = 0;
-
 function autoHideMsg(color, text, time) {
     if (typeof time == 'undefined') time = 5000;
     let id = 'auto-hide-msg-' + (autoHideMsgNextId++);
@@ -169,167 +176,3 @@ function autoHideMsg(color, text, time) {
     }, time);
     return msg;
 }
-
-$(document).ready(function () {
-    function bindContextMenu(span) {
-        // Add context menu to this node:
-        $(span).contextMenu({menu: "pagesContext"}, function (action, el, pos) {
-            // The event was bound to the <span> tag, but the node object
-            // is stored in the parent <li> tag
-            var node = $.ui.fancytree.getNode(el);
-            switch (action) {
-                case "add":
-                    // alert(node.key)
-                    pageContent('/admin/pages/edit?parent=' + node.key);
-                    break;
-                case "edit":
-                    pageContent('/admin/pages/edit/' + node.key);
-                    break;
-                case "delete":
-                    if (confirm("Действительно удалить страницу?")) {
-                        var url = '/admin/pages/delete/' + node.key;
-                        sendAjax(url, {}, function (json) {
-                            if (json.success) {
-                                node.remove();
-                            } else {
-                                alert(json.msg);
-                            }
-                        })
-                    }
-                    break;
-                default:
-                    alert("Todo: apply action '" + action + "' to node " + node);
-            }
-        });
-    }
-
-    $("#tree").fancytree({
-        extensions: ["dnd", "persist"],
-        click: function (event, data) {
-            // Close menu on click
-            if ($(".contextMenu:visible").length > 0) {
-                $(".contextMenu").hide();
-         return false;
-            }
-        },
-        createNode: function (event, data) {
-            bindContextMenu(data.node.span);
-        },
-        /*Bind context menu for every node when its DOM element is created.
-          We do it here, so we can also bind to lazy nodes, which do not
-          exist at load-time. (abeautifulsite.net menu control does not
-          support event delegation)*/
-        //сохр. состояние дерева в куки/storage
-        persist: {
-            // Available options with their default:
-            cookieDelimiter: "~",    // character used to join key strings
-            cookiePrefix: undefined, // 'fancytree-<treeId>-' by default
-            cookie: { // settings passed to jquery.cookie plugin
-                raw: false,
-                expires: "",
-                path: "",
-                domain: "",
-                secure: false
-            },
-            expandLazy: false, // true: recursively expand and load lazy nodes
-            expandOpts: undefined, // optional `opts` argument passed to setExpanded()
-            overrideSource: true,  // true: cookie takes precedence over `source` data attributes.
-            store: "auto",     // 'cookie': use cookie, 'local': use localStore, 'session': use sessionStore
-            types: "active expanded focus selected"  // which status types to store
-        },
-        //drag'n'drop
-        dnd: {
-            autoExpandMS: 400,
-            draggable: { // modify default jQuery draggable options
-                zIndex: 1000,
-                scroll: false,
-                containment: "parent",
-                revert: "invalid"
-            },
-            preventRecursiveMoves: true, // Prevent dropping nodes on own descendants
-            preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
-
-            dragStart: function (node, data) {
-                // This function MUST be defined to enable dragging for the tree.
-                // Return false to cancel dragging of node.
-                //    if( data.originalEvent.shiftKey ) ...
-                //    if( node.isFolder() ) { return false; }
-                return true;
-            },
-            dragEnter: function (node, data) {
-                /* data.otherNode may be null for non-fancytree droppables.
-                 * Return false to disallow dropping on node. In this case
-                 * dragOver and dragLeave are not called.
-                 * Return 'over', 'before, or 'after' to force a hitMode.
-                 * Return ['before', 'after'] to restrict available hitModes.
-                 * Any other return value will calc the hitMode from the cursor position.
-                 */
-                // Prevent dropping a parent below another parent (only sort
-                // nodes under the same parent):
-                //    if(node.parent !== data.otherNode.parent){
-                //      return false;
-                //    }
-                // Don't allow dropping *over* a node (would create a child). Just
-                // allow changing the order:
-                //    return ["before", "after"];
-                // Accept everything:
-                return true;
-            },
-            dragExpand: function (node, data) {
-                // return false to prevent auto-expanding data.node on hover
-            },
-            dragOver: function (node, data) {
-            },
-            dragLeave: function (node, data) {
-            },
-            dragStop: function (node, data) {
-                const parent = node.parent;
-                const children = [];
-                parent.visit(function (node) {
-                    children.push(node.key);
-                })
-                const d = {
-                    'id': node.key,
-                    'parent': parent.key,
-                    'sorted': children
-                }
-                sendAjax('/admin/pages/reorder', d, function (json) {
-                    if (!json.success) {
-                        toastr.error('Problem');
-                        // $.ui.fancytree.getTree().reload();
-                    }
-                });
-            },
-            dragDrop: function (node, data) {
-                // This function MUST be defined to enable dropping of items on the tree.
-                // data.hitMode is 'before', 'after', or 'over'.
-                // We could for example move the source to the new target:
-                data.otherNode.moveTo(node, data.hitMode);
-            }
-        },
-        ajax: {
-            type: "GET",
-            cache: false, // false: Append random '_' argument to the request url to prevent caching.
-            // timeout: 0, // >0: Make sure we get an ajax error if server is unreachable
-            dataType: "json", // Expect json format and pass json object to callbacks.
-        },
-        source: {
-            url: '/admin/pages/get-pages-tree',
-            cache: false
-        },
-        activate: function (e, data) {
-            const node = data.node;
-            $("#echoActive").text(node.title);
-            if (node.data.href) {
-                // window.open(node.data.href, node.data.target);
-                pageContent('/admin/pages/edit/' + data.node.key);
-            }
-        },
-    });
-
-
-    $('#summernote').summernote({
-        height: 200
-    });
-    bsCustomFileInput.init();
-});

@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class AdminPageController extends Controller
+class AdminPagesController extends Controller
 {
 
-    public function getPages(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function getIndex(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('adminlte::pages.index');
     }

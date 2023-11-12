@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'admin.pages.save', 'id' => 'page-form']) !!}
+{!! Form::open(['route' => 'admin.pages.save', 'onsubmit' => 'pageSave(this, event)']) !!}
     {{ Form::hidden('id', $page->id) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
@@ -61,8 +61,8 @@
                             <label for="image">Изображение</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="image" name="image"
-                                           onchange="return pageImageAttache(this, event)"
+                                    <input type="file" class="custom-file" id="image" name="image"
+                                           onchange="pageImageAttache(this, event)"
                                            accept=".png,.jpg,.jpeg">
                                     <label class="custom-file-label" for="image">Выберите файл</label>
                                 </div>
@@ -70,11 +70,11 @@
                             <div id="page-image" class="mt-2">
                                 @if ($page->image)
                                     <img class="img-polaroid" src="{{ $page->thumb(1) }}" height="100"
-                                         data-image="{{ $page->thumb(1) }}"
-                                         onclick="return popupImage($(this).data('image'))" alt="">
-                                    <a class="image_delete" href="{{ route('admin.pages.delete-image', [$page->id]) }}"
+                                         data-image="{{ $page->image_src }}"
+                                         onclick="popupImage($(this).data('image'))" alt="">
+                                    <a class="image-delete" href="{{ route('admin.pages.delete-image', [$page->id]) }}"
                                        onclick="deleteImage(this, event)">
-                                        <span class="text-red ml-2"><i class="fa fa-trash"></i></span>
+                                        <i class="fa fa-trash text-red ml-2"></i>
                                     </a>
                                 @else
                                     <p class="text-yellow">Изображение не загружено.</p>
@@ -93,7 +93,7 @@
 
                 {{--text_tab--}}
                 <div class="tab-pane fade" id="tabs-three-text" role="tabpanel" aria-labelledby="tab-text">
-                    {{ Form::groupRichtext('text', $page->text, 'Текст', 300) }}
+                    {{ Form::groupRichtext('text', $page->text, 'Текст') }}
                 </div>
 
                 {{--settings_tabs--}}
@@ -123,9 +123,3 @@
         </div>
     </div>
 {!! Form::close() !!}
-<script>
-    // $('#summernote').summernote({
-    //     height: 200
-    // });
-    // bsCustomFileInput.init();
-</script>

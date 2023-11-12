@@ -1,23 +1,23 @@
-let pageImage = null;
+let catalogImage = null;
 
 function bindContextMenu(span) {
     // Add context menu to this node:
-    $(span).contextMenu({menu: "pagesContext"}, function (action, el, pos) {
+    $(span).contextMenu({menu: "catalogContext"}, function (action, el, pos) {
         // The event was bound to the <span> tag, but the node object
         // is stored in the parent <li> tag
-        var node = $.ui.fancytree.getNode(el);
+        let node = $.ui.fancytree.getNode(el);
         switch (action) {
             case "add":
-                // pageContent('/admin/pages/edit?parent=' + node.key);
-                document.location.href = '/admin/pages/edit?parent=' + node.key
+                // pageContent('/admin/catalog/edit?parent=' + node.key);
+                document.location.href = '/admin/catalog/edit?parent=' + node.key
                 break;
             case "edit":
-                // pageContent('/admin/pages/edit/' + node.key);
-                document.location.href = '/admin/pages/edit' + node.key
+                // pageContent('/admin/catalog/edit/' + node.key, 'get');
+                document.location.href = '/admin/catalog/edit/' + node.key
                 break;
             case "delete":
                 if (confirm("Действительно удалить страницу?")) {
-                    let url = '/admin/pages/delete/' + node.key;
+                    let url = '/admin/catalog/delete/' + node.key;
                     sendAjax(url, {}, function (json) {
                         if (json.success) {
                             node.remove();
@@ -32,7 +32,7 @@ function bindContextMenu(span) {
         }
     });
 }
-$("#pages-tree").fancytree({
+$("#catalog-tree").fancytree({
     extensions: ["dnd", "persist"],
     click: function (event, data) {
         // Close menu on click
@@ -122,11 +122,11 @@ $("#pages-tree").fancytree({
                 'parent': parent.key,
                 'sorted': children
             }
-            sendAjax('/admin/pages/reorder', d, function (json) {
+            sendAjax('/admin/catalog/reorder', d, function (json) {
                 if (json.success) {
                     $.ui.fancytree.getTree().reload();
                 } else {
-                    toastr.error('Problem');
+                    toastr.error('Проблема с сортировкой', 'Ошибка!');
                 }
             });
         },
@@ -144,66 +144,71 @@ $("#pages-tree").fancytree({
         dataType: "json", // Expect json format and pass json object to callbacks.
     },
     source: {
-        url: '/admin/pages/get-pages-tree',
+        url: '/admin/catalog/get-catalog-tree',
         cache: false
     },
     activate: function (e, data) {
         const node = data.node;
         if (node.data.href) {
-            window.location.href = '/admin/pages/edit/' + data.node.key;
-            // pageContent('/admin/pages/edit/' + data.node.key);
+            window.location.href = '/admin/catalog/products/' + data.node.key;
+            // pageContent('/admin/catalog/products/' + data.node.key);
         }
     },
 });
 
-function pageImageAttache(elem, e){
+function catalogImageAttache(elem, e){
     $.each(e.target.files, function(key, file)
     {
         if(file['size'] > max_file_size){
-            alert('Слишком большой размер файла. Максимальный размер 2Мб');
+            alert('Слишком большой размер файла. Максимальный размер 10Мб');
         } else {
-            pageImage = file;
+            catalogImage = file;
             renderImage(file, function (imgSrc) {
                 const item = '<img class="img-polaroid" src="' + imgSrc + '" height="100" data-image="' + imgSrc + '" ' +
                     'onclick="return popupImage($(this).data(\'image\'))" alt="image">';
-                $('#page-image').html(item);
+                $('#catalog-image').html(item);
             });
         }
     });
     $(elem).val('');
 }
 
-function pageSave(form, e) {
+function updateOrder(form, e) {
+    e.preventDefault();
+    let button = $(form).find('[type="submit"]');
+    button.attr('disabled', 'disabled');
+    let url = $(form).attr('action');
+    let data = $(form).serialize();
+    sendAjax(url, data, function (json) {
+        button.removeAttr('disabled');
+    });
+}
+
+function catalogSave(form, e) {
     e.preventDefault();
     const url = $(form).attr('action');
     let data = new FormData();
     $.each($(form).serializeArray(), function (key, value) {
         data.append(value.name, value.value);
     });
-    $.each(settingFiles, function (key, value) {
-        data.append(key, value);
-    });
 
-    if (pageImage) {
-        data.append('image', pageImage);
+    if (catalogImage) {
+        data.append('image', catalogImage);
     }
 
     sendFiles(url, data, function (json) {
         if (typeof json.errors != 'undefined') {
             applyFormValidate(form, json.errors);
-            var errMsg = [];
-            for (var key in json.errors) {
+            let errMsg = [];
+            for (let key in json.errors) {
                 errMsg.push(json.errors[key]);
             }
             $(form).find('[type=submit]').after(autoHideMsg('red', urldecode(errMsg.join(' '))));
         } else {
-            pageImage = null;
+            catalogImage = null;
         }
         if (typeof json.redirect != 'undefined') document.location.href = urldecode(json.redirect);
         if (typeof json.msg != 'undefined') $(form).find('[type=submit]').after(autoHideMsg('green', urldecode(json.msg)));
-        if (typeof json.success != 'undefined' && json.success === true) {
-            settingFiles = {};
-        }
     });
     return false;
 }
@@ -215,9 +220,24 @@ function deleteImage(elem, e) {
     sendAjax(url, {}, function(json) {
        if (json.success) {
            const empty = ' <p class="text-yellow">Изображение не загружено.</p>'
-           $('#page-image').html(empty);
+           $('#catalog-image').html(empty);
        }
     });
 
 
 }
+
+function productDelete(elem) {
+    if (!confirm('Удалить товар?')) return false;
+    var url = $(elem).attr('href');
+    sendAjax(url, {}, function (json) {
+        if (typeof json.msg != 'undefined') alert(urldecode(json.msg));
+        if (json.success) {
+            $(elem).closest('tr').fadeOut(300, function () {
+                $(this).remove();
+            });
+        }
+    });
+    return false;
+}
+

@@ -1,7 +1,7 @@
 <?php namespace App\Traits;
 
-use Fanky\Admin\Models\Catalog;
-use Fanky\Admin\Settings;
+use Adminlte3\Models\Catalog;
+use Adminlte3\Settings;
 use Illuminate\Support\Str;
 
 trait HasSeoOptimization{

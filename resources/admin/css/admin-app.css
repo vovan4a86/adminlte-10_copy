@@ -10,3 +10,5 @@
 @import '/node_modules/summernote/dist/summernote-bs5.css';
 @import "toastr";
 
+@import './custom.css';
+

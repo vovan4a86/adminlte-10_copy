@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Testing AdminLTE 3',
+    'title' => 'AdminLTE 3',
     'title_prefix' => 'Admin - ',
     'title_postfix' => '',
 
@@ -491,18 +491,33 @@ return [
                 ],
             ],
         ],
-        'Toastr' => [
-            'active' => false,
+        'Summernote' => [
+            'active' => true,
             'files' => [
                 [
                     'type' => 'css',
-                    'asset' => true,
-                    'location' => '~adminlte/plugins/toastr/toastr.css',
+                    'asset' => false,
+                    'location' => '/vendor/plugins/summernote/summernote-bs4.css',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => true,
-                    'location' => '~adminlte/plugins/toastr/toastr.min.js',
+                    'asset' => false,
+                    'location' => '/vendor/plugins/summernote/summernote-bs4.js',
+                ],
+            ],
+        ],
+        'Toastr' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '/vendor/plugins/toastr/toastr.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/vendor/plugins/toastr/toastr.min.js',
                 ],
             ],
         ],

@@ -143,7 +143,6 @@ class AdminLteServiceProvider extends BaseServiceProvider
             'name',
             'value' => null,
             'label' => null,
-            'height' => 200,
             'attributes' => []
         ]);
 

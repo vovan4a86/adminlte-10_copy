@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Pages')
+@section('title', 'Структура сайта')
 
 @section('content_header')
-    <h1>Pages::<span id="echoActive"></span></h1>
+    <h5>Структура сайта</h5>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-md-3">
             <div class="box box-solid">
                 <div class="box-body">
-                    <div id="tree"></div>
+                    <div id="pages-tree"></div>
                 </div>
                 <ul id="pagesContext" class="contextMenu">
                     <li><a href="#add"><i class="fa fa-plus text-green mr-1"></i>Добавить</a></li>
@@ -39,8 +39,7 @@
         <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
         <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
 
-        <script src="/vendor/plugins/summernote/summernote-bs4.min.js"></script>
-        <script src="/vendor/plugins/custom-file-input/bs-custom-file-input.min.js"></script>
+
 
         <script src="/vendor/interfaces/interface.js" defer></script>
         <script src="/vendor/interfaces/interface_pages.js" defer></script>

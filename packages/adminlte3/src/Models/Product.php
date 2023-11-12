@@ -1,4 +1,5 @@
-<?php namespace Fanky\Admin\Models;
+<?php
+namespace Adminlte3\Models;
 
 use App\Traits\HasFile;
 use App\Traits\HasH1;
@@ -6,14 +7,14 @@ use App\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
-use Settings;
 use Carbon\Carbon;
 
 /**
- * Fanky\Admin\Models\Product
+ * Adminlte\Product
  *
  * @property int $id
  * @property int $catalog_id
@@ -106,7 +107,8 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Query\Builder|Product withoutTrashed()
  * @mixin \Eloquent
  */
-class Product extends Model {
+class Product extends Model
+{
     use HasSeo, HasH1, HasFile;
 
     protected $_parents = [];
@@ -119,109 +121,77 @@ class Product extends Model {
 
     const NO_IMAGE = "/adminlte/no_image.png";
 
-    public function catalog() {
+    public function catalog(): BelongsTo
+    {
         return $this->belongsTo(Catalog::class);
     }
 
-    public function images(): HasMany {
+    public function images(): HasMany
+    {
         return $this->hasMany(ProductImage::class, 'product_id')
             ->orderBy('order');
     }
 
-    public function certificates(): HasMany {
-        return $this->hasMany(ProductCertificate::class, 'product_id')
-            ->orderBy('order');
-    }
-
-    public function docs(): HasMany {
-        return $this->hasMany(ProductDoc::class, 'product_id')
-            ->orderBy('order');
-    }
-
-    public function image(): HasOne {
+    public function image(): HasOne
+    {
         return $this->hasOne(ProductImage::class, 'product_id')
             ->orderBy('order');
     }
 
-    public function getImage() {
-        if ($this->image()->first()) return ProductImage::UPLOAD_URL . $this->image()->first()->image;
-        $catalog = Catalog::find($this->catalog_id);
-        return Catalog::UPLOAD_URL . $catalog->image;
-    }
-
-    public function getSpec(): ?string
+    public function related(): HasMany
     {
-        if($this->spec_file) return self::UPLOAD_DOC_URL . $this->spec_file;
-
-        return null;
-    }
-
-    public function getCardChars() {
-        $format = $this->chars()->where('name', 'Формат')->first(['value']);
-        $power = $this->chars()->where('name', 'Мощность')->first(['value']);
-        return [$format, $power];
-    }
-
-    public function getRootImage() {
-        $category = Catalog::find($this->catalog_id);
-        $root = $category;
-        while ($root->parent_id !== 0) {
-            $root = $root->findRootCategory($root->parent_id);
-        }
-        if ($root->image) {
-            return Catalog::UPLOAD_URL . $root->image;
-        } else {
-            return self::NO_IMAGE;
-        }
-    }
-
-    public function chars(): HasMany {
-        return $this->hasMany(ProductChar::class, 'product_id')->orderBy('order');
-    }
-
-    public function related(): HasMany {
         return $this->hasMany(ProductRelated::class, 'product_id');
 //            ->join('products', 'product_related.related_id', '=', 'products.id');
     }
 
-    public function scopePublic($query) {
+    public function scopePublic($query)
+    {
         return $query->where('published', 1);
     }
 
-    public function scopeIsAction($query) {
+    public function scopeIsAction($query)
+    {
         return $query->where('is_action', 1);
     }
 
-    public function scopeInStock($query) {
+    public function scopeInStock($query)
+    {
         return $query->where('in_stock', 1);
     }
 
-    public function scopeOnMain($query) {
+    public function scopeOnMain($query)
+    {
         return $query->where('on_main', 1);
     }
 
-    public function getImageSrcAttribute($value) {
+    public function getImageSrcAttribute($value)
+    {
         return ($this->image)
             ? $this->image->image_src
             : null;
     }
 
-    public function thumb($thumb) {
+    public function thumb($thumb)
+    {
         return ($this->image)
             ? $this->image->thumb($thumb)
             : null;
     }
 
-    public function getUrlAttribute(): string {
+    public function getUrlAttribute(): string
+    {
         if (!$this->_url) {
             $this->_url = $this->catalog->url . '/' . $this->alias;
         }
         return $this->_url;
     }
 
-    public function getParents($with_self = false, $reverse = false): array {
+    public function getParents($with_self = false, $reverse = false): array
+    {
         $parents = [];
-        if ($with_self) $parents[] = $this;
+        if ($with_self) {
+            $parents[] = $this;
+        }
         $parents = array_merge($parents, $this->catalog->getParents(true));
         $parents = array_merge($parents, $this->_parents);
         if ($reverse) {
@@ -231,9 +201,8 @@ class Product extends Model {
         return $parents;
     }
 
-    private $_url;
-
-    public function delete() {
+    public function delete()
+    {
         foreach ($this->images as $image) {
             $image->delete();
         }
@@ -241,14 +210,8 @@ class Product extends Model {
         parent::delete();
     }
 
-    /**
-     * @return Carbon
-     */
-    public function getLastModify() {
-        return $this->updated_at;
-    }
-
-    public function getBread() {
+    public function getBread(): array
+    {
         $bread = $this->catalog->getBread();
         $bread[] = [
             'url' => $this->url,
@@ -258,73 +221,14 @@ class Product extends Model {
         return $bread;
     }
 
-    public function getFormatedPriceAttribute() {
-        return number_format($this->price, 0, ',', ' ');
-    }
-
-    public static function getActionProducts() {
-        return self::where('published', 1)->where('is_action', 1)->get();
-    }
-
-    public static function getPopularProducts() {
-        return self::where('published', 1)->where('is_popular', 1)->get();
-    }
-
-    public function showCategoryImage($catalog_id) {
-        $root = Catalog::find($catalog_id);
-        while ($root->parent_id !== 0) {
-            $root = $root->findRootCategory($root->parent_id);
-        }
-        return $root->thumb(2);
-    }
-
-    public static function findRootParentName($catalog_id) {
-        $root = Catalog::find($catalog_id)->getParents();
-
-        if (isset($root[0])) {
-            return Catalog::find($root[0]['id'])->name;
-        } else {
-            return Catalog::find($catalog_id)->name;
-        }
-    }
-
-    public static function findRootParentCatalog($catalog_id) {
-        $root = Catalog::find($catalog_id)->getParents(false, true);
-
-        if (isset($root[0])) {
-            return Catalog::find($root[0]['id']);
-        } else {
-            return Catalog::find($catalog_id);
-        }
-    }
-
-    public function multiplyPrice($price) {
-        $percent = $price * Settings::get('multiplier') / 100;
-        return $price + $percent;
-    }
-
-    public static function fullPrice($price) {
-        $percent = $price * Settings::get('multiplier') / 100;
-        return $price + $percent;
-    }
-
-    public function getLength() {
-        if ($this->length) {
-            return $this->length;
-        } elseif ($this->dlina) {
-            return preg_replace('/[А-Яа-я]/', '', $this->dlina);
-        } else {
-            return null;
-        }
-    }
-
     public function showAnyImage(): ?string
     {
         $cat_image = Catalog::whereId($this->catalog_id)->first();
         return $cat_image->image ? Catalog::UPLOAD_URL . $cat_image->image : null;
     }
 
-    private function replaceTemplateVariable($template) {
+    private function replaceTemplateVariable($template): array|string
+    {
         $replace = [
             '{name}' => $this->name,
             '{lower_name}' => Str::lower($this->name),
@@ -339,19 +243,29 @@ class Product extends Model {
         return str_replace(array_keys($replace), array_values($replace), $template);
     }
 
-    public function getTitleTemplate($catalog_id = null) {
-        if (!$catalog_id) $catalog_id = $this->catalog_id;
+    public function getTitleTemplate($catalog_id = null)
+    {
+        if (!$catalog_id) {
+            $catalog_id = $this->catalog_id;
+        }
         $catalog = Catalog::find($catalog_id);
-        if (!$catalog) return null;
-        if (!empty($catalog->product_title_template)) return $catalog->product_title_template;
-        if ($catalog->parent_id) return $this->getTitleTemplate($catalog->parent_id);
+        if (!$catalog) {
+            return null;
+        }
+        if (!empty($catalog->product_title_template)) {
+            return $catalog->product_title_template;
+        }
+        if ($catalog->parent_id) {
+            return $this->getTitleTemplate($catalog->parent_id);
+        }
 
         return self::$defaultTitleTemplate;
     }
 
-    public static $defaultTitleTemplate = '{name} купить';
+    public static string $defaultTitleTemplate = '{name} купить';
 
-    public function generateTitle() {
+    public function generateTitle()
+    {
         if (!($template = $this->getTitleTemplate())) {
             if ($this->title && $this->title != $this->name) {
                 $template = $this->title;
@@ -366,29 +280,48 @@ class Product extends Model {
         $this->title = $this->replaceTemplateVariable($template);
     }
 
-    public function getDescriptionTemplate($catalog_id = null) {
-        if (!$catalog_id) $catalog_id = $this->catalog_id;
+    public function getDescriptionTemplate($catalog_id = null)
+    {
+        if (!$catalog_id) {
+            $catalog_id = $this->catalog_id;
+        }
         $catalog = Catalog::find($catalog_id);
-        if (!$catalog) return null;
-        if (!empty($catalog->product_description_template)) return $catalog->product_description_template;
-        if ($catalog->parent_id) return $this->getDescriptionTemplate($catalog->parent_id);
+        if (!$catalog) {
+            return null;
+        }
+        if (!empty($catalog->product_description_template)) {
+            return $catalog->product_description_template;
+        }
+        if ($catalog->parent_id) {
+            return $this->getDescriptionTemplate($catalog->parent_id);
+        }
 
         return self::$defaultDescriptionTemplate;
     }
 
-    public function getTextTemplate($catalog_id = null) {
-        if (!$catalog_id) $catalog_id = $this->catalog_id;
+    public function getTextTemplate($catalog_id = null)
+    {
+        if (!$catalog_id) {
+            $catalog_id = $this->catalog_id;
+        }
         $catalog = Catalog::find($catalog_id);
-        if (!$catalog) return null;
-        if (!empty($catalog->product_text_template)) return $catalog->product_text_template;
-        if ($catalog->parent_id) return $this->getTextTemplate($catalog->parent_id);
+        if (!$catalog) {
+            return null;
+        }
+        if (!empty($catalog->product_text_template)) {
+            return $catalog->product_text_template;
+        }
+        if ($catalog->parent_id) {
+            return $this->getTextTemplate($catalog->parent_id);
+        }
 
         return null;
     }
 
     public static $defaultDescriptionTemplate = '{name} купить по выгодной цене';
 
-    public function generateDescription() {
+    public function generateDescription()
+    {
         if (!($template = $this->getDescriptionTemplate())) {
             if (!$template && $this->description) {
                 $template = $this->description;
@@ -404,7 +337,8 @@ class Product extends Model {
         $this->description = $this->replaceTemplateVariable($template);;
     }
 
-    public function generateText() {
+    public function generateText()
+    {
         $template = $this->getTextTemplate();
         if (!$template) {
             $template = $this->text;
@@ -413,13 +347,15 @@ class Product extends Model {
         $this->text = $this->replaceTemplateVariable($template);
     }
 
-    public function generateKeywords() {
+    public function generateKeywords()
+    {
         if (!$this->keywords) {
             $this->keywords = mb_strtolower($this->name . ' цена, ' . $this->name . ' купить, ' . $this->name . '');
         }
     }
 
-    public function getProductOrderView(): ?string {
+    public function getProductOrderView(): ?string
+    {
         if ($this->price) {
             return 'catalog.blocks.product_order_t';
         } elseif ($this->price_per_item) {
@@ -435,50 +371,9 @@ class Product extends Model {
         }
     }
 
-    public function getRecourseDiscountAmount($id = null) {
-        if ($this->discount) return $this->discount;
-
-        if (!$id) $category = Catalog::find($this->catalog_id);
-        else $category = Catalog::find($id);
-
-        if ($category->discount) return $category->discount;
-        elseif ($category->parent_id == 0) return 0;
-        else $this->getRecourseDiscountAmount($category->parent_id);
-    }
-
-    public function getRecourseMeasure() {
-        if ($this->measure) return $this->measure;
-
-        $catalog = Catalog::find($this->catalog_id);
-        while($catalog) {
-            if($catalog->catalog_measure) return $catalog->catalog_measure;
-            else {
-                if($catalog->parent) $catalog = $catalog->parent;
-                else return $catalog->catalog_measure;
-            }
-        }
-    }
-
-    public function getPriceWithDiscount() {
-        if ($discount = $this->getRecourseDiscountAmount()) {
-            $amount = $this->price * $discount / 100;
-            return $this->price + $amount;
-        }
-    }
-
-    public function getStartCount() {
-        if (!$this->price) return 0;
-        if ($this->min_hours) return $this->min_hours;
-        return 1;
-    }
-
-    public function makeArticle($id): string {
-        return str_pad($id, 6, '0', STR_PAD_LEFT);
-    }
-
-    public function getCharValueByName($name)
+    public function makeArticle($id): string
     {
-        return $this->chars()->where('name', $name)->value;
+        return str_pad($id, 6, '0', STR_PAD_LEFT);
     }
 
     public static function isPdf($file_name): bool
