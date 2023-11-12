@@ -19,22 +19,19 @@ use Illuminate\Support\Facades\Validator;
  */
 class AdminCatalogController extends Controller
 {
-
     public function getIndex()
     {
-        $bread = [
-            ['name' => 'Главная', 'url' => route('admin.index')],
-            ['name' => 'Каталог', 'url' => route('admin.catalog.index')],
-        ];
-
-        return view('adminlte::catalog.index', compact('bread'));
+        return view('adminlte::catalog.index');
     }
 
     public function getProducts($catalog_id)
     {
+        $catalog = Catalog::findOrFail($catalog_id);
+
         return view(
             'adminlte::catalog.index',
             [
+                'catalog' => $catalog,
                 'content' => $this->postProducts($catalog_id)
             ]
         );
@@ -43,6 +40,7 @@ class AdminCatalogController extends Controller
     public function postProducts($catalog_id)
     {
         $catalog = Catalog::findOrFail($catalog_id);
+        $bread = $catalog->getParents(false, true);
         $products = Pagination::init($catalog->products()->orderBy('order'), 20)
             ->get();
 
@@ -50,6 +48,7 @@ class AdminCatalogController extends Controller
             'adminlte::catalog.products',
             [
                 'catalog' => $catalog,
+                'bread' => $bread,
                 'products' => $products
             ]
         );

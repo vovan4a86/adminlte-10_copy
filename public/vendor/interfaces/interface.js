@@ -75,11 +75,12 @@ function applyFormValidate(form, ErrMsg) {
     $(form).find('.invalid').eq(0).trigger('focus');
 }
 
-function sendAjax(url, data, callback, type) {
+function sendAjax(url, data, callback, type, ajaxType) {
     data = data || {};
     if (typeof type == 'undefined') type = 'json';
+    if (typeof ajaxType == 'undefined') type = 'post';
     $.ajax({
-        type: 'post',
+        type: ajaxType,
         url: url,
         data: data,
         dataType: type,
@@ -157,10 +158,10 @@ function renderImage(file, callback) {
     reader.readAsDataURL(file);
 }
 
-function pageContent(url) {
+function pageContent(url, ajaxType = 'post') {
     sendAjax(url, {}, function (html) {
         $('#page-content').html(html);
-    }, 'html');
+    }, 'html', ajaxType);
     return false;
 }
 

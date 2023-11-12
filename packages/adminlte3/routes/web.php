@@ -108,20 +108,28 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [AdminSettingsController::class, 'getIndex']);
+
         Route::post('save', [AdminSettingsController::class, 'postSave'])
             ->name('save');
+
         Route::any('edit/{id?}', [AdminSettingsController::class, 'anyEditSetting'])
             ->name('edit');
+
         Route::get('group-items/{id?}', [AdminSettingsController::class, 'getGroupItems'])
             ->name('groupItems');
+
         Route::post('group-save', [AdminSettingsController::class, 'postGroupSave'])
             ->name('groupSave');
+
         Route::post('group-delete/{id}', [AdminSettingsController::class, 'postGroupDelete'])
             ->name('groupDelete');
+
         Route::post('clear-value/{id}', [AdminSettingsController::class, 'postClearValue'])
             ->name('clearValue');
+
         Route::any('block-params', [AdminSettingsController::class, 'anyBlockParams'])
             ->name('blockParams');
+
         Route::post('edit-setting-save', [AdminSettingsController::class, 'postEditSettingSave'])
             ->name('editSave');
     });

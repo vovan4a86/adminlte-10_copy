@@ -33,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
             $event->menu->add([
                                   'text' => 'Пользователи',
                                   'url' => 'admin/users',
-                                  'icon' => 'far fa-fw fa-user',
+                                  'icon' => 'fa fa-users mr-1',
                                   'label' => User::all()->count(),
                                   'label_color' => 'success',
                               ]);
@@ -41,12 +41,17 @@ class EventServiceProvider extends ServiceProvider
             $event->menu->add([
                                   'text'        => 'Структура сайта',
                                   'url'         => 'admin/pages',
-                                  'icon'        => 'far fa-fw fa-clone',
+                                  'icon'        => 'fa fa-clone mr-1',
                               ]);
             $event->menu->add([
                                   'text'        => 'Каталог',
                                   'url'         => 'admin/catalog',
-                                  'icon'        => 'far fa-fw fa-clone',
+                                  'icon'        => 'fa fa-bars mr-1',
+                              ]);
+            $event->menu->add([
+                                  'text'        => 'Новости',
+                                  'url'         => 'admin/news',
+                                  'icon'        => 'fa fa-calendar mr-1',
                               ]);
         });
     }

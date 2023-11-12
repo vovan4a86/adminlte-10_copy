@@ -18,7 +18,7 @@
 		</span>
         <div class="tree-tools">
             <a href="#" onclick="return settingsGroupEdit(this)"><i class="fa fa-edit"></i></a>
-            <a href="#" data-url="{{ route('admin.settings.groupDel', [$group->id]) }}" onclick="return settingsGroupDel(this)"><i class="fa fa-trash-o"></i></a>
+            <a href="#" data-url="{{ route('admin.settings.groupDelete', [$group->id]) }}" onclick="return settingsGroupDel(this)"><i class="fa fa-trash-o"></i></a>
         </div>
     </div>
 </li>

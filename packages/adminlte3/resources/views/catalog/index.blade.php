@@ -7,16 +7,16 @@
         <div class="col-sm-6">
             <h5>Каталог</h5>
         </div>
-        @if(isset($bread) && count($bread))
+        @if(isset($catalog))
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    @foreach($bread as $item)
+                    @foreach($catalog->getParents(true, true) as $item)
                         @if(!$loop->last)
                             <li class="breadcrumb-item">
-                                <a href="{{ $item['url'] }}">{{ $item['name'] }}</a>
+                                <a href="{{ route('admin.catalog.products', $item->id) }}">{{ $item->name }}</a>
                             </li>
                         @else
-                            <li class="breadcrumb-item active">{{ $item['name'] }}</li>
+                            <li class="breadcrumb-item active">{{ $catalog->id ? $catalog->name : 'Новый раздел' }}</li>
                         @endif
                     @endforeach
                 </ol>

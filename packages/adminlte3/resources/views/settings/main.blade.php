@@ -1,17 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Settings')
+@section('title', 'Настройки')
 
 @section('content_header')
-    <h1>Настройки</h1>
+    <h5>Настройки</h5>
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Главная</a></li>
+        <li class="breadcrumb-item active">Настройки</li>
+    </ol>
 @stop
 
 @section('content')
-    <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{{ route('admin') }}">Главная</a></li>
-        <li class="breadcrumb-item active">Настройки</li>
-    </ol>
-
     <div class="row">
         <div class="col-md-3">
             <div class="box box-solid">
@@ -20,7 +19,7 @@
                 <div class="box-body">
                     <ul id="setting-groups" class="tree-lvl ui-sortable">
                         @foreach ($groups as $item)
-                            @include('admin::settings.group_row', ['group' => $item, 'active' => $group])
+                            @include('adminlte::settings.group_row', ['group' => $item, 'active' => $group])
                         @endforeach
                     </ul>
                 </div>
@@ -40,7 +39,7 @@
 
         <div id="settings-content" class="col-md-9">
             @if ($group->id)
-                @include('admin::settings.group_items', ['group' => $group, 'settings' => $settings])
+                @include('adminlte::settings.group_items', ['group' => $group, 'settings' => $settings])
             @endif
         </div>
     </div>
