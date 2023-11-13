@@ -58,8 +58,6 @@
     <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
     <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
 
-    <script src="/vendor/plugins/custom-file-input/bs-custom-file-input.min.js"></script>
-
-    <script src="/vendor/interfaces/interface.js" defer></script>
-    <script src="/vendor/interfaces/interface_catalog.js" defer></script>
+    <script src="/vendor/interfaces/interface.js"></script>
+    <script src="/vendor/interfaces/interface_catalog.js"></script>
 @stop

@@ -17,7 +17,7 @@ class AdminSettingsController extends Controller
         $group = $groups[0] ?? new SettingGroup;
         $settings = $group->settings()->orderBy('order')->get();
 
-        return view('adminlte::settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
+        return view('adminlte::settings.index', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
     }
 
     public function getGroupItems($id)
@@ -26,7 +26,7 @@ class AdminSettingsController extends Controller
         $groups = SettingGroup::where('page_id', 0)->orderBy('order', 'asc')->get();
         $settings = $group->settings()->orderBy('order')->get();
 
-        return view('adminlte::settings.main', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
+        return view('adminlte::settings.index', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
     }
 
     public function postGroupSave()

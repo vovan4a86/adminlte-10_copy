@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'admin.catalog.save', 'onsubmit' => 'catalogSave(this, e)']) !!}
+{!! Form::open(['route' => 'admin.catalog.save', 'onsubmit' => 'catalogSave(this, event)']) !!}
     {{ Form::hidden('id', $catalog->id) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">

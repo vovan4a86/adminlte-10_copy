@@ -33,7 +33,7 @@ class Pagination {
 		if (!self::$_items_count || self::$_pages_count <= 1) return null;
 		return view($view, [
 			'url' => Request::url(),
-			'curent_page' => self::$_page,
+			'current_page' => self::$_page,
 			'items_count' => self::$_items_count,
 			'pages_count' => self::$_pages_count,
 		])->render();

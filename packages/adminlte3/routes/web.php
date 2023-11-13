@@ -2,6 +2,7 @@
 
 use Adminlte3\Http\Controllers\AdminCatalogController;
 use Adminlte3\Http\Controllers\AdminMainController;
+use Adminlte3\Http\Controllers\AdminNewsController;
 use Adminlte3\Http\Controllers\AdminPagesController;
 use Adminlte3\Http\Controllers\AdminSettingsController;
 use Adminlte3\Http\Controllers\AdminUserController;
@@ -29,51 +30,56 @@ Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
 
 
 Route::middleware('admin.auth')->group(function () {
-    Route::get('/', [AdminMainController::class, 'index'])
-        ->name('index');
+    Route::get('/', [AdminMainController::class, 'index'])->name('index');
     Route::get('/users', [AdminMainController::class, 'getAllUsers'])
         ->name('users');
     Route::get('/profile', [AdminMainController::class, 'profile'])
         ->name('profile');
 
-    Route::prefix('user')->name('user.')->group(function () {
+    Route::prefix('user')->name('user')->group(function () {
         Route::get('edit/{id?}', [AdminUserController::class, 'getEdit'])
-            ->name('edit');
+            ->name('.edit');
         Route::any('save', [AdminUserController::class, 'postSave'])
-            ->name('save');
+            ->name('.save');
         Route::post('delete/{id?}', [AdminUserController::class, 'postDelete'])
-            ->name('delete');
+            ->name('.delete');
     });
 
-    Route::prefix('pages')->name('pages.')->group(function () {
-        Route::get('/', [AdminPagesController::class, 'getIndex'])->name('index');
+    Route::prefix('pages')->name('pages')->group(function () {
+        Route::get('/', [AdminPagesController::class, 'getIndex']);
+
         Route::post('save', [AdminPagesController::class, 'postSave'])
-            ->name('save');
+            ->name('.save');
+
         Route::get('edit/{id?}', [AdminPagesController::class, 'getEdit'])
-            ->name('edit');
+            ->name('.edit');
+
         Route::post('edit/{id?}', [AdminPagesController::class, 'postEdit'])
-            ->name('edit');
+            ->name('.edit');
+
         Route::post('reorder', [AdminPagesController::class, 'postReorder'])
             ->name('.reorder');
+
         Route::post('delete/{id}', [AdminPagesController::class, 'postDelete'])
             ->name('.delete');
+
         Route::post('delete-image/{id?}', [AdminPagesController::class, 'postDeleteImage'])
-            ->name('delete-image');
-        Route::get('get-pages-tree', [AdminPagesController::class, 'getPagesTree'])
-            ->name('getPagesTree');
+            ->name('.delete-image');
+
+        Route::get('get-pages-tree', [AdminPagesController::class, 'getPagesTree']);
     });
 
-    Route::prefix('catalog')->name('catalog.')->group(function () {
-        Route::get('/', [AdminCatalogController::class, 'getIndex'])->name('index');
+    Route::prefix('catalog')->name('catalog')->group(function () {
+        Route::get('/', [AdminCatalogController::class, 'getIndex']);
 
         Route::post('save', [AdminCatalogController::class, 'postSave'])
-            ->name('save');
+            ->name('.save');
 
         Route::get('edit/{id?}', [AdminCatalogController::class, 'getEdit'])
-            ->name('edit');
+            ->name('.edit');
 
         Route::post('edit/{id?}', [AdminCatalogController::class, 'postEdit'])
-            ->name('edit');
+            ->name('.edit');
 
         Route::post('reorder', [AdminCatalogController::class, 'postReorder'])
             ->name('.reorder');
@@ -82,56 +88,78 @@ Route::middleware('admin.auth')->group(function () {
             ->name('.delete');
 
         Route::post('delete-image/{id?}', [AdminCatalogController::class, 'postDeleteImage'])
-            ->name('delete-image');
+            ->name('.delete-image');
 
-        Route::get('get-catalog-tree', [AdminCatalogController::class, 'getCatalogTree'])
-            ->name('get-catalog-tree');
+        Route::get('get-catalog-tree', [AdminCatalogController::class, 'getCatalogTree']);
 
         Route::get('products/{id?}', [AdminCatalogController::class, 'getProducts'])
-            ->name('products');
+            ->name('.products');
 
         Route::get('product-edit/{id?}', [AdminCatalogController::class, 'getProductEdit'])
-            ->name('product-edit');
+            ->name('.product-edit');
 
         Route::post('product-save', [AdminCatalogController::class, 'postProductSave'])
-            ->name('product-save');
+            ->name('.product-save');
 
         Route::post('product-reorder', [AdminCatalogController::class, 'postProductReorder'])
-            ->name('product-reorder');
+            ->name('.product-reorder');
 
         Route::post('update-order/{id}', [AdminCatalogController::class, 'postUpdateOrder'])
-            ->name('update-order');
+            ->name('.update-order');
 
         Route::post('product-delete/{id}', [AdminCatalogController::class, 'postProductDelete'])
-            ->name('product-delete');
+            ->name('.product-delete');
     });
 
-    Route::prefix('settings')->name('settings.')->group(function () {
+    Route::prefix('news')->name('news')->group(function () {
+        Route::get('/', [AdminNewsController::class, 'getIndex'])
+            ->name('.index');
+
+        Route::post('save', [AdminNewsController::class, 'postSave'])
+            ->name('.save');
+
+        Route::get('edit/{id?}', [AdminNewsController::class, 'getEdit'])
+            ->name('.edit');
+
+        Route::post('edit/{id?}', [AdminNewsController::class, 'postEdit'])
+            ->name('.edit');
+
+        Route::post('reorder', [AdminNewsController::class, 'postReorder'])
+            ->name('.reorder');
+
+        Route::post('delete/{id}', [AdminNewsController::class, 'postDelete'])
+            ->name('.delete');
+
+        Route::post('delete-image/{id?}', [AdminNewsController::class, 'postDeleteImage'])
+            ->name('.delete-image');
+    });
+
+    Route::prefix('settings')->name('settings')->group(function () {
         Route::get('/', [AdminSettingsController::class, 'getIndex']);
 
         Route::post('save', [AdminSettingsController::class, 'postSave'])
-            ->name('save');
+            ->name('.save');
 
         Route::any('edit/{id?}', [AdminSettingsController::class, 'anyEditSetting'])
-            ->name('edit');
+            ->name('.edit');
 
         Route::get('group-items/{id?}', [AdminSettingsController::class, 'getGroupItems'])
-            ->name('groupItems');
+            ->name('.groupItems');
 
         Route::post('group-save', [AdminSettingsController::class, 'postGroupSave'])
-            ->name('groupSave');
+            ->name('.groupSave');
 
         Route::post('group-delete/{id}', [AdminSettingsController::class, 'postGroupDelete'])
-            ->name('groupDelete');
+            ->name('.groupDelete');
 
         Route::post('clear-value/{id}', [AdminSettingsController::class, 'postClearValue'])
-            ->name('clearValue');
+            ->name('.clearValue');
 
         Route::any('block-params', [AdminSettingsController::class, 'anyBlockParams'])
-            ->name('blockParams');
+            ->name('.blockParams');
 
         Route::post('edit-setting-save', [AdminSettingsController::class, 'postEditSettingSave'])
-            ->name('editSave');
+            ->name('.editSave');
     });
 
 

@@ -1,3 +1,60 @@
 .img-polaroid:hover {
     cursor: pointer;
 }
+
+#setting-groups {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.box {
+    background: white;
+    padding: 5px;
+}
+
+.tree-item {
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+    padding: 0 5px;
+    background: #eaeaea;
+}
+.tree-tools {
+    justify-self: flex-end;
+}
+
+.tree-item-name {
+    flex-grow: 1;
+}
+.tree-item-name a {
+    font-size: 14px;
+}
+
+.tree-handle {
+    padding: 5px;
+}
+
+.tree-handle:hover {
+    cursor: move;
+}
+
+.tree-tools a {
+    font-size: 14px;
+    color: red;
+}
+
+.box-footer {
+    margin-top: 10px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.settings-card {
+    font-size: 0.9rem;
+}
+
+.settings-card .todo-list li {
+    padding: 5px;
+}

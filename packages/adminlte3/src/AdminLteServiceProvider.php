@@ -154,6 +154,13 @@ class AdminLteServiceProvider extends BaseServiceProvider
             'attributes' => []
         ]);
 
+        FormBuilder::component('groupDate', 'adminlte::components.custom.date', [
+            'name',
+            'value' => null,
+            'label' => null,
+            'attributes' => []
+        ]);
+
     }
 
     /**

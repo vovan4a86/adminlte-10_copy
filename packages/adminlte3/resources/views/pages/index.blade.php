@@ -3,13 +3,17 @@
 @section('title', 'Структура сайта')
 
 @section('content_header')
-    <h5>Структура сайта</h5>
+    <div class="admin-page-head row">
+        <div class="col-sm-6">
+            <h5>Структура сайта</h5>
+        </div>
+    </div>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-md-3">
-            <div class="box box-solid">
+            <div class="box box-solid card">
                 <div class="box-body">
                     <div id="pages-tree"></div>
                 </div>
@@ -39,9 +43,7 @@
         <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
         <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
 
-
-
-        <script src="/vendor/interfaces/interface.js" defer></script>
-        <script src="/vendor/interfaces/interface_pages.js" defer></script>
-        <script src="/vendor/interfaces/interface_settings.js" defer></script>
+        <script src="/vendor/interfaces/interface.js"></script>
+        <script src="/vendor/interfaces/interface_pages.js"></script>
+        <script src="/vendor/interfaces/interface_settings.js"></script>
 @stop

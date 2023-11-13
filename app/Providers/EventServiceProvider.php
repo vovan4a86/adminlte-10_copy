@@ -29,14 +29,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) {
             // Add some items to the menu...
-            $event->menu->add('НАСТРОЙКИ ПРОФИЛЯ');
-            $event->menu->add([
-                                  'text' => 'Пользователи',
-                                  'url' => 'admin/users',
-                                  'icon' => 'fa fa-users mr-1',
-                                  'label' => User::all()->count(),
-                                  'label_color' => 'success',
-                              ]);
             $event->menu->add('НАВИГАЦИЯ');
             $event->menu->add([
                                   'text'        => 'Структура сайта',
@@ -52,6 +44,20 @@ class EventServiceProvider extends ServiceProvider
                                   'text'        => 'Новости',
                                   'url'         => 'admin/news',
                                   'icon'        => 'fa fa-calendar mr-1',
+                              ]);
+            $event->menu->add('НАСТРОЙКИ ПРОФИЛЯ');
+            $event->menu->add([
+                                  'text' => 'Пользователи',
+                                  'url' => 'admin/users',
+                                  'icon' => 'fa fa-users mr-1',
+                                  'label' => User::all()->count(),
+                                  'label_color' => 'success',
+                              ]);
+            $event->menu->add('НАСТРОЙКИ САЙТА');
+            $event->menu->add([
+                                  'text' => 'Общие',
+                                  'url' => 'admin/settings',
+                                  'icon' => 'fa fa-cogs mr-1',
                               ]);
         });
     }

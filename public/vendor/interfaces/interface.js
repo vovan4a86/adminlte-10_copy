@@ -143,7 +143,8 @@ function sendFiles(url, data, callback, type) {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.');
+            console.log(XMLHttpRequest);
         }
     });
 }

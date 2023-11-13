@@ -203,12 +203,12 @@ function catalogSave(form, e) {
             for (let key in json.errors) {
                 errMsg.push(json.errors[key]);
             }
-            $(form).find('[type=submit]').after(autoHideMsg('red', urldecode(errMsg.join(' '))));
+            toastr.error(errMsg.join(' '), 'Ошибка валидации!')
         } else {
             catalogImage = null;
         }
         if (typeof json.redirect != 'undefined') document.location.href = urldecode(json.redirect);
-        if (typeof json.msg != 'undefined') $(form).find('[type=submit]').after(autoHideMsg('green', urldecode(json.msg)));
+        if (typeof json.msg != 'undefined') toastr.success(json.msg, 'Успешно!');
     });
     return false;
 }

@@ -4,9 +4,9 @@
 
 	<div class="box box-solid">
 		<div class="box-header">
-			<h3 class="box-title">
+			<h5 class="box-title">
 				{{ $group->name }}
-			</h3>
+			</h5>
 		</div>
 
 		<div class="box-body">
@@ -14,17 +14,17 @@
 				<p class="lead">{{ $group->description }}</p>
 			@endif
 
-			<a class="margin popup-ajax" href="{{ route('admin.settings.edit').'?group='.$group->id }}">Добавить настройку</a>
+			<a class="margin popup-ajax btn btn-sm btn-info" href="{{ route('admin.settings.edit').'?group='.$group->id }}">Добавить настройку <i class="fa fa-plus"></i></a>
 			<div id="settings-group-{{ $group->id }}">
 				@include('adminlte::settings.items', ['settings' => $settings])
 			</div>
 		</div>
 
 		<div class="box-footer">
-			<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i>Сохранить</button>
+			<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Сохранить</button>
 		</div>
 	</div>
 </form>
 
-<script type="text/javascript"> $('.setting-items-list').sortable({handle: '.handle'}); </script>
-<script type="text/javascript"> $('.setting-gal-list').sortable({handle: '.images_move'}); </script>
+{{--<script type="text/javascript"> $('.setting-items-list').sortable({handle: '.handle'}); </script>--}}
+{{--<script type="text/javascript"> $('.setting-gal-list').sortable({handle: '.images_move'}); </script>--}}

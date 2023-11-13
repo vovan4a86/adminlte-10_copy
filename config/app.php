@@ -173,20 +173,15 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ])->toArray(),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Class Aliases
-    |--------------------------------------------------------------------------
-    |
-    | This array of class aliases will be registered when this application
-    | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
-    |
-    */
-
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Text' => Adminlte3\Models\Text::class,
+        'Settings' => Adminlte3\Settings::class,
+        'Thumb' => Adminlte3\Thumb::class,
+        'Pagination' => Adminlte3\Pagination::class,
+        'SiteHelper' => Adminlte3\SiteHelper::class,
     ])->toArray(),
 
 ];
