@@ -45,6 +45,11 @@ class EventServiceProvider extends ServiceProvider
                                   'url'         => 'admin/news',
                                   'icon'        => 'fa fa-calendar mr-1',
                               ]);
+            $event->menu->add([
+                                  'text'        => 'Отзывы',
+                                  'url'         => 'admin/reviews',
+                                  'icon'        => 'fa fa-comment mr-1',
+                              ]);
             $event->menu->add('НАСТРОЙКИ ПРОФИЛЯ');
             $event->menu->add([
                                   'text' => 'Пользователи',

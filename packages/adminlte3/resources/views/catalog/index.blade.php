@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h5>Каталог</h5>
+            <h3>Каталог</h3>
         </div>
         @if(isset($catalog))
             <div class="col-sm-6">

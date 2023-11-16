@@ -69,18 +69,17 @@ function urldecode(str) {
 
 function applyFormValidate(form, ErrMsg) {
     $(form).find('.invalid').attr('title', '').removeClass('invalid');
-    for (var key in ErrMsg) {
+    for (let key in ErrMsg) {
         $(form).find('[name="' + urldecode(key) + '"]').addClass('invalid').attr('title', urldecode(ErrMsg[key].join(' ')));
     }
     $(form).find('.invalid').eq(0).trigger('focus');
 }
 
-function sendAjax(url, data, callback, type, ajaxType) {
+function sendAjax(url, data, callback, type) {
     data = data || {};
     if (typeof type == 'undefined') type = 'json';
-    if (typeof ajaxType == 'undefined') type = 'post';
     $.ajax({
-        type: ajaxType,
+        type: 'post',
         url: url,
         data: data,
         dataType: type,

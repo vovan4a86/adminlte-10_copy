@@ -46,10 +46,12 @@ use Illuminate\Support\Facades\Cache;
  * @property bool               $on_main_list
  * @property bool               $on_footer_menu
  * @property bool               $on_drop_down
+ * @property mixed url
  * @mixin \Eloquent
  * @method static whereId(int|mixed $id)
  * @method static whereName($value)
  * @method static whereParentId(int|mixed $id)
+ * @method static public ()
  */
 class Catalog extends Model {
 	use HasImage, OgGenerate, HasH1, HasSeo;
@@ -168,7 +170,7 @@ class Catalog extends Model {
     }
 
 	public function getUrlAttribute() {
-		$path = 'catalog/' . $this->slug;
+		$path = '/catalog/' . $this->slug;
 //		$current_city = SiteHelper::getCurrentCity();
 //		if ($current_city) {
 //			$path = $current_city->alias . '/' . ltrim($path, '/');

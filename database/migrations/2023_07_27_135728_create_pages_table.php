@@ -15,14 +15,22 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('parent_id');
             $table->string('name');
+            $table->string('h1')->nullable()->default(null);
             $table->string('alias');
-            $table->string('slug');
+            $table->string('slug')->nullable();
+            $table->string('image')->nullable();
             $table->text('text')->nullable()->default(null);
             $table->string('title')->nullable()->default(null);
             $table->string('keywords')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
-            $table->tinyInteger('order')->nullable()->default(0);
-            $table->tinyInteger('published')->nullable()->default(1);
+            $table->string('og_title')->nullable()->default(null);
+            $table->string('og_description')->nullable()->default(null);
+            $table->unsignedTinyInteger('order')->nullable()->default(0);
+            $table->boolean('published')->default(true);
+            $table->boolean('system')->default(false);
+            $table->boolean('on_header')->default(false);
+            $table->boolean('on_footer')->default(false);
+            $table->boolean('on_mobile')->default(false);
             $table->timestamps();
         });
     }

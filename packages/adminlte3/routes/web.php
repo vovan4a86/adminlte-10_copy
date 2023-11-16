@@ -4,6 +4,7 @@ use Adminlte3\Http\Controllers\AdminCatalogController;
 use Adminlte3\Http\Controllers\AdminMainController;
 use Adminlte3\Http\Controllers\AdminNewsController;
 use Adminlte3\Http\Controllers\AdminPagesController;
+use Adminlte3\Http\Controllers\AdminReviewsController;
 use Adminlte3\Http\Controllers\AdminSettingsController;
 use Adminlte3\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Auth;
@@ -30,11 +31,9 @@ Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
 
 
 Route::middleware('admin.auth')->group(function () {
-    Route::get('/', [AdminMainController::class, 'index'])->name('index');
-    Route::get('/users', [AdminMainController::class, 'getAllUsers'])
+    Route::get('/', [AdminMainController::class, 'getIndex'])->name('index');
+    Route::get('/users', [AdminMainController::class, 'getUsers'])
         ->name('users');
-    Route::get('/profile', [AdminMainController::class, 'profile'])
-        ->name('profile');
 
     Route::prefix('user')->name('user')->group(function () {
         Route::get('edit/{id?}', [AdminUserController::class, 'getEdit'])
@@ -70,7 +69,8 @@ Route::middleware('admin.auth')->group(function () {
     });
 
     Route::prefix('catalog')->name('catalog')->group(function () {
-        Route::get('/', [AdminCatalogController::class, 'getIndex']);
+        Route::get('/', [AdminCatalogController::class, 'getIndex'])
+        ->name('.index');
 
         Route::post('save', [AdminCatalogController::class, 'postSave'])
             ->name('.save');
@@ -109,6 +109,15 @@ Route::middleware('admin.auth')->group(function () {
 
         Route::post('product-delete/{id}', [AdminCatalogController::class, 'postProductDelete'])
             ->name('.product-delete');
+
+        Route::post('product-image-upload/{id}', [AdminCatalogController::class, 'postProductImageUpload'])
+            ->name('.product-image-upload');
+
+        Route::post('product-image-delete/{id}', [AdminCatalogController::class, 'postProductImageDelete'])
+            ->name('.product-image-delete');
+
+        Route::post('product-image-order', [AdminCatalogController::class, 'postProductImageOrder'])
+            ->name('.product-image-order');
     });
 
     Route::prefix('news')->name('news')->group(function () {
@@ -135,7 +144,7 @@ Route::middleware('admin.auth')->group(function () {
     });
 
     Route::prefix('settings')->name('settings')->group(function () {
-        Route::get('/', [AdminSettingsController::class, 'getIndex']);
+        Route::get('/', [AdminSettingsController::class, 'getIndex'])->name('index');
 
         Route::post('save', [AdminSettingsController::class, 'postSave'])
             ->name('.save');
@@ -162,5 +171,20 @@ Route::middleware('admin.auth')->group(function () {
             ->name('.editSave');
     });
 
+    Route::prefix('reviews')->name('reviews')->group(function () {
+        Route::get('/', [AdminReviewsController::class, 'getIndex'])
+            ->name('.index');
 
+        Route::get('edit/{id?}', [AdminReviewsController::class, 'getEdit'])
+            ->name('.edit');
+
+        Route::post('save', [AdminReviewsController::class, 'postSave'])
+            ->name('.save');
+
+        Route::post('reorder', [AdminReviewsController::class, 'postReorder'])
+            ->name('.reorder');
+
+        Route::post('delete/{id}', [AdminReviewsController::class, 'postDelete'])
+            ->name('.delete');
+    });
 });

@@ -13,7 +13,7 @@ function bindContextMenu(span) {
                 break;
             case "edit":
                 // pageContent('/admin/pages/edit/' + node.key);
-                document.location.href = '/admin/pages/edit' + node.key
+                document.location.href = '/admin/pages/edit/' + node.key
                 break;
             case "delete":
                 if (confirm("Действительно удалить страницу?")) {

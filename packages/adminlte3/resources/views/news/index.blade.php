@@ -2,30 +2,17 @@
 
 @section('title', 'Новости')
 
-@section('page_name')
-	<h1>Новости
-		<small><a href="{{ route('admin.news.edit') }}">Добавить новость</a></small>
-	</h1>
-@stop
-
-@section('breadcrumb')
-	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-dashboard"></i> Главная</a></li>
-		<li class="active">Новости</li>
-	</ol>
-@stop
-
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h5>Новости <a href="{{ route('admin.news.edit') }}" class="btn btn-sm btn-info">
+            <h3>Новости <a href="{{ route('admin.news.edit') }}" class="btn btn-sm btn-info">
                         Добавить новость <i class="fa fa-plus"></i></a>
-            </h5>
+            </h3>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('admin.index') }}"><i class="fa fa-dashboard"></i> Главная</a>
+                    <a href="{{ route('admin.index') }}">Главная</a>
                 </li>
                 <li class="breadcrumb-item active">Новости</li>
             </ol>
@@ -64,9 +51,17 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="my-2 mx-auto">
+        {!! \Adminlte3\Pagination::render() !!}
+        </div>
+
         @else
             <p>Нет новостей!</p>
         @endif
-
     </div>
+@stop
+@section('js')
+    <script src="/vendor/interfaces/interface.js"></script>
+    <script src="/vendor/interfaces/interface_news.js"></script>
 @stop

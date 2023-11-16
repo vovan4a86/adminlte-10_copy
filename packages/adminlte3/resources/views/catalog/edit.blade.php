@@ -23,7 +23,7 @@
                         {{ Form::groupText('name', $catalog->name, 'Название', [], 'col-6') }}
                         {{ Form::groupText('alias', $catalog->alias, 'Alias', [], 'col-6') }}
                     </div>
-                        {{ Form::groupSelect('parent_id', $catalogs_list, $catalog->parent_id, 'Родительская страница') }}
+                        {{ Form::groupSelect('parent_id', array_merge([0 => 'Корневой раздел'], $catalogs_list), $catalog->parent_id, 'Родительская страница') }}
 
                     <div class="row">
                         <div class="col-6">

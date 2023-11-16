@@ -2,26 +2,27 @@
 
 use App\Traits\HasImage;
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Fanky\Admin\Models\ProductImage
+ * Adminlte3\Models\ProductImage
  *
  * @property int        $id
  * @property int        $product_id
  * @property string     $image
  * @property int        $order
  * @property-read mixed $src
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage whereProductId($value)
+ * @method static Builder|ProductImage whereId($value)
+ * @method static Builder|ProductImage whereImage($value)
+ * @method static Builder|ProductImage whereOrder($value)
+ * @method static Builder|ProductImage whereProductId($value)
  * @mixin Eloquent
  * @property-read mixed $image_src
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Fanky\Admin\Models\ProductImage query()
+ * @method static Builder|ProductImage newModelQuery()
+ * @method static Builder|ProductImage newQuery()
+ * @method static Builder|ProductImage query()
  */
 class ProductImage extends Model {
 

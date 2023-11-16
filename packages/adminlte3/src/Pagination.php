@@ -28,7 +28,7 @@ class Pagination {
 		return self::$_obj->skip($start)->take(self::$_on_page);
 	}
 
-	public static function render($view = 'block.pagination')
+	public static function render($view = 'adminlte::pagination')
 	{
 		if (!self::$_items_count || self::$_pages_count <= 1) return null;
 		return view($view, [

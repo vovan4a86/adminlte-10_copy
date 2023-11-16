@@ -9,7 +9,11 @@ function bindContextMenu(span) {
         switch (action) {
             case "add":
                 // pageContent('/admin/catalog/edit?parent=' + node.key);
-                document.location.href = '/admin/catalog/edit?parent=' + node.key
+                if (node.key === '_2') {
+                    document.location.href = '/admin/catalog/edit?parent=' + 0
+                } else {
+                    document.location.href = '/admin/catalog/edit?parent=' + node.key
+                }
                 break;
             case "edit":
                 // pageContent('/admin/catalog/edit/' + node.key, 'get');
@@ -227,9 +231,33 @@ function deleteImage(elem, e) {
 
 }
 
+function productSave(form, e) {
+    e.preventDefault();
+    let url = $(form).attr('action');
+    let data = new FormData();
+    data = $(form).serialize();
+
+    sendAjax(url, data, function (json) {
+        if (typeof json.errors != 'undefined') {
+            applyFormValidate(form, json.errors);
+            let errMsg = [];
+            for (let key in json.errors) {
+                errMsg.push(json.errors[key]);
+            }
+            toastr.error(errMsg.join(' '), 'Ошибка валидации!')
+        }
+        if (typeof json.redirect != 'undefined') document.location.href = urldecode(json.redirect);
+        if (typeof json.msg != 'undefined') $(form).find('[type=submit]').after(autoHideMsg('green', urldecode(json.msg)));
+        if (typeof json.success != 'undefined' && json.success === true) {
+            toastr.success(json.msg, 'Успешно!');
+        }
+    });
+    return false;
+}
+
 function productDelete(elem) {
     if (!confirm('Удалить товар?')) return false;
-    var url = $(elem).attr('href');
+    const url = $(elem).attr('href');
     sendAjax(url, {}, function (json) {
         if (typeof json.msg != 'undefined') alert(urldecode(json.msg));
         if (json.success) {
@@ -241,3 +269,70 @@ function productDelete(elem) {
     return false;
 }
 
+function productImageUpload(elem, e) {
+    const url = $(elem).data('url');
+    const files = e.target.files;
+    let data = new FormData();
+    $.each(files, function (key, value) {
+        if (value['size'] > max_file_size) {
+            alert('Слишком большой размер файла. Максимальный размер 10Мб');
+        } else {
+            data.append('images[]', value);
+        }
+    });
+    $(elem).val('');
+
+    sendFiles(url, data, function (json) {
+        if (typeof json.html != 'undefined') {
+            $('.images_list').append(urldecode(json.html));
+        }
+    });
+}
+
+function productImageDel(elem) {
+    if (!confirm('Удалить изображение?')) return false;
+    const url = $(elem).attr('href');
+    sendAjax(url, {}, function (json) {
+        if (typeof json.msg != 'undefined') toastr.error(json.msg, 'Ошибка!');
+        if (typeof json.success != 'undefined' && json.success === true) {
+            $(elem).closest('.images_item').fadeOut(300, function () {
+                $(this).remove();
+                toastr.info('Изображение удалено.')
+            });
+        }
+    });
+    return false;
+}
+
+//chars
+function addProductChar(link, e) {
+    e.preventDefault();
+    let container = $(link).prev();
+    let row = container.find('.row:last');
+    $newRow = $(document.createElement('div'));
+    $newRow.addClass('row row-params');
+    $newRow.html(row.html());
+    row.before($newRow);
+}
+
+function delProductChar(elem, e) {
+    e.preventDefault();
+    if (!confirm('Удалить характеристику?')) return false;
+    $(elem).closest('.row').fadeOut(300, function () {
+        $(this).remove();
+        toastr.info('характеристика удалена.')
+    });
+}
+
+//product images sorting
+$(".images_list").sortable({
+    update: function (event, ui) {
+        let url = $(this).data('url');
+        let data = {};
+        data.sorted = $('.images_list').sortable("toArray", {attribute: 'data-id'});
+        sendAjax(url, data);
+    },
+}).disableSelection();
+
+//product chars
+$(".chars").sortable().disableSelection();

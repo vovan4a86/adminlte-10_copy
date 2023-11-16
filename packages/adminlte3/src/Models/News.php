@@ -5,8 +5,10 @@ use Adminlte3\SiteHelper;
 use App\Traits\HasH1;
 use App\Traits\HasImage;
 use App\Traits\HasSeo;
+use Database\Factories\NewsFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -63,7 +65,12 @@ use Carbon\Carbon;
 class News extends Model
 {
 
-    use HasImage, HasH1, HasSeo;
+    use HasImage, HasH1, HasSeo, HasFactory;
+
+    protected static function newFactory()
+    {
+        return NewsFactory::new();
+    }
 
     protected $table = 'news';
 
@@ -75,7 +82,7 @@ class News extends Model
 
     const UPLOAD_URL = '/uploads/news/';
 
-    public static $thumbs = [
+    public static array $thumbs = [
         1 => '100x50', //admin
         2 => '119x119|fit', //top_list
         3 => '285x160|fit', //news_list

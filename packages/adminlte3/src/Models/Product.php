@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 /**
- * Adminlte\Product
+ * Adminlte3\Nodels\Product
  *
  * @property int $id
  * @property int $catalog_id
@@ -22,16 +22,10 @@ use Carbon\Carbon;
  * @property string $alias
  * @property string|null $text
  * @property int $price
- * @property int $raw_price
- * @property int $price_per_item
- * @property int $price_per_metr
- * @property int $price_per_kilo
- * @property int $price_per_m2
- * @property float $k
+ * @property int $old_price
  * @property string $image
  * @property int $published
  * @property boolean $on_main
- * @property boolean $is_kit
  * @property int $order
  * @property string $title
  * @property string $measure
@@ -40,27 +34,17 @@ use Carbon\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property string|null $size
  * @property string|null $h1
  * @property string|null $price_name
  * @property string|null $og_title
- * @property string|null $warehouse
- * @property string|null $wall
  * @property string|null $characteristic
  * @property string|null $characteristic2
- * @property string|null $cutting
- * @property string|null $steel
- * @property string|null $length
- * @property string|null $gost
- * @property string|null $comment
- * @property float|null $weight
- * @property float|null $balance
  * @property string|null $og_description
  * @property-read Catalog $catalog
  * @property-read mixed $image_src
  * @property-read mixed $url
  * @property-read Collection|ProductImage[] $images
- * @property string|null spec_file
+ * @property int|mixed in_stock
  * @method static bool|null forceDelete()
  * @method static Builder|Product onMain()
  * @method static Builder|Product public ()
@@ -111,15 +95,12 @@ class Product extends Model
 {
     use HasSeo, HasH1, HasFile;
 
-    protected $_parents = [];
+    protected array $_parents = [];
 
     protected $guarded = ['id'];
 
     const UPLOAD_PATH = '/public/uploads/products/';
     const UPLOAD_URL = '/uploads/products/';
-    const UPLOAD_DOC_URL = '/uploads/products/documents/';
-
-    const NO_IMAGE = "/adminlte/no_image.png";
 
     public function catalog(): BelongsTo
     {
@@ -129,6 +110,12 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class, 'product_id')
+            ->orderBy('order');
+    }
+
+    public function chars(): HasMany
+    {
+        return $this->hasMany(ProductChar::class, 'product_id')
             ->orderBy('order');
     }
 
@@ -180,10 +167,7 @@ class Product extends Model
 
     public function getUrlAttribute(): string
     {
-        if (!$this->_url) {
-            $this->_url = $this->catalog->url . '/' . $this->alias;
-        }
-        return $this->_url;
+        return $this->catalog->url . '/' . $this->alias;
     }
 
     public function getParents($with_self = false, $reverse = false): array

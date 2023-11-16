@@ -2,6 +2,7 @@
 
 use Adminlte3\Models\News;
 use Adminlte3\Models\Text;
+use Adminlte3\Pagination;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,9 +10,10 @@ use Illuminate\Support\Facades\Validator;
 class AdminNewsController extends Controller {
 
 	public function getIndex() {
-		$news = News::orderBy('date', 'desc')->paginate(100);
+        $news = Pagination::init(News::orderBy('date', 'desc'), 20)
+            ->get();
 
-		return view('adminlte::news.index', ['news' => $news]);
+        return view('adminlte::news.index', ['news' => $news]);
 	}
 
 	public function getEdit($id = null) {

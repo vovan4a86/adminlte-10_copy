@@ -9,15 +9,15 @@
             </h5>
         </div>
         <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+            <ul class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('admin.index') }}"><i class="fa fa-dashboard"></i> Главная</a>
+                    <a href="{{ route('admin.index') }}">Главная</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ route('admin.news.index') }}">Новости</a>
                 </li>
                 <li class="breadcrumb-item active">{{ $article->id ? 'Редактировать' : 'Новая' }}</li>
-            </ol>
+            </ul>
         </div>
     </div>
 @stop
@@ -39,6 +39,11 @@
                        aria-controls="custom-tabs-three-profile" aria-selected="false">Текст</a>
                 </li>
             </ul>
+            <div class="tab-custom-content text-right">
+                @if($article->id)
+                    <a class="text-danger mr-2" href="{{ $article->url }}" target="_blank">Посмотреть</a>
+                @endif
+            </div>
         </div>
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-three-tabContent">
@@ -102,7 +107,7 @@
             </div>
         </div>
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i>
                 Сохранить</button>
         </div>
@@ -110,20 +115,7 @@
     {!! Form::close() !!}
 @stop
 
-@section('css')
-    <link href="/vendor/plugins/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css">
-    <link href="/vendor/plugins/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" type="text/css">
-    <link href="/vendor/plugins/contextmenu/jquery.contextMenu.css" rel="stylesheet" type="text/css">
-@stop
-
 @section('js')
-    <script src="/vendor/plugins/fancytree/jquery.fancytree-all-deps.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.dnd.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
-    <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
-
-    <script src="/vendor/plugins/custom-file-input/bs-custom-file-input.min.js"></script>
-
     <script src="/vendor/interfaces/interface.js"></script>
     <script src="/vendor/interfaces/interface_news.js"></script>
 @stop

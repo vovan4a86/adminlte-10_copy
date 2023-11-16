@@ -28,6 +28,11 @@
                     </li>
                 @endif
             </ul>
+            <div class="tab-custom-content text-right">
+                @if($page->id)
+                    <a class="text-danger mr-2" href="{{ $page->url }}" target="_blank">Посмотреть</a>
+                @endif
+            </div>
         </div>
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-three-tabContent">

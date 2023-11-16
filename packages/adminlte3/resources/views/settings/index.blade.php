@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div class="row">
-        <div class="col-sm-6"><h5>Настройки</h5></div>
+        <div class="col-sm-6"><h3>Настройки</h3></div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Главная</a></li>

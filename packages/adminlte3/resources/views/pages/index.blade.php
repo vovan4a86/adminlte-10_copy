@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="admin-page-head row">
         <div class="col-sm-6">
-            <h5>Структура сайта</h5>
+            <h3>Структура сайта</h3>
         </div>
     </div>
 @stop
@@ -32,7 +32,6 @@
 @stop
 
 @section('css')
-    <link href="/vendor/plugins/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css">
     <link href="/vendor/plugins/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" type="text/css">
     <link href="/vendor/plugins/contextmenu/jquery.contextMenu.css" rel="stylesheet" type="text/css">
 @stop

@@ -22,22 +22,17 @@ class AdminPagesController extends Controller
         return view('adminlte::pages.index');
     }
 
-    public function getEdit($id)
+    public function getEdit($id = null)
     {
-        $page = Page::findOrFail($id);
         return view(
-            'adminlte::pages.index',
-            [
-                'page' => $page,
-                'content' => $this->postEdit($id)
-            ]
+            'adminlte::pages.index',['content' => $this->postEdit($id)]
         );
     }
 
     public function postEdit($id = null)
     {
         if (!$id || !($page = Page::findOrFail($id))) {
-            $page = new Page;
+            $page = new Page();
             $page->parent_id = request()->get('parent', 1);
             $page->published = 1;
         }
@@ -74,7 +69,9 @@ class AdminPagesController extends Controller
 
     public function getPagesTree(): array
     {
-        $main_page = Page::where('parent_id', 0)->first();
+        $main_page = Page::find(1);
+
+        if(!$main_page) return [];
         $has_children = (bool)$main_page->children()->count();
 
         $result = [];
