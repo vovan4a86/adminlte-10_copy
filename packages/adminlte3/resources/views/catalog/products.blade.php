@@ -46,7 +46,7 @@
                             <a class="fa fa-trash"
                                href="{{ route('admin.catalog.product-delete', [$item->id]) }}"
                                style="font-size:20px; color:red;" title="Удалить"
-                               onclick="productDelete(this)"></a>
+                               onclick="productDelete(this, event)"></a>
                         </td>
                     </tr>
                 @endforeach
@@ -56,7 +56,7 @@
                 {!! \Adminlte3\Pagination::render() !!}
             </div>
         @else
-            <p class="text-yellow">В разделе нет товаров!</p>
+            <p class="text-yellow m-3">В разделе нет товаров!</p>
         @endif
     </div>
 </div>

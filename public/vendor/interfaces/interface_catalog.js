@@ -36,6 +36,7 @@ function bindContextMenu(span) {
         }
     });
 }
+
 $("#catalog-tree").fancytree({
     extensions: ["dnd", "persist"],
     click: function (event, data) {
@@ -160,10 +161,9 @@ $("#catalog-tree").fancytree({
     },
 });
 
-function catalogImageAttache(elem, e){
-    $.each(e.target.files, function(key, file)
-    {
-        if(file['size'] > max_file_size){
+function catalogImageAttache(elem, e) {
+    $.each(e.target.files, function (key, file) {
+        if (file['size'] > max_file_size) {
             alert('Слишком большой размер файла. Максимальный размер 10Мб');
         } else {
             catalogImage = file;
@@ -221,11 +221,11 @@ function deleteImage(elem, e) {
     e.preventDefault();
     const url = $(elem).attr('href');
 
-    sendAjax(url, {}, function(json) {
-       if (json.success) {
-           const empty = ' <p class="text-yellow">Изображение не загружено.</p>'
-           $('#catalog-image').html(empty);
-       }
+    sendAjax(url, {}, function (json) {
+        if (json.success) {
+            const empty = ' <p class="text-yellow">Изображение не загружено.</p>'
+            $('#catalog-image').html(empty);
+        }
     });
 
 
@@ -255,7 +255,8 @@ function productSave(form, e) {
     return false;
 }
 
-function productDelete(elem) {
+function productDelete(elem, e) {
+    e.preventDefault();
     if (!confirm('Удалить товар?')) return false;
     const url = $(elem).attr('href');
     sendAjax(url, {}, function (json) {
@@ -305,23 +306,46 @@ function productImageDel(elem) {
 }
 
 //chars
-function addProductChar(link, e) {
+function addProductChar(elem, e) {
     e.preventDefault();
-    let container = $(link).prev();
-    let row = container.find('.row:last');
-    $newRow = $(document.createElement('div'));
-    $newRow.addClass('row row-params');
-    $newRow.html(row.html());
-    row.before($newRow);
+    const url = $(elem).data('url');
+    const name = $('input[name=char-name]').val();
+    const value = $('input[name=char-value]').val();
+
+    sendAjax(url, {name, value}, function (json) {
+        if (typeof json.errors != 'undefined') {
+            applyFormValidate(form, json.errors);
+            let errMsg = [];
+            for (let key in json.errors) {
+                errMsg.push(json.errors[key]);
+            }
+            toastr.error(errMsg.join(' '), 'Ошибка валидации!')
+        }
+        if(json.success) {
+            $('input[name=char-name]').val('');
+            $('input[name=char-value]').val('');
+            $('#product_chars').append(json.item);
+        }
+    });
 }
 
 function delProductChar(elem, e) {
     e.preventDefault();
     if (!confirm('Удалить характеристику?')) return false;
-    $(elem).closest('.row').fadeOut(300, function () {
-        $(this).remove();
-        toastr.info('характеристика удалена.')
-    });
+
+    const url = $(elem).attr('href');
+    sendAjax(url, {}, function(json) {
+        if (json.success) {
+            $(elem).closest('tr').fadeOut(300, function () {
+                $(this).remove();
+                toastr.info('Характеристика удалена.')
+            });
+        } else {
+            toastr.error('Возникла ошибка.')
+        }
+    })
+
+
 }
 
 //product images sorting
@@ -331,8 +355,15 @@ $(".images_list").sortable({
         let data = {};
         data.sorted = $('.images_list').sortable("toArray", {attribute: 'data-id'});
         sendAjax(url, data);
-    },
+    }
 }).disableSelection();
 
 //product chars
-$(".chars").sortable().disableSelection();
+$("#product_chars").sortable({
+    update: function (event, ui) {
+        let url = $(this).data('url');
+        let data = {};
+        data.sorted = $('#product_chars').sortable("toArray", {attribute: 'data-id'});
+        sendAjax(url, data);
+    }
+}).disableSelection();

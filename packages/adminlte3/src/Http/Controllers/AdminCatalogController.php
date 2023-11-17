@@ -4,6 +4,7 @@ namespace Adminlte3\Http\Controllers;
 
 use Adminlte3\Models\Catalog;
 use Adminlte3\Models\Product;
+use Adminlte3\Models\ProductChar;
 use Adminlte3\Models\ProductImage;
 use Adminlte3\Models\Text;
 use Adminlte3\Pagination;
@@ -50,7 +51,8 @@ class AdminCatalogController extends Controller
     public function getEdit($id = null)
     {
         return view(
-            'adminlte::catalog.index', ['content' => $this->postEdit($id)]
+            'adminlte::catalog.index',
+            ['content' => $this->postEdit($id)]
         );
     }
 
@@ -99,11 +101,6 @@ class AdminCatalogController extends Controller
         $rules = [
             'name' => 'required',
         ];
-        if ($catalog && $catalog->system == 0) {
-            $rules['alias'] = 'required|unique:catalogs,alias,' . $catalog->id;
-        } elseif (!$catalog && $data['alias']) {
-            $rules['alias'] = 'required|unique:catalogs';
-        }
 
         // валидация данных
         $validator = Validator::make($data, $rules);
@@ -117,22 +114,20 @@ class AdminCatalogController extends Controller
             $data['image'] = $file_name;
         }
 
+        $check_alias = false;
+        if (!$data['alias']) {
+            $data['alias'] = Text::translit($data['name']);
+            $check_alias = DB::table('catalogs')->where('alias', $data['alias'])->first();
+        }
+
         // сохраняем страницу
         if (!$catalog) {
-            $check_alias = false;
-            if (!$data['alias']) {
-                $data['alias'] = Text::translit($data['name']);
-                $check_alias = DB::table('catalogs')->where('alias', $data['alias'])->first();
-            }
+
             if (!$data['title']) {
                 $data['title'] = $data['name'];
             }
             $data['order'] = Catalog::where('parent_id', $data['parent_id'])->max('order') + 1;
             $catalog = Catalog::create($data);
-            if ($check_alias) {
-                $catalog->alias = $catalog->id . '-' . $catalog->alias;
-                $catalog->save();
-            }
 
             return ['redirect' => route('admin.catalog.edit', [$catalog->id])];
         } else {
@@ -143,6 +138,10 @@ class AdminCatalogController extends Controller
                 $catalog->deleteImage();
             }
             $catalog->update($data);
+        }
+        if ($check_alias) {
+            $catalog->alias = $catalog->id . '-' . $catalog->alias;
+            $catalog->save();
         }
 
         return [
@@ -389,5 +388,52 @@ class AdminCatalogController extends Controller
 
         return ['success' => true];
     }
+
+    //product chars
+    public function postProductAddChar($id): array
+    {
+        $data = request()->all();
+        $rules = [
+            'name' => 'required',
+        ];
+
+        // валидация данных
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            return ['errors' => $validator->messages()];
+        }
+
+        $char = ProductChar::where('product_id', $id)->where('name', trim($data['name']))->first();
+        if ($char) {
+            return ['errors' => 'Такая характеристика уже существует'];
+        } else {
+            $data['product_id'] = $id;
+            $data['order'] = ProductChar::where('product_id', $id)->max('order') + 1;
+            $char = ProductChar::create($data);
+
+            $item = \view('adminlte::catalog.tab_chars.item', compact('char'))->render();
+
+            return ['success' => true, 'item' => $item];
+        }
+    }
+
+    public function postProductDelChar($id): array
+    {
+        $true = ProductChar::find($id)->delete();
+        if(!$true) return ['success' => false];
+
+        return ['success' => true];
+    }
+
+    public function postProductOrderChars(): array
+    {
+        $sorted = Request::get('sorted', []);
+        foreach ($sorted as $order => $id) {
+            ProductChar::whereId($id)->update(['order' => $order]);
+        }
+
+        return ['success' => true];
+    }
+
 
 }

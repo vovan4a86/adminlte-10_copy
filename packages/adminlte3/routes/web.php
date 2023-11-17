@@ -110,6 +110,7 @@ Route::middleware('admin.auth')->group(function () {
         Route::post('product-delete/{id}', [AdminCatalogController::class, 'postProductDelete'])
             ->name('.product-delete');
 
+        //images
         Route::post('product-image-upload/{id}', [AdminCatalogController::class, 'postProductImageUpload'])
             ->name('.product-image-upload');
 
@@ -118,6 +119,16 @@ Route::middleware('admin.auth')->group(function () {
 
         Route::post('product-image-order', [AdminCatalogController::class, 'postProductImageOrder'])
             ->name('.product-image-order');
+
+        //chars
+        Route::post('product-add-char/{id}', [AdminCatalogController::class, 'postProductAddChar'])
+            ->name('.product-add-char');
+
+        Route::post('product-del-char/{id}', [AdminCatalogController::class, 'postProductDelChar'])
+            ->name('.product-del-char');
+
+        Route::post('product-order-chars', [AdminCatalogController::class, 'postProductOrderChars'])
+            ->name('.product-order-chars');
     });
 
     Route::prefix('news')->name('news')->group(function () {

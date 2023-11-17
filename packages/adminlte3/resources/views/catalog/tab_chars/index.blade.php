@@ -1,47 +1,33 @@
-<div class="row row-chars">
-    {{ Form::hidden('chars[id][]', '') }}
-    <div style="width: 17px">
-        <i class="fa fa-ellipsis-v"></i>
-        <i class="fa fa-ellipsis-v"></i>
+<div class="row chars-add align-items-center">
+    <div class="col-6 d-flex">
+        <input class="form-control mr-1" type="text" name="char-name" placeholder="Название">
+        <input class="form-control ml-1" type="text" name="char-value" placeholder="Значение">
     </div>
-    <div class="col-10 d-flex">
-        {!! Form::text('chars[name][]','', ['class'=>'form-control', 'placeholder' => 'Название']) !!}
-        {!! Form::text('chars[value][]','', ['class'=>'form-control', 'placeholder' => 'Значение']) !!}
-    </div>
-    <div class="col-1">
-        <a href="#" onclick="addProductChar(this, event)"><i class="fa fa-plus-circle"></i></a>
+    <div class="col-6">
+        <a class="btn btn-sm btn-info" data-url="{{ route('admin.catalog.product-add-char', $product->id) }}"
+           onclick="addProductChar(this, event)">
+            <i class="fa fa-plus-circle"></i> Добавить
+        </a>
     </div>
 </div>
+<hr class="my-3">
+<div class="card chars-items">
+    <div class="card-body p-0">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th style="width: 70px">#</th>
+                <th>Название</th>
+                <th>Значение</th>
+                <th style="width: 40px"></th>
+            </tr>
+            </thead>
+            <tbody id="product_chars" data-url="{{ route('admin.catalog.product-order-chars') }}">
+            @foreach($product->chars as $char)
+                @include('adminlte::catalog.tab_chars.item')
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 
-<div class="chars">
-    @foreach($product->chars as $param)
-        <div class="row row-chars">
-            {!! Form::hidden('chars[id][]', $param->id) !!}
-            <div style="width: 17px">
-                <i class="fa fa-ellipsis-v"></i>
-                <i class="fa fa-ellipsis-v"></i>
-            </div>
-            <div class="col-10 d-flex">
-            {!! Form::text('chars[name][]',$param->name, ['class'=>'form-control', 'placeholder' => 'Название']) !!}
-            {!! Form::text('chars[value][]',$param->value, ['class'=>'form-control', 'placeholder' => 'Значение']) !!}
-            </div>
-            <div class="col-1">
-                <a href="#" onclick="delProductChar(this, event)" class="text-red"><i class="fa fa-trash"></i></a>
-            </div>
-        </div>
-    @endforeach
 </div>
-
-<style>
-    .chars .row{
-        margin: 10px;
-    }
-    .row-chars {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .row-chars input {
-        margin-right: 15px;
-    }
-</style>
