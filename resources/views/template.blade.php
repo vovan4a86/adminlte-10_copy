@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-@include('blocks.head')
+{{--@include('blocks.head')--}}
 
 <body x-data="{ catalogIsOpen: false }">
 
-@if(!SiteHelper::isGooglePageSpeed())
-    {!! Settings::get('counters') !!}
-@endif
+{{--@if(!SiteHelper::isGooglePageSpeed())--}}
+{{--    {!! Settings::get('counters') !!}--}}
+{{--@endif--}}
 
 @include('blocks.header')
 @yield('content')

@@ -4,12 +4,16 @@ use App\Traits\HasH1;
 use App\Traits\HasImage;
 use App\Traits\HasSeo;
 use App\Traits\OgGenerate;
+use Database\Factories\CatalogFactory;
+use Database\Factories\NewsFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 
 /**
  * @property HasMany|Collection $public_children
@@ -54,8 +58,16 @@ use Illuminate\Support\Facades\Cache;
  * @method static public ()
  */
 class Catalog extends Model {
-	use HasImage, OgGenerate, HasH1, HasSeo;
-	protected $table = 'catalogs';
+
+	use HasImage, OgGenerate, HasH1, HasSeo,  HasFactory;
+
+    protected static function newFactory(): CatalogFactory
+    {
+        return CatalogFactory::new();
+    }
+
+
+    protected $table = 'catalogs';
 	protected array $_parents = [];
 	protected bool $_has_children = false;
 	private bool $_disableEventUpdateSlug = false;
@@ -68,9 +80,10 @@ class Catalog extends Model {
 	];
 
     const UPLOAD_URL = '/uploads/catalogs/';
+    const FAKE_UPLOAD_URL = '/uploads/catalogs';
     const DOC_IMAGE = '/adminlte/doc_icon.png';
 
-	public static $thumbs = [
+	public static array $thumbs = [
 		1 => '100x100|fit', //admin
 		2 => '210x347|fit', //category
 	];

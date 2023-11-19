@@ -70,9 +70,15 @@ class Page extends Model
         }
     }
 
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Page::class, 'parent_id')->orderBy('order');
+    }
+
+    public function public_children(): HasMany {
+        return $this->children()
+            ->where('published', 1)
+            ->orderBy('order');
     }
 
     public function getUrlAttribute() {
@@ -90,6 +96,10 @@ class Page extends Model
         $this->_url = url($path);
 
         return $this->_url;
+    }
+
+    public function scopePublic($query) {
+        return $query->where('published', 1);
     }
 
     public static function getPages($id = null) {

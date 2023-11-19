@@ -25,7 +25,7 @@
                 </ul>
             </li>
         @endif
-        @if($topMenu)
+        @if(isset($topMenu) && count($topMenu))
             @foreach($topMenu as $topPage)
                 <li class="mob-nav__item">
                     <a class="mob-nav__link" href="{{ $topPage->url }}">{{ $topPage->name }}</a>
@@ -44,7 +44,7 @@
     </ul>
     <ul class="mob-nav__bottom">
         <li class="mob-nav__icon">
-            <a href="tel:{{ Settings::getPhoneFromCode('footer_phone') }}">
+            <a href="tel:{{ Settings::get('footer_phone') }}">
                 <span class="iconify" data-icon="carbon:phone-filled" data-width="30"></span>
             </a>
         </li>

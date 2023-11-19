@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('description')->nullable()->default(null);
             $table->text('params')->nullable()->default(null);
-            $table->text('values')->nullable()->default(null);
+            $table->text('value')->nullable()->default(null);
             $table->unsignedTinyInteger('type')->nullable()->default(0);
             $table->unsignedTinyInteger('order')->nullable()->default(0);
             $table->timestamps();

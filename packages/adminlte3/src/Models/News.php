@@ -67,7 +67,7 @@ class News extends Model
 
     use HasImage, HasH1, HasSeo, HasFactory;
 
-    protected static function newFactory()
+    protected static function newFactory(): NewsFactory
     {
         return NewsFactory::new();
     }

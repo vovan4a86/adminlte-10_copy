@@ -75,7 +75,7 @@
             </div>
             <div class="header__infos">
                 <a class="header__phone"
-                   href="tel:{{ Settings::getPhoneFromCode('header_phone') }}">{{ Settings::get('header_phone') }}</a>
+                   href="tel:{{ Settings::get('header_phone') }}">{{ Settings::get('header_phone') }}</a>
                 <button class="button-callback btn-reset" type="button" data-src="#callback" data-popup="data-popup"
                         aria-label="Перезвоните мне">Перезвоните мне
                 </button>
@@ -103,7 +103,7 @@
                                 </li>
                             @endforeach
                         </ul>
-                        @if($catalog_action_item)
+                        @if(isset($catalog_action_item))
                             <div class="o-catalog__action">
                                 <div class="action-catalog">
                                     <div class="action-catalog__badge">Акция</div>
@@ -155,7 +155,7 @@
                     <div class="header-mob__nav" x-show="navIsOpen" @click.away="navIsOpen = false"
                          x-transition.duration.500ms :class="navIsOpen &amp;&amp; 'is-active'">
                         <a class="header-mob__phone"
-                           href="tel:{{ Settings::getPhoneFromCode('header_phone') }}">{{ Settings::get('header_phone') }}</a>
+                           href="tel:{{ Settings::get('header_phone') }}">{{ Settings::get('header_phone') }}</a>
                         <a class="header-mob__email"
                            href="mailto:{{ Settings::get('header_email') }}">{{ Settings::get('header_email') }}</a>
                         <div class="header-mob__cities">

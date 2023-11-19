@@ -35,7 +35,7 @@
                     @endforeach
                 </div>
                 <div class="footer__info">
-                    <a class="footer__phone" href="tel:{{ Settings::getPhoneFromCode('footer_phone') }}">
+                    <a class="footer__phone" href="tel:{{ Settings::get('footer_phone') }}">
                         {{ Settings::get('footer_phone') }}</a>
                     <div class="footer__callback">
                         <button class="button-callback btn-reset" type="button" data-src="#callback"

@@ -28,11 +28,13 @@ class Pagination {
 		return self::$_obj->skip($start)->take(self::$_on_page);
 	}
 
-	public static function render($view = 'adminlte::pagination')
+	public static function render($view = 'adminlte::pagination.default')
 	{
 		if (!self::$_items_count || self::$_pages_count <= 1) return null;
 		return view($view, [
 			'url' => Request::url(),
+            'on_page_from' => self::$_page,
+            'on_page_to' => self::$_page * self::$_on_page,
 			'current_page' => self::$_page,
 			'items_count' => self::$_items_count,
 			'pages_count' => self::$_pages_count,

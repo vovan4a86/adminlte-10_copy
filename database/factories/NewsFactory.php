@@ -18,13 +18,13 @@ class NewsFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->realText(20);
+        $name = fake()->realText(rand(10, 30));
         return [
             'name' => $name,
             'alias' => Text::translit($name),
             'date' => fake()->date(),
-            'announce' => fake()->realText(50),
-            'text' => fake()->realText(300),
+            'announce' => fake()->realText(rand(50, 80)),
+            'text' => fake()->realText(rand(300, 1000)),
             'published' => 1,
             'order' => News::max('order') + 1
         ];

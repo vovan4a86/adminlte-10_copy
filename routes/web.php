@@ -12,6 +12,9 @@ Auth::routes();
 
 Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('callback', [AjaxController::class, 'postCallback'])->name('callback');
+    Route::get('show-popup-cities', [AjaxController::class, 'showCitiesPopup'])->name('show-popup-cities');
+    Route::post('free-request', 'AjaxController@postFreeRequest')->name('free-request');
+
 });
 
 
@@ -29,8 +32,15 @@ Route::prefix('news')->name('news')->group(function () {
         ->where('alias', '([A-Za-z0-9\-\/_]+)');
 });
 
-Route::any('{alias}', [PageController::class, 'page'])
-    ->where('alias', '([A-Za-z0-9\-\/_]+)');
+Route::get('cart', [App\Http\Controllers\HomeController::class, 'index'])->name('cart');
+
+Route::any('search',[App\Http\Controllers\HomeController::class, 'index'])->name('search');
+
+Route::get('policy', [App\Http\Controllers\HomeController::class, 'index'])->name('policy');
+
+
+//Route::any('{alias}', [PageController::class, 'page'])
+//    ->where('alias', '([A-Za-z0-9\-\/_]+)');
 
 
 

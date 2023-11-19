@@ -4,8 +4,10 @@ namespace Adminlte3\Models;
 use App\Traits\HasFile;
 use App\Traits\HasH1;
 use App\Traits\HasSeo;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -93,7 +95,12 @@ use Carbon\Carbon;
  */
 class Product extends Model
 {
-    use HasSeo, HasH1, HasFile;
+    use HasSeo, HasH1, HasFile, HasFactory;
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
+    }
 
     protected array $_parents = [];
 
