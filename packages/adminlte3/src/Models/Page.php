@@ -3,6 +3,8 @@
 namespace Adminlte3\Models;
 
 use App\Traits\HasImage;
+use App\Traits\HasSeo;
+use App\Traits\OgGenerate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class Page extends Model
 {
-    use HasImage;
+    use HasImage, HasSeo, OgGenerate;
 
     const UPLOAD_URL = '/uploads/pages/';
 

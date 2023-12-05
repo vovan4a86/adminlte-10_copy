@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-{{--@include('blocks.head')--}}
+@include('blocks.head')
 
 <body x-data="{ catalogIsOpen: false }">
 
-{{--@if(!SiteHelper::isGooglePageSpeed())--}}
-{{--    {!! Settings::get('counters') !!}--}}
-{{--@endif--}}
+@if(!SiteHelper::isGooglePageSpeed())
+    {!! Settings::get('counters') !!}
+@endif
 
 @include('blocks.header')
 @yield('content')
@@ -24,6 +24,7 @@
         <use xlink:href="/static/images/sprite/symbol/sprite.svg#up"></use>
     </svg>
 </div>
+
 @if(isset($admin_edit_link) && strlen($admin_edit_link))
     <div class="adminedit">
         <div class="adminedit__ico"></div>

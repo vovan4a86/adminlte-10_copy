@@ -1,5 +1,7 @@
 <?php
 
+use Adminlte3\AdminLogServiceProvider;
+use Adminlte3\AdminLteServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -70,7 +72,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Moscow',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,8 +171,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
-        \Adminlte3\AdminLteServiceProvider::class,
-        \Adminlte3\AdminLogServiceProvider::class,
+        AdminLteServiceProvider::class,
+        AdminLogServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ])->toArray(),

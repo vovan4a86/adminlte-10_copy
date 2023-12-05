@@ -2,11 +2,11 @@
 
 @section('content_header')
     <div class="admin-page-head row">
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <h5>Каталог <small style="font-style: italic;">{{ $product->id ? $product->name : 'Новый' }}</small>
             </h5>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{ route('admin.index') }}">Главная</a>
@@ -43,12 +43,17 @@
             <li class="nav-item">
                 <a class="nav-link" id="tab-chars"
                    data-toggle="pill" href="#tabs-three-chars" role="tab"
-                   aria-controls="custom-tabs-chars" aria-selected="false">Характеристики</a>
+                   aria-controls="custom-tabs-chars" aria-selected="false">Характеристики ({{ count($product->chars) }})</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-docs"
+                   data-toggle="pill" href="#tabs-three-docs" role="tab"
+                   aria-controls="custom-tabs-docs" aria-selected="false">Документы ({{ count($product->docs) }})</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="tab-images"
                    data-toggle="pill" href="#tabs-three-images" role="tab"
-                   aria-controls="custom-tabs-images" aria-selected="false">Изображения</a>
+                   aria-controls="custom-tabs-images" aria-selected="false">Изображения ({{ count($product->images) }})</a>
             </li>
         </ul>
         <div class="tab-custom-content text-right">
@@ -89,20 +94,25 @@
                 {{ Form::groupRichtext('text', $product->text, 'Текст') }}
             </div>
 
-            {{--params_tab--}}
+            {{--chars_tab--}}
             <div class="tab-pane fade" id="tabs-three-chars" role="tabpanel" aria-labelledby="tab-chars">
-                @include('adminlte::catalog.tab_chars.index')
+                @include('adminlte::catalog.tabs.tab_chars')
+            </div>
+
+            {{--docs_tab--}}
+            <div class="tab-pane fade" id="tabs-three-docs" role="tabpanel" aria-labelledby="tab-docs">
+                @include('adminlte::catalog.tabs.tab_docs')
             </div>
 
             {{--img_tab--}}
             <div class="tab-pane fade" id="tabs-three-images" role="tabpanel" aria-labelledby="tab-images">
                 @if ($product->id)
                     <div class="form-group">
-                        <label class="btn btn-success btn-sm">
+                        <label class="btn btn-info btn-sm">
                             <input id="image_upload" type="file" multiple accept=".png,.jpg,.jpeg"
                                    data-url="{{ route('admin.catalog.product-image-upload', $product->id) }}"
                                    style="display:none;" onchange="productImageUpload(this, event)">
-                            Загрузить изображения
+                            Загрузить изображения <i class="fa fa-plus-circle"></i>
                         </label>
                     </div>
 

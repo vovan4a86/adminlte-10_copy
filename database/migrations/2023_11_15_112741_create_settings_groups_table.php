@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings_groups', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('page_id');
-            $table->foreign('page_id')
-                ->references('id')->on('pages')
-                ->onDelete('cascade');
+            $table->unsignedBigInteger('page_id')->nullable()->default(0);
             $table->string('name', 100);
             $table->text('description')->nullable()->default(null);
             $table->unsignedTinyInteger('order')->nullable()->default(0);

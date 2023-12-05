@@ -1,0 +1,13 @@
+// import './fixedHeader';
+import './alpine';
+import './tables';
+import './light-validation';
+import './lazyLoading';
+import './popups';
+import './offcanvasNav';
+import './sliders';
+import './select';
+import './filterLinks';
+import './counter';
+import './maps';
+import './frontCustom';

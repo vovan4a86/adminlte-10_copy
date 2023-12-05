@@ -4,11 +4,11 @@
 
 @section('content_header')
     <div class="admin-page-head row">
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <h5>Пользователь <small style="font-style: italic;">{{ $user->id ? 'Редактировать' : 'Новый' }}</small>
             </h5>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{ route('admin.index') }}">Главная</a>

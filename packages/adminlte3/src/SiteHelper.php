@@ -5,6 +5,7 @@ namespace Adminlte3;
 use Adminlte3\Models\Catalog;
 use App;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Request;
 
 class SiteHelper {
 
@@ -748,4 +749,12 @@ class SiteHelper {
 			return '';
 		}
 	}
+
+    public static function isGooglePageSpeed(): bool
+    {
+        $userAgent = Request::header('User-Agent');
+
+        return preg_match('/Chrome-Lighthouse/', $userAgent) == 1;
+    }
+
 }

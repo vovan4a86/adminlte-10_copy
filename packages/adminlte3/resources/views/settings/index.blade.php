@@ -18,8 +18,11 @@
     <div class="row">
         <div class="col-md-3">
             <div class="settings-card card">
-                <div class="card-body">
-                    <ul class="todo-list ui-sortable" data-widget="todo-list">
+                <div class="card-body p-2">
+                    <div class="card-header px-0">
+                        <h3 class="card-title">Группы</h3>
+                    </div>
+                    <ul class="todo-list ui-sortable" id="setting-groups" data-widget="todo-list">
                         @foreach ($groups as $item)
                             @include('adminlte::settings.group_row', ['group' => $item, 'active' => $group])
                         @endforeach
@@ -29,7 +32,7 @@
                 <div class="card-footer clearfix">
                     <form action="{{ route('admin.settings.groupSave') }}" onsubmit="return settingsGroupCreate(this)">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" name="name" value="" placeholder="Название группы...">
+                            <input type="text" class="form-control" required name="name" value="" placeholder="Название группы...">
                             <span class="input-group-btn">
                                 <button class="btn btn-success btn-sm" type="submit">Создать</button>
                             </span>
@@ -39,7 +42,7 @@
             </div>
         </div>
 
-        <div id="settings-content" class="card col-md-9">
+        <div id="settings-content" class="col-md-9">
             @if ($group->id)
                 @include('adminlte::settings.group_items', ['group' => $group, 'settings' => $settings])
             @endif

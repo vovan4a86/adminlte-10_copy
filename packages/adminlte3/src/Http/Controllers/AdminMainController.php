@@ -15,7 +15,7 @@ class AdminMainController extends Controller
 {
     public function getIndex()
     {
-        $logs = Pagination::init(AdminLog::orderBy('created_at', 'desc'), 1)
+        $logs = Pagination::init(AdminLog::orderBy('created_at', 'desc'), 30)
             ->get();
         $product_count = Product::public()->get()->count();
         $categories_count = Catalog::public()->get()->count();

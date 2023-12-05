@@ -306,46 +306,119 @@ function productImageDel(elem) {
 }
 
 //chars
-function addProductChar(elem, e) {
-    e.preventDefault();
-    const url = $(elem).data('url');
-    const name = $('input[name=char-name]').val();
-    const value = $('input[name=char-value]').val();
+// function addProductChar(elem, e) {
+//     e.preventDefault();
+//     const url = $(elem).data('url');
+//     const name = $('input[name=char-name]').val();
+//     const value = $('input[name=char-value]').val();
+//
+//     sendAjax(url, {name, value}, function (json) {
+//         if (typeof json.errors != 'undefined') {
+//             applyFormValidate(form, json.errors);
+//             let errMsg = [];
+//             for (let key in json.errors) {
+//                 errMsg.push(json.errors[key]);
+//             }
+//             toastr.error(errMsg.join(' '), 'Ошибка валидации!')
+//         }
+//         if(json.success) {
+//             $('input[name=char-name]').val('');
+//             $('input[name=char-value]').val('');
+//             $('#product_chars').append(json.item);
+//         }
+//     });
+// }
 
-    sendAjax(url, {name, value}, function (json) {
-        if (typeof json.errors != 'undefined') {
-            applyFormValidate(form, json.errors);
-            let errMsg = [];
-            for (let key in json.errors) {
-                errMsg.push(json.errors[key]);
-            }
-            toastr.error(errMsg.join(' '), 'Ошибка валидации!')
-        }
-        if(json.success) {
-            $('input[name=char-name]').val('');
-            $('input[name=char-value]').val('');
-            $('#product_chars').append(json.item);
-        }
-    });
+// function delProductChar(elem, e) {
+//     e.preventDefault();
+//     if (!confirm('Удалить характеристику?')) return false;
+//
+//     const url = $(elem).attr('href');
+//     sendAjax(url, {}, function(json) {
+//         if (json.success) {
+//             $(elem).closest('tr').fadeOut(300, function () {
+//                 $(this).remove();
+//                 toastr.info('Характеристика удалена.')
+//             });
+//         } else {
+//             toastr.error('Возникла ошибка.')
+//         }
+//     })
+//
+//
+// }
+
+//chars products
+function addProductChar(link, e) {
+    e.preventDefault();
+    let container = $(link).prev();
+    let row = container.find('.row:last');
+    let newRow = $(document.createElement('div'));
+    newRow.addClass('row row-chars');
+    newRow.html(row.html());
+    row.before(newRow);
 }
 
 function delProductChar(elem, e) {
     e.preventDefault();
     if (!confirm('Удалить характеристику?')) return false;
 
-    const url = $(elem).attr('href');
-    sendAjax(url, {}, function(json) {
-        if (json.success) {
-            $(elem).closest('tr').fadeOut(300, function () {
-                $(this).remove();
-                toastr.info('Характеристика удалена.')
-            });
+    $(elem).closest('.row').fadeOut(300, function () {
+        $(this).remove();
+    });
+
+}
+
+//docs products
+function productDocUpload(elem, e){
+    var url = $(elem).data('url');
+    files = e.target.files;
+    var data = new FormData();
+    $.each(files, function(key, value)
+    {
+        if(value['size'] > max_file_size){
+            alert('Слишком большой размер файла. Максимальный размер 10Мб');
         } else {
-            toastr.error('Возникла ошибка.')
+            data.append('docs[]', value);
         }
-    })
+    });
+    $(elem).val('');
 
+    sendFiles(url, data, function(json){
+        if (typeof json.html != 'undefined') {
+            $('.docs_list').append(urldecode(json.html));
+        }
+    });
+}
 
+function productDocDel(elem){
+    if (!confirm('Удалить документ?')) return false;
+    var url = $(elem).attr('href');
+    sendAjax(url, {}, function(json){
+        if (typeof json.msg != 'undefined') alert(urldecode(json.msg));
+        if (typeof json.success != 'undefined' && json.success == true) {
+            $(elem).closest('.images_item').fadeOut(300, function(){ $(this).remove(); });
+        }
+    });
+    return false;
+}
+
+function productDocEdit(elem, e){
+    e.preventDefault();
+    var url = $(elem).attr('href');
+    popupAjax(url);
+}
+
+function productDocDataSave(form, e){
+    e.preventDefault();
+    var url = $(form).attr('action');
+    var data = $(form).serialize();
+    sendAjax(url, data, function(json){
+        if (typeof json.success != 'undefined' && json.success === true) {
+            popupClose();
+            location.href = json.redirect;
+        }
+    });
 }
 
 //product images sorting
@@ -367,3 +440,100 @@ $("#product_chars").sortable({
         sendAjax(url, data);
     }
 }).disableSelection();
+
+//mass
+function checkSelectProduct() {
+    var selected = $('input.js_select:checked');
+    if (selected.length) {
+        $('.js-move-btn').removeAttr('disabled');
+        $('.js-delete-btn').removeAttr('disabled');
+    } else {
+        $('.js-move-btn').attr('disabled', 'disabled');
+        $('.js-delete-btn').attr('disabled', 'disabled');
+    }
+}
+
+function checkSelectAll() {
+    $('input.js_select').prop('checked', true);
+    checkSelectProduct();
+}
+
+function checkDeselectAll() {
+    $('input.js_select').prop('checked', false);
+    checkSelectProduct();
+}
+
+function moveProducts(btn, e) {
+    e.preventDefault();
+    var url = '/admin/catalog/move-products';
+    var catalog_id = $('#moveDialog select').val();
+    var items = [];
+    var selected = $('input.js_select:checked');
+    $(selected).each(function (n, el) {
+        items.push($(el).val());
+        $(el).closest('tr').animate({'backgroundColor': '#fb6c6c'}, 300);
+    });
+    sendAjax(url, {catalog_id: catalog_id, items: items}, function (json) {
+        if (typeof json.success != 'undefined' && json.success == true) {
+            $('#moveDialog').modal('hide');
+            $(selected).each(function (n, el) {
+                // $("#row td").animate({'line-height':0},1000).remove();
+                // $(el).closest('tr').fadeOut(300, function(){ $(this).remove(); });
+                $(el).closest('tr').children('td, th')
+                    .animate({paddingBottom: 0, paddingTop: 0}, 300)
+                    .wrapInner('<div />')
+                    .children()
+                    .slideUp(function () {
+                        $(this).closest('tr').remove();
+                    });
+            })
+        }
+    })
+    $('#moveDialog').modal('hide');
+}
+
+function deleteProducts(btn, e) {
+    e.preventDefault();
+    if (!confirm('Действительно удалить выбранные товары?')) return
+    const url = '/admin/catalog/delete-products';
+    let items = [];
+    let selected = $('input.js_select:checked');
+    $(selected).each(function (n, el) {
+        items.push($(el).val());
+        $(el).closest('tr').animate({'backgroundColor': '#fb6c6c'}, 300);
+    });
+    sendAjax(url, {items: items}, function (json) {
+        if (typeof json.success != 'undefined' && json.success === true) {
+            $(selected).each(function (n, el) {
+                // $("#row td").animate({'line-height':0},1000).remove();
+                // $(el).closest('tr').fadeOut(300, function(){ $(this).remove(); });
+                $(el).closest('tr').children('td, th')
+                    .animate({paddingBottom: 0, paddingTop: 0}, 300)
+                    .wrapInner('<div />')
+                    .children()
+                    .slideUp(function () {
+                        $(this).closest('tr').remove();
+                    });
+            })
+        }
+    })
+}
+
+function deleteProductsImage(btn, e, catalogId) {
+    e.preventDefault();
+    if (!confirm('Действительно удалить изображения у выбранных товаров?')) return
+    var url = '/admin/catalog/delete-products-image';
+    var redirect = '/admin/catalog/products/' + catalogId;
+    var items = [];
+    var selected = $('input.js_select:checked');
+    $(selected).each(function (n, el) {
+        items.push($(el).val());
+        $(el).closest('tr').animate({'backgroundColor': '#ffc3c3'}, 300);
+    });
+    sendAjax(url, {items: items}, function (json) {
+        if (typeof json.success != 'undefined' && json.success === true) {
+            checkDeselectAll();
+            location.href = redirect;
+        }
+    })
+}

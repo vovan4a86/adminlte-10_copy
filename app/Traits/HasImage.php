@@ -10,7 +10,7 @@ use Intervention\Image\Facades\Image;
 trait HasImage{
 	public string $image_field = 'image';
 
-    public function getWebpFileName()
+    public function getWebpFileName(): string
     {
         $arr = explode('.', $this->{$this->image_field});
         if (count($arr) == 2) {
@@ -39,28 +39,34 @@ trait HasImage{
 		@unlink(public_path($upload_url . $this->getWebpFileName()));
 	}
 
+    public function imageSrc($alias): Application|string|UrlGenerator|\Illuminate\Contracts\Foundation\Application|null
+    {
+        return $this->{$this->image_field} ? url(self::UPLOAD_URL . $alias . '/'  . $this->{$this->image_field}) : null;
+    }
+
 	public function getImageSrcAttribute(): Application|string|UrlGenerator|\Illuminate\Contracts\Foundation\Application|null
     {
 		return $this->{$this->image_field} ? url(self::UPLOAD_URL . $this->{$this->image_field}) : null;
 	}
 
-	public function thumb($thumb): Application|string|UrlGenerator|\Illuminate\Contracts\Foundation\Application|null
+	public function thumb($thumb, $alias = null): Application|string|UrlGenerator|\Illuminate\Contracts\Foundation\Application|null
     {
+        if ($alias) $alias = $alias . '/';
 		if (!$this->{$this->image_field}) {
 			return null;
 		} else {
-			$file = public_path(self::UPLOAD_URL . $this->{$this->image_field});
+			$file = public_path(self::UPLOAD_URL . $alias . $this->{$this->image_field});
 			$file = str_replace(['\\\\', '//'], DIRECTORY_SEPARATOR, $file);
 			$file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $file);
 
-			if (!is_file(public_path(Thumb::url(self::UPLOAD_URL . $this->{$this->image_field}, $thumb)))) {
+			if (!is_file(public_path(Thumb::url(self::UPLOAD_URL . $alias . $this->{$this->image_field}, $thumb)))) {
 				if (!is_file($file))
 					return null; //нет исходного файла
 				//создание миниатюры
-				Thumb::make(self::UPLOAD_URL . $this->{$this->image_field}, self::$thumbs);
+				Thumb::make(self::UPLOAD_URL . $alias . $this->{$this->image_field}, self::$thumbs);
 			}
 
-			return url(Thumb::url(self::UPLOAD_URL . $this->{$this->image_field}, $thumb));
+			return url(Thumb::url(self::UPLOAD_URL . $alias . $this->{$this->image_field}, $thumb));
 		};
 	}
 

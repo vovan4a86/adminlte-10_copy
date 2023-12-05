@@ -3,6 +3,7 @@
 namespace Adminlte3\Http\Controllers;
 
 use Adminlte3\Models\Catalog;
+use Adminlte3\Models\CatalogFilter;
 use Adminlte3\Models\Product;
 use Adminlte3\Models\ProductChar;
 use Adminlte3\Models\ProductImage;
@@ -31,7 +32,7 @@ class AdminCatalogController extends Controller
 
     public function getCatalogTree(): array
     {
-        $catalogs = Catalog::where('parent_id', 0)->get();
+        $catalogs = Catalog::where('parent_id', 0)->orderBy('order')->get();
 
         $result = [];
         foreach ($catalogs as $catalog) {
@@ -122,7 +123,6 @@ class AdminCatalogController extends Controller
 
         // сохраняем страницу
         if (!$catalog) {
-
             if (!$data['title']) {
                 $data['title'] = $data['name'];
             }
@@ -199,15 +199,33 @@ class AdminCatalogController extends Controller
 
     public function postProducts($catalog_id)
     {
+        $per_page = Request::get('per_page');
+        if (!$per_page) {
+            $per_page = session('per_page', 50);
+        }
         $catalog = Catalog::findOrFail($catalog_id);
-        $products = Pagination::init($catalog->products()->orderBy('order'), 20)
-            ->get();
+        $products = $catalog->products()->orderBy('order');
+
+        if ($q = Request::get('q')) {
+            $products->where(
+                function ($query) use ($q) {
+                    $query->orWhere('name', 'LIKE', '%' . $q . '%');
+                }
+            );
+        }
+
+        $products = $products->paginate($per_page);
+//        $products = Pagination::init($catalog->products()->orderBy('order'), 10)
+//            ->get();
+        $catalog_list = Catalog::getCatalogList();
+        session(['per_page' => $per_page]);
 
         return view(
             'adminlte::catalog.products',
             [
                 'catalog' => $catalog,
-                'products' => $products
+                'products' => $products,
+                'catalog_list' => $catalog_list
             ]
         );
     }
@@ -274,22 +292,28 @@ class AdminCatalogController extends Controller
 
         $redirect = false;
 
-//        $param_data = Request::get('params', []);
-//        $param_ids = Arr::get($param_data, 'id', []);
-//        $param_names = Arr::get($param_data, 'name', []);
-//        $param_values = Arr::get($param_data, 'value', []);
-//        $params = [];
-//        foreach ($param_ids as $key => $param_id) {
-//            $params[] = [
-//                'id' => $param_id,
-//                'name' => trim(Arr::get($param_names, $key)),
-//                'value' => trim(Arr::get($param_values, $key)),
-//            ];
-//        }
-//        array_pop($params);
-
         // сохраняем страницу
         $product = Product::find($id);
+
+        //сохраняем Характеристики
+        $chars_data = Request::get('chars', []);
+        $char_ids = Arr::get($chars_data, 'id', []);
+        $char_names = Arr::get($chars_data, 'name', []);
+        $char_values = Arr::get($chars_data, 'value', []);
+        $chars_list = [];
+        foreach ($char_ids as $key => $char_id) {
+            $chars_list[] = [
+                'id' => $char_id,
+                'catalog_id' => $product->catalog_id,
+                'product_id' => $product->id,
+                'order' => $key,
+                'name' => Arr::get($char_names, $key),
+                'translit' => Text::translit(Arr::get($char_names, $key)),
+                'value' => Arr::get($char_values, $key),
+            ];
+        }
+        array_pop($chars_list);
+
         if (!$product) {
             $data['order'] = Product::where('catalog_id', $data['catalog_id'])->max('order') + 1;
             $product = Product::create($data);
@@ -298,20 +322,27 @@ class AdminCatalogController extends Controller
             $product->update($data);
         }
 
-//        $start_update = Carbon::now();
-//        foreach ($params as $key => $param) {
-//            $p = ProductChar::findOrNew(array_get($param, 'id'));
-//            if (!$p->id) {
-//                $redirect = false;
-//            }
-//            $param['product_id'] = $product->id;
-//            $param['order'] = $key;
-//            $param['updated_at'] = $start_update;
-//            $p->fill($param)->save();
-//        }
-//        ProductChar::whereProductId($product->id)
-//            ->where('updated_at', '<', $start_update)
-//            ->delete();
+        foreach ($chars_list as $key => $char) {
+            $p = ProductChar::findOrNew(Arr::get($char, 'id'));
+            if (!$p->id) {
+                $redirect = false;
+                $c = CatalogFilter::where('catalog_id', $product->catalog_id)
+                    ->where('name', Arr::get($char, 'id'))->first();
+                if (!$c) {
+                    CatalogFilter::create(
+                        [
+                            'catalog_id' => $product->catalog_id,
+                            'name' => Arr::get($char, 'name'),
+                            'published' => 0,
+                            'order' => CatalogFilter::where('catalog_id', $product->catalog_id)->max('order') + 1
+                        ]
+                    );
+                }
+            }
+            $char['product_id'] = $product->id;
+            $char['order'] = $key;
+            $p->fill($char)->save();
+        }
 
         return $redirect
             ? ['redirect' => route('admin.catalog.product-edit', [$product->id])]
@@ -420,7 +451,9 @@ class AdminCatalogController extends Controller
     public function postProductDelChar($id): array
     {
         $true = ProductChar::find($id)->delete();
-        if(!$true) return ['success' => false];
+        if (!$true) {
+            return ['success' => false];
+        }
 
         return ['success' => true];
     }
@@ -433,6 +466,77 @@ class AdminCatalogController extends Controller
         }
 
         return ['success' => true];
+    }
+
+    //mass
+    public function postMoveProducts()
+    {
+        $catalog_id = Request::get('catalog_id');
+        $item_ids = Request::get('items', []);
+        if ($item_ids && $catalog_id) {
+            Product::whereIn('id', $item_ids)
+                ->update(['catalog_id' => $catalog_id]);
+        }
+
+        return ['success' => true];
+    }
+
+    public function postDeleteProducts()
+    {
+        $item_ids = Request::get('items', []);
+        if ($item_ids) {
+            $products = Product::whereIn('id', $item_ids)->get();
+            foreach ($products as $product) {
+                $product->deleteImage();
+                $product->delete();
+            }
+        }
+
+        return ['success' => true];
+    }
+
+    public function postDeleteProductsImage()
+    {
+        $item_ids = Request::get('items', []);
+        if ($item_ids) {
+            $products = Product::whereIn('id', $item_ids)->get();
+            foreach ($products as $product) {
+                $images = $product->images;
+
+                if ($images) {
+                    foreach ($images as $image) {
+                        $image->deleteImage();
+                        $image->delete();
+                    }
+                }
+            }
+        }
+
+        return ['success' => true];
+    }
+
+    public function postSearch()
+    {
+        $q = Request::get('q');
+        if (!$q) {
+            $products = [];
+        } else {
+            $products = Product::query()->where(
+                function ($query) use ($q) {
+                    $query->orWhere('name', 'LIKE', '%' . $q . '%');
+                }
+            )->with('catalog')->paginate(50)->appends(['q' => $q]);
+        }
+        $catalogs = Catalog::orderBy('order')->get();
+        $catalog_list = Catalog::getCatalogList();
+        $content = view(
+            'adminlte::catalog.search',
+            compact('catalogs', 'catalog_list', 'products')
+        )->render();
+        return view(
+            'adminlte::catalog.index',
+            compact('content', 'catalogs')
+        );
     }
 
 

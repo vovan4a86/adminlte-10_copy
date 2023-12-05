@@ -3,6 +3,7 @@ namespace Adminlte3\Models;
 
 use App\Traits\HasFile;
 use App\Traits\HasH1;
+use App\Traits\HasImage;
 use App\Traits\HasSeo;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
@@ -95,7 +97,7 @@ use Carbon\Carbon;
  */
 class Product extends Model
 {
-    use HasSeo, HasH1, HasFile, HasFactory;
+    use HasSeo, HasH1, HasFile, HasImage, HasFactory;
 
     protected static function newFactory(): ProductFactory
     {
@@ -122,7 +124,13 @@ class Product extends Model
 
     public function chars(): HasMany
     {
-        return $this->hasMany(ProductChar::class, 'product_id')
+        return $this->hasMany(ProductChar::class)
+            ->orderBy('order');
+    }
+
+    public function docs(): HasMany
+    {
+        return $this->hasMany(ProductDoc::class)
             ->orderBy('order');
     }
 
@@ -136,6 +144,11 @@ class Product extends Model
     {
         return $this->hasMany(ProductRelated::class, 'product_id');
 //            ->join('products', 'product_related.related_id', '=', 'products.id');
+    }
+
+    public function additional_catalogs(): BelongsToMany
+    {
+        return $this->belongsToMany(Catalog::class);
     }
 
     public function scopePublic($query)

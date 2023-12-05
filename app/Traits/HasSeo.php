@@ -1,22 +1,10 @@
 <?php namespace App\Traits;
-use Illuminate\Support\Str;
-use Image;
-use OpenGraph;
-use SEOMeta;
-use Settings;
-use Thumb;
 
-/**
- * Created by PhpStorm.
- * User: aleks
- * Date: 19.12.2017
- * Time: 11:09
- */
-
+use Artesaos\SEOTools\Facades\SEOMeta;
 
 trait HasSeo{
 	public function setSeo() {
-        SEOMeta::setTitle($this->title);
+        SEOMeta::setTitle($this->title ?? $this->name);
         SEOMeta::setDescription($this->description);
         SEOMeta::setKeywords($this->keywords);
 	}

@@ -1,9 +1,6 @@
 <?php namespace App\Traits;
-use Illuminate\Support\Str;
-use Image;
-use OpenGraph;
-use Settings;
-use Thumb;
+
+use Artesaos\SEOTools\Facades\OpenGraph;
 
 /**
  * Created by PhpStorm.

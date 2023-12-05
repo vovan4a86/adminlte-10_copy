@@ -113,7 +113,7 @@
                                 </table>
                             </div>
                         </div>
-                        {!! \Adminlte3\Pagination::render('adminlte::pagination.admin_log') !!}
+                        {!! \Pagination::render('adminlte::pagination.admin_log') !!}
                     </div>
                 </div>
             </div>

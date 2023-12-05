@@ -1,9 +1,11 @@
 <?php
 namespace Adminlte3\Http\Controllers;
 
+use Adminlte3\Models\AdminLog;
 use App\Http\Controllers\Controller;
 use Adminlte3\Models\Setting;
 use Adminlte3\Models\SettingGroup;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +18,14 @@ class AdminSettingsController extends Controller
         $groups = SettingGroup::where('page_id', 0)->orderBy('order', 'asc')->get();
         $group = $groups[0] ?? new SettingGroup;
         $settings = $group->settings()->orderBy('order')->get();
+        $color_types = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark'];
 
-        return view('adminlte::settings.index', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
+        return view('adminlte::settings.index', [
+            'groups' => $groups,
+            'group' => $group,
+            'settings' => $settings,
+            'color_types' => $color_types
+        ]);
     }
 
     public function getGroupItems($id)
@@ -29,7 +37,7 @@ class AdminSettingsController extends Controller
         return view('adminlte::settings.index', ['groups' => $groups, 'group' => $group, 'settings' => $settings]);
     }
 
-    public function postGroupSave()
+    public function postGroupSave(): array
     {
         $id = Request::input('id');
         $data = Request::only(['name']);
@@ -54,7 +62,7 @@ class AdminSettingsController extends Controller
         Setting::whereGroupId($id)->delete();
         $group->delete();
 
-        return ['success' => true];
+        return ['success' => true, 'location' => route('admin.settings.index')];
     }
 
     public function postClearValue($id)
@@ -144,15 +152,15 @@ class AdminSettingsController extends Controller
         ];
     }
 
-    public function postSave()
+    public function postSave(): array
     {
         $group_id = Request::input('group_id');
         $data = Request::input('setting', []);
         $settings = Setting::where('group_id', $group_id)->get();
         foreach ($settings as $setting) {
-            self::settingSave($setting, array_get($data, $setting->id));
+            self::settingSave($setting, Arr::get($data, $setting->id));
+            AdminLog::add('Обновлены настройки: ' . $setting->name);
         }
-//        AdminLog::add('Обновлены настройки');
 
         return ['success' => true, 'msg' => 'Изменения сохранены'];
     }

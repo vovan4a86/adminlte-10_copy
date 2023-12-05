@@ -12,20 +12,14 @@ use Illuminate\Http\UploadedFile ;
 
 
 trait HasFile{
-	public $file_field = 'spec_file';
+    public $file_field = 'file';
 
-	public function deleteSpecFile($upload_url = null) {
-		if(!$this->{$this->file_field}) return;
+    public function fileSrc($alias) {
+        return $this->{$this->file_field} ? url(self::UPLOAD_URL . $alias . '/'  . $this->{$this->file_field}) : null;
+    }
 
-		if(!$upload_url){
-			$upload_url = self::UPLOAD_SPEC_URL;
-		}
-
-		@unlink(public_path($upload_url . $this->{$this->file_field}));
-	}
-
-	public function getFileSrcAttribute() {
-		return $this->{$this->file_field} ? url(self::UPLOAD_SPEC_URL . $this->{$this->file_field}) : null;
+    public function getFileSrcAttribute() {
+		return $this->{$this->file_field} ? url(self::UPLOAD_URL . $this->{$this->file_field}) : null;
 	}
 
     /**
@@ -73,7 +67,7 @@ trait HasFile{
     }
 
     public function getFileSizeAttribute() {
-        $fileUrl = public_path(self::UPLOAD_SPEC_URL . $this->{$this->file_field});
+        $fileUrl = public_path(self::UPLOAD_URL . $this->{$this->file_field});
         if(file_exists($fileUrl)) {
             $size = filesize($fileUrl);
             return $this->fileSizeConvert($size);
@@ -88,7 +82,7 @@ trait HasFile{
 	 */
 	public static function uploadFile(UploadedFile $file, $name): string {
 		$file_name = $name . '.' . Str::lower($file->getClientOriginalExtension());
-        $file->move(public_path(self::UPLOAD_SPEC_URL), $file_name);
+        $file->move(public_path(self::UPLOAD_URL), $file_name);
 		return $file_name;
 	}
 }

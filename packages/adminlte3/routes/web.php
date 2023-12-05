@@ -11,17 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Adminlte3\Http\Controllers\DarkModeController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your package. These
-| routes are loaded by your package ServiceProvider within a group which
-| contains the "web" middleware group.
-|
-*/
-
 //-----------------------------------------------------------------------------
 // Dark Mode routes.
 //-----------------------------------------------------------------------------
@@ -72,6 +61,9 @@ Route::middleware('admin.auth')->group(function () {
         Route::get('/', [AdminCatalogController::class, 'getIndex'])
         ->name('.index');
 
+        Route::get('search', [AdminCatalogController::class, 'postSearch'])
+            ->name('.search');
+
         Route::post('save', [AdminCatalogController::class, 'postSave'])
             ->name('.save');
 
@@ -121,14 +113,49 @@ Route::middleware('admin.auth')->group(function () {
             ->name('.product-image-order');
 
         //chars
-        Route::post('product-add-char/{id}', [AdminCatalogController::class, 'postProductAddChar'])
-            ->name('.product-add-char');
+//        Route::post('product-add-char/{id}', [AdminCatalogController::class, 'postProductAddChar'])
+//            ->name('.product-add-char');
+//
+//        Route::post('product-del-char/{id}', [AdminCatalogController::class, 'postProductDelChar'])
+//            ->name('.product-del-char');
+//
+//        Route::post('product-order-chars', [AdminCatalogController::class, 'postProductOrderChars'])
+//            ->name('.product-order-chars');
 
-        Route::post('product-del-char/{id}', [AdminCatalogController::class, 'postProductDelChar'])
-            ->name('.product-del-char');
+        Route::post('product-delete-char/{id}', [AdminCatalogController::class, 'postProductDeleteChar'])
+            ->name('.product-delete-char');
 
-        Route::post('product-order-chars', [AdminCatalogController::class, 'postProductOrderChars'])
-            ->name('.product-order-chars');
+        Route::post('product-update-order-char', [AdminCatalogController::class, 'postProductUpdateOrderChar'])
+            ->name('.product-update-order-char');
+
+        Route::post('product-update-order-filter', [AdminCatalogController::class, 'postProductUpdateOrderFilter'])
+            ->name('.product-update-order-filter');
+
+        //product doc
+        Route::post('product-add-doc/{id}', [AdminCatalogController::class, 'postProductAddDoc'])
+            ->name('.product-add-doc');
+
+        Route::post('product-del-doc/{id}', [AdminCatalogController::class, 'postProductDelDoc'])
+            ->name('.product-del-doc');
+
+        Route::post('product-edit-doc/{id}', [AdminCatalogController::class, 'postProductEditDoc'])
+            ->name('.product-edit-doc');
+
+        Route::post('product-save-doc/{id}', [AdminCatalogController::class, 'postProductSaveDoc'])
+            ->name('.product-save-doc');
+
+        Route::post('product-update-order-doc', [AdminCatalogController::class, 'postProductUpdateOrderDoc'])
+            ->name('.product-update-order-doc');
+
+        //mass
+        Route::post('move-products', [AdminCatalogController::class, 'postMoveProducts'])
+            ->name('.move-products');
+
+        Route::post('delete-products', [AdminCatalogController::class, 'postDeleteProducts'])
+            ->name('.delete-products');
+
+        Route::post('delete-products-image', [AdminCatalogController::class, 'postDeleteProductsImage'])
+            ->name('.delete-products-image');
     });
 
     Route::prefix('news')->name('news')->group(function () {
@@ -155,7 +182,8 @@ Route::middleware('admin.auth')->group(function () {
     });
 
     Route::prefix('settings')->name('settings')->group(function () {
-        Route::get('/', [AdminSettingsController::class, 'getIndex'])->name('index');
+        Route::get('/', [AdminSettingsController::class, 'getIndex'])
+            ->name('.index');
 
         Route::post('save', [AdminSettingsController::class, 'postSave'])
             ->name('.save');

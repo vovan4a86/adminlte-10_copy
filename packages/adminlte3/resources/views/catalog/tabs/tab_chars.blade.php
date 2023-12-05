@@ -1,0 +1,70 @@
+<div class="chars">
+    @foreach($product->chars as $char)
+        <div class="row row-chars" data-id="{{ $char->id }} ">
+            {!! Form::hidden('chars[id][]', $char->id) !!}
+            <div style="width: 50px;" class="col-1">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+            </div>
+            <div class="col-5">
+                {!! Form::text('chars[name][]',$char->name, ['class'=>'form-control', 'placeholder' => 'Название']) !!}
+            </div>
+            <div class="col-5">
+                {!! Form::text('chars[value][]',$char->value, ['class'=>'form-control', 'placeholder' => 'Значение']) !!}
+            </div>
+            <div style="width: 150px;" class="col-1">
+                <a href="{{ route('admin.catalog.product-delete-char', ['id' => $char->id]) }}"
+                   onclick="delProductChar(this, event)" class="text-red">
+                    <i class="fa fa-trash"></i> Удалить</a>
+            </div>
+        </div>
+    @endforeach
+
+    <div class="row hidden">
+        {!! Form::hidden('chars[id][]', '') !!}
+        <div style="width: 50px;" class="col-1">
+            <i class="fa fa-ellipsis-v"></i>
+            <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="col-5">
+            {!! Form::text('chars[name][]','', ['class'=>'form-control', 'placeholder' => 'Название']) !!}
+        </div>
+        <div class="col-5">
+            {!! Form::text('chars[value][]','', ['class'=>'form-control', 'placeholder' => 'Значение']) !!}
+        </div>
+        <div style="width: 150px;" class="col-1">
+            <a href="#" onclick="delProductChar(this, event)" class="text-red">
+                <i class="fa fa-trash"></i> Удалить</a>
+        </div>
+    </div>
+</div>
+<button class="btn btn-sm btn-info" onclick="addProductChar(this, event)">Добавить <i class="fa fa-plus-circle"></i></button>
+<script type="text/javascript">
+    $(".chars").sortable({
+        update: function () {
+            let url = "{{ route('admin.catalog.product-update-order-char') }}";
+            let data = {};
+            data.sorted = $('.chars').sortable("toArray", {attribute: 'data-id'});
+            sendAjax(url, data);
+        },
+    }).disableSelection();
+</script>
+<style>
+    .chars .row{
+        margin: 10px;
+    }
+    .hidden {
+        display: none;
+    }
+    .chars .row:nth-child(odd){
+        /*background: #d2d6de !important*/
+    }
+    .row-chars {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .row-chars input {
+        margin-right: 15px;
+    }
+</style>

@@ -16,7 +16,8 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="msapplication-config" content="/static/images/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <meta property="og:type" content="profile">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AdminLte3 Test">
     <meta property="og:image" content="/static/images/favicon/apple-touch-icon.png">
     {!! OpenGraph::generate() !!}
 
