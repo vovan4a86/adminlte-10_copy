@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="admin-page-head row">
         <div class="col-sm-3">
-            <h5>Каталог <small style="font-style: italic;">{{ $product->id ? $product->name : 'Новый' }}</small>
+            <h5 class="admin-page-title">Каталог <small style="font-style: italic;">{{ $product->id ? $product->name : 'Новый' }}</small>
             </h5>
         </div>
         <div class="col-sm-9">
@@ -27,7 +27,7 @@
 {!! Form::open(['route' => 'admin.catalog.product-save', 'onsubmit' => 'productSave(this, event)']) !!}
 {{ Form::hidden('id', $product->id) }}
 
-<div class="card card-primary card-outline card-tabs">
+<div class="card card-secondary card-outline card-tabs">
     <div class="card-header p-0 pt-1 border-bottom-0">
         <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
             <li class="nav-item">
@@ -84,13 +84,17 @@
                     </div>
                 </div>
 
+                {{ Form::groupText('price', $product->price, 'Цена') }}
+                {{ Form::groupText('is_discount', $product->is_discount, 'Скидка, %') }}
+
+
                 {{ Form::groupBool('published', $product->published, 'Показывать товар') }}
                 {{ Form::groupBool('in_stock', $product->in_stock, 'Наличие товара') }}
             </div>
 
             {{--text_tab--}}
             <div class="tab-pane fade" id="tabs-three-text" role="tabpanel" aria-labelledby="tab-text">
-                {{ Form::groupRichtext('announce', $product->announce, 'Анонс') }}
+{{--                {{ Form::groupRichtext('announce', $product->announce, 'Анонс') }}--}}
                 {{ Form::groupRichtext('text', $product->text, 'Текст') }}
             </div>
 
@@ -135,25 +139,3 @@
     </div>
 </div>
 {!! Form::close() !!}
-
-<style>
-    .images_item {
-        margin: 10px;
-        display: inline;
-        position: relative;
-    }
-    .images_item:hover .images_del {
-        display: inline;
-    }
-    .images_del {
-        display: none;
-        position: absolute;
-        right: 5px;
-        font-size: 16px;
-
-    }
-    .images_del:hover {
-        font-size: 18px;
-        transition: all 0.2s ease;
-    }
-</style>

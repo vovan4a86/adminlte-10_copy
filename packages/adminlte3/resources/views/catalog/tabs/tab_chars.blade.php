@@ -39,32 +39,6 @@
     </div>
 </div>
 <button class="btn btn-sm btn-info" onclick="addProductChar(this, event)">Добавить <i class="fa fa-plus-circle"></i></button>
-<script type="text/javascript">
-    $(".chars").sortable({
-        update: function () {
-            let url = "{{ route('admin.catalog.product-update-order-char') }}";
-            let data = {};
-            data.sorted = $('.chars').sortable("toArray", {attribute: 'data-id'});
-            sendAjax(url, data);
-        },
-    }).disableSelection();
-</script>
 <style>
-    .chars .row{
-        margin: 10px;
-    }
-    .hidden {
-        display: none;
-    }
-    .chars .row:nth-child(odd){
-        /*background: #d2d6de !important*/
-    }
-    .row-chars {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .row-chars input {
-        margin-right: 15px;
-    }
+
 </style>

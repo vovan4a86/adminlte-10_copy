@@ -421,6 +421,16 @@ function productDocDataSave(form, e){
     });
 }
 
+//product docs sort
+$(".docs_list").sortable({
+    update: function () {
+        let url = "/admin/catalog/product-update-order-doc";
+        let data = {};
+        data.sorted = $('.docs_list').sortable("toArray", {attribute: 'data-id'});
+        sendAjax(url, data);
+    },
+}).disableSelection();
+
 //product images sorting
 $(".images_list").sortable({
     update: function (event, ui) {
@@ -432,13 +442,23 @@ $(".images_list").sortable({
 }).disableSelection();
 
 //product chars
-$("#product_chars").sortable({
-    update: function (event, ui) {
-        let url = $(this).data('url');
+$(".chars").sortable({
+    update: function () {
+        let url = "admin/catalog/product-update-order-char";
         let data = {};
-        data.sorted = $('#product_chars').sortable("toArray", {attribute: 'data-id'});
+        data.sorted = $('.chars').sortable("toArray", {attribute: 'data-id'});
         sendAjax(url, data);
-    }
+    },
+}).disableSelection();
+
+//catalog filters sort
+$(".catalog_filters").sortable({
+    update: function () {
+        let url = "/admin/catalog/update-catalog-filter";
+        let data = {};
+        data.sorted = $('.catalog_filters').sortable("toArray", {attribute: 'data-id'});
+        sendAjax(url, data);
+    },
 }).disableSelection();
 
 //mass

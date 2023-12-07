@@ -122,6 +122,12 @@ class Product extends Model
             ->orderBy('order');
     }
 
+    public function image(): HasOne
+    {
+        return $this->hasOne(ProductImage::class, 'product_id')
+            ->orderBy('order');
+    }
+
     public function chars(): HasMany
     {
         return $this->hasMany(ProductChar::class)
@@ -131,12 +137,6 @@ class Product extends Model
     public function docs(): HasMany
     {
         return $this->hasMany(ProductDoc::class)
-            ->orderBy('order');
-    }
-
-    public function image(): HasOne
-    {
-        return $this->hasOne(ProductImage::class, 'product_id')
             ->orderBy('order');
     }
 

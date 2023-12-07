@@ -84,8 +84,7 @@ class News extends Model
 
     public static array $thumbs = [
         1 => '100x50', //admin
-        2 => '119x119|fit', //top_list
-        3 => '285x160|fit', //news_list
+        2 => '370x240|fit', //top_list
     ];
 
     public function scopePublic($query)

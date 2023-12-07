@@ -1,3 +1,26 @@
+.breadcrumb {
+    font-size: 12px;
+}
+.admin-page-title {
+    font-size: 22px;
+}
+.admin-page-title small {
+    font-size: 12px;
+}
+
+.filter {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.filter .form-group, .filter .form-group label {
+    margin: 0;
+}
+
 .img-polaroid:hover {
     cursor: pointer;
 }
@@ -57,4 +80,81 @@
 
 .settings-card .todo-list li {
     padding: 5px;
+}
+
+.chars .row{
+    margin: 10px;
+}
+.hidden {
+    display: none;
+}
+.chars .row:nth-child(odd){
+    /*background: #d2d6de !important*/
+}
+.row-chars {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.row-chars input {
+    margin-right: 15px;
+}
+
+.docs_del {
+    top: 28px!important;
+}
+.docs_item{
+    position: relative;
+    display: inline-block;
+}
+.docs_item img{
+    max-width: 400px;
+    max-height: 113px;
+}
+.docs_item img.active{
+    border: 1px solid green !important;
+}
+.docs_item .docs_del {
+    display:none;
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    padding: 3px 6px;
+    background: rgba(255,0,0,.5);
+    color: #fff;
+}
+.docs_item:hover .docs_del{
+    display: block !important;
+}
+.docs_item .docs_edit {
+    display:none;
+    position: absolute;
+    bottom: 11px;
+    right: 11px;
+    padding: 3px 6px;
+    background: rgba(255,163,45,.7);
+    color: #fff;
+}
+.docs_item:hover .docs_edit{
+    display: block !important;
+}
+
+.images_item {
+    margin: 10px;
+    display: inline;
+    position: relative;
+}
+.images_item:hover .images_del {
+    display: inline;
+}
+.images_del {
+    display: none;
+    position: absolute;
+    right: 5px;
+    font-size: 16px;
+
+}
+.images_del:hover {
+    font-size: 18px;
+    transition: all 0.2s ease;
 }

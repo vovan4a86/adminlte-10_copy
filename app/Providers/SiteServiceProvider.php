@@ -16,21 +16,30 @@ class SiteServiceProvider extends ServiceProvider
     public function register(): void
     {
         View::composer(['blocks.header'], function (\Illuminate\View\View $view) {
-            $mainSections = Catalog::whereParentId(0)->orderBy('order')->get();
-
 //            $topMenu = Cache::get('top_menu', collect());
 //            if(!count($topMenu)) {
                 $topMenu = Page::query()
                     ->public()
+                    ->where('parent_id', 1)
                     ->where('on_header', 1)
                     ->orderBy('order')
                     ->get();
 //                Cache::add('top_menu', $topMenu, now()->addMinutes(60));
 //            }
 
+//            $topCatalog = Cache::get('top_catalog', collect());
+//            if(!count($topCatalog)) {
+                $topCatalog = Catalog::query()
+                    ->where('parent_id', 0)
+                    ->public()
+                    ->orderBy('order')
+                    ->get();
+//                Cache::add('top_catalog', $topCatalog, now()->addMinutes(60));
+//            }
+
 //            $cities = City::query()->orderBy('name')
 //                ->get(['id', 'alias', 'name', DB::raw('LEFT(name,1) as letter')]);
-
+//
 //            if($alias = session('city_alias')) {
 //                $city = City::whereAlias($alias)->first();
 //                $current_city = $city->name;
@@ -40,7 +49,7 @@ class SiteServiceProvider extends ServiceProvider
 
             $view->with(compact(
                 'topMenu',
-                'mainSections',
+                'topCatalog',
                 'current_city'
             ));
         });

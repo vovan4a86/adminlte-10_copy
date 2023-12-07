@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="admin-page-head row">
         <div class="col-sm-3">
-            <h3>Структура сайта</h3>
+            <h5 class="admin-page-title">Структура сайта</h5>
         </div>
     </div>
 @stop

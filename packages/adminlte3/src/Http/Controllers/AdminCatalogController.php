@@ -4,6 +4,7 @@ namespace Adminlte3\Http\Controllers;
 
 use Adminlte3\Models\Catalog;
 use Adminlte3\Models\CatalogFilter;
+use Adminlte3\Models\ParentCatalogFilter;
 use Adminlte3\Models\Product;
 use Adminlte3\Models\ProductChar;
 use Adminlte3\Models\ProductImage;
@@ -67,11 +68,16 @@ class AdminCatalogController extends Controller
 
         $catalogs_list = $this->getCatalogsRecurse();
 
+        $catalogFiltersList = ParentCatalogFilter::where('catalog_id', $catalog->id)
+            ->orderBy('order')
+            ->get();
+
         return view(
             'adminlte::catalog.edit',
             [
                 'catalog' => $catalog,
                 'catalogs_list' => $catalogs_list,
+                'catalogFiltersList' => $catalogFiltersList
             ]
         );
     }
@@ -181,6 +187,24 @@ class AdminCatalogController extends Controller
         $catalog->delete();
 
         return ['success' => true];
+    }
+
+    public function postUpdateCatalogFilter(): array
+    {
+        $id = request()->get('id');
+
+        if (!$id) {
+            return ['success' => false, 'msg' => 'Ошибка, нет id'];
+        }
+
+        $item = ParentCatalogFilter::where('id', $id)->first();
+        if ($item->published == 1) {
+            $item->update(['published' => 0]);
+        } else {
+            $item->update(['published' => 1]);
+        }
+
+        return ['success' => true, 'msg' => 'Успешно обновлено!'];
     }
 
     //products

@@ -6,7 +6,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
+            // 'resources/js--sources/vendor/modernizr-2.8.3.min',
+            // 'resources/js--sources/bootstrap.min',
+            'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,

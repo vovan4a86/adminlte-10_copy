@@ -34,10 +34,11 @@ class ProductImage extends Model {
 	public $timestamps = false;
 
 	const UPLOAD_URL = '/uploads/products/';
+	const NO_IMAGE = '/vendor/no_image';
 
-	public static $thumbs = [
-		1 => '100x100', //admin product
-		2 => '150x150', //catalog list
+	public static array $thumbs = [
+		1 => '116x90', //admin product
+		2 => '270x210|fit', //catalog list
 	];
 
     public function product(): BelongsTo

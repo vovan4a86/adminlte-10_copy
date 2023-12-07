@@ -14,7 +14,6 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('callback', [AjaxController::class, 'postCallback'])->name('callback');
     Route::get('show-popup-cities', [AjaxController::class, 'showCitiesPopup'])->name('show-popup-cities');
     Route::post('free-request', 'AjaxController@postFreeRequest')->name('free-request');
-
 });
 
 

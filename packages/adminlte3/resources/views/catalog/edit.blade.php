@@ -1,24 +1,31 @@
 {!! Form::open(['route' => 'admin.catalog.save', 'onsubmit' => 'catalogSave(this, event)']) !!}
     {{ Form::hidden('id', $catalog->id) }}
-    <div class="card card-primary card-outline card-tabs">
+    <div class="card card-secondary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
             <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="tab-param"
-                       data-toggle="pill" href="#tabs-three-params" role="tab"
+                       data-toggle="pill" href="#tabs-params" role="tab"
                        aria-controls="custom-tabs-three-home" aria-selected="true">Параметры</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="tab-text"
-                       data-toggle="pill" href="#tabs-three-text" role="tab"
+                       data-toggle="pill" href="#tabs-text" role="tab"
                        aria-controls="custom-tabs-three-profile" aria-selected="false">Текст</a>
                 </li>
+                @if($catalog->parent_id == 0)
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-filters"
+                           data-toggle="pill" href="#tabs-filters" role="tab"
+                           aria-controls="custom-tabs-three-profile" aria-selected="false">Фильтры раздела</a>
+                    </li>
+                @endif
             </ul>
         </div>
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-three-tabContent">
                 {{--param_tab--}}
-                <div class="tab-pane fade show active" id="tabs-three-params" role="tabpanel" aria-labelledby="tab-param">
+                <div class="tab-pane fade show active" id="tabs-params" role="tabpanel" aria-labelledby="tab-param">
                     <div class="row">
                         {{ Form::groupText('name', $catalog->name, 'Название', [], 'col-6') }}
                         {{ Form::groupText('alias', $catalog->alias, 'Alias', [], 'col-6') }}
@@ -67,9 +74,33 @@
                 </div>
 
                 {{--text_tab--}}
-                <div class="tab-pane fade" id="tabs-three-text" role="tabpanel" aria-labelledby="tab-text">
+                <div class="tab-pane fade" id="tabs-text" role="tabpanel" aria-labelledby="tab-text">
                     {{ Form::groupRichtext('text', $catalog->text, 'Текст', []) }}
                 </div>
+
+                @if($catalog->parent_id == 0)
+                    <div class="tab-pane" id="tabs-filters">
+                        @if(count($catalogFiltersList))
+                            <div style="display: flex; flex-direction: column;" class="catalog_filters">
+                                @foreach($catalogFiltersList as $item)
+                                    <div class="filter" data-id="{{ $item->id }}">
+                                        <div style="width: 50px;">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" name="filters[]" id="f_{{ $item->id }}"
+                                                   value="{{ $item->id }}" {{ $item->published ? 'checked' : '' }}>
+                                            <label for="f_{{ $item->id }}" style="margin-right: 10px;">{{ $item->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Нет фильтров</p>
+                        @endif
+                    </div>
+                @endif
 
             </div>
         </div>

@@ -1,0 +1,10 @@
+.v-hidden {
+    display: none;
+}
+.single-product.top {
+    display: flex;
+    align-items: center;
+}
+.single-product.top .pro-img {
+    width: 500px!important;
+}

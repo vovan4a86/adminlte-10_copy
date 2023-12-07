@@ -76,6 +76,10 @@ Route::middleware('admin.auth')->group(function () {
         Route::post('reorder', [AdminCatalogController::class, 'postReorder'])
             ->name('.reorder');
 
+        Route::post('update-catalog-filter', [AdminCatalogController::class, 'postUpdateCatalogFilter'])
+            ->name('.update-catalog-filter');
+
+
         Route::post('delete/{id}', [AdminCatalogController::class, 'postDelete'])
             ->name('.delete');
 

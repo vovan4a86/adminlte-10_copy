@@ -12,7 +12,7 @@ use Illuminate\Http\UploadedFile ;
 
 
 trait HasFile{
-    public $file_field = 'file';
+    public string $file_field = 'file';
 
     public function fileSrc($alias) {
         return $this->{$this->file_field} ? url(self::UPLOAD_URL . $alias . '/'  . $this->{$this->file_field}) : null;
@@ -76,10 +76,11 @@ trait HasFile{
 
     }
 
-	/**
-	 * @param UploadedFile $file
-	 * @return string
-	 */
+    /**
+     * @param UploadedFile $file
+     * @param $name
+     * @return string
+     */
 	public static function uploadFile(UploadedFile $file, $name): string {
 		$file_name = $name . '.' . Str::lower($file->getClientOriginalExtension());
         $file->move(public_path(self::UPLOAD_URL), $file_name);

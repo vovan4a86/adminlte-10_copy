@@ -3,41 +3,17 @@
     {!! SEOMeta::generate() !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/static/images/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/static/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/static/images/favicon/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="name">
-    <meta name="application-name" content="name">
-    <meta name="cmsmagazine" content="18db2cabdd3bf9ea4cbca88401295164">
-    <meta name="author" content="Fanky.ru">
-    <meta name="msapplication-TileColor" content="#00aba9">
-    <meta name="msapplication-config" content="/static/images/favicon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
+    <!-- place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="/img/icon/favicon.png">
+    <!-- Google Font css -->
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AdminLte3 Test">
-    <meta property="og:image" content="/static/images/favicon/apple-touch-icon.png">
+    <meta property="og:image" content="/img/icon/favicon.png">
+
     {!! OpenGraph::generate() !!}
-
-
-    @if(Route::is('main'))
-    <!-- if homepage, preload two image bg's, on blocks: hero__way-->
-    <link rel="preload" fetchpriority="low" as="image" href="/static/images/common/hero-bg-1.webp" type="image/webp">
-    <link rel="preload" fetchpriority="low" as="image" href="/static/images/common/hero-bg-2.webp" type="image/webp">
-    <!-- endif-->
-    @endif
-
-    <link href="/static/fonts/Manrope-Light.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-    <link href="/static/fonts/Manrope-Regular.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-    <link href="/static/fonts/Manrope-Medium.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-    <link href="/static/fonts/Manrope-SemiBold.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-    <link href="/static/fonts/Manrope-Bold.woff2" rel="preload" as="font" type="font/woff2" crossorigin="anonymous">
-
-    @if(Route::is('contacts'))
-        <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" defer></script>
-    @endif
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

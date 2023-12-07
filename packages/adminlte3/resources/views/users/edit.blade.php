@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="admin-page-head row">
         <div class="col-sm-3">
-            <h5>Пользователь <small style="font-style: italic;">{{ $user->id ? 'Редактировать' : 'Новый' }}</small>
+            <h5 class="admin-page-title">Пользователь <small style="font-style: italic;">{{ $user->id ? 'Редактировать' : 'Новый' }}</small>
             </h5>
         </div>
         <div class="col-sm-9">
