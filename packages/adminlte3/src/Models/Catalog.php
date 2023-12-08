@@ -114,7 +114,7 @@ class Catalog extends Model {
         return $result;
     }
 
-	public function delete() {
+    public function delete() {
 		$this->deleteImage();
 		foreach ($this->children as $product) {
 			$product->delete();

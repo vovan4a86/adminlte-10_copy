@@ -8,3 +8,16 @@
 .single-product.top .pro-img {
     width: 500px!important;
 }
+.category-link.active {
+    color: red;
+}
+.category-items {
+    margin: 0 -5px 10px -5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.cat-elem {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #c9c9c9;
+}

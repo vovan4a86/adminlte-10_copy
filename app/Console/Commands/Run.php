@@ -30,15 +30,15 @@ class Run extends Command
 //        $this->info('Products: ' . count($products));
 
         $i = 1;
-        while ($i <= 15) {
+        while ($i <= 30) {
             $n = rand(1, 10500);
             $p = Product::find($n);
 
-            if($p) {
-                $p->update(['is_top' => 1]);
+            if($p->price) {
+                $p->update(['is_top_rated' => 1]);
                 $this->info($p->name);
+                $i++;
             }
-            $i++;
         }
     }
 }

@@ -24,14 +24,14 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-4  col-md-7 col-sm-6">
                     <div class="single-footer">
-                        <h3>Contact us</h3>
+                        <h3>Свяжитесь с нами</h3>
                         <div class="footer-content">
                             <div class="loc-address">
                                 <span><i class="fa fa-map-marker"></i>Москва, Кутузовский пр-т, д.10</span>
                                 <span><i class="fa fa-envelope-o"></i>Написать : jantrik@mail.ru</span>
                                 <span><i class="fa fa-phone"></i>Телефон: +7 909 123 9090</span>
                             </div>
-                            <div class="payment-mth"><a href="#"><img class="img" src="img/footer/1.png" alt="payment-image"></a></div>
+                            <div class="payment-mth"><a href="#"><img class="img" src="/img/footer/1.png" alt="payment-image"></a></div>
                         </div>
                     </div>
                 </div>

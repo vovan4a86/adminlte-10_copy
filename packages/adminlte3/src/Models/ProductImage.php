@@ -39,6 +39,7 @@ class ProductImage extends Model {
 	public static array $thumbs = [
 		1 => '116x90', //admin product
 		2 => '270x210|fit', //catalog list
+		3 => '470x366|fit', //product
 	];
 
     public function product(): BelongsTo
