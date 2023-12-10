@@ -21,7 +21,10 @@ class CatalogController extends Controller
         $page->h1 = $page->getH1();
         $page->setSeo();
 
-        $categories = Catalog::public()->where('parent_id', 0)->get();
+        $categories = Catalog::public()
+            ->where('parent_id', 0)
+            ->orderBy('order')
+            ->get();
 
         return view('catalog.index', [
             'h1' => $page->h1,
@@ -69,22 +72,19 @@ class CatalogController extends Controller
         $view = 'catalog.category';
         $page_n = request()->get('page') ?: 1;
 
-//        $rootIds = Catalog::where('parent_id', 0)->pluck('id')->all();
-//        if (in_array($category->parent_id, $rootIds) && $root->is_table == 1) {
-//            $view = 'catalog.sub_category_table';
-//            $children = $category->children;
-//            $items = collect();
-//
-//            foreach ($children as $child) {
-//                $prods = $child->products()->orderBy('name')->get();
-//                $items->push([$child->name => ['url' => $child->url, 'value' => $prods->chunk(4)]]);
-//            }
-//        } else {
+        $per_page = request()->get('per_page');
+        if (!$per_page) {
             $per_page = Settings::get('product_per_page') ?: 12;
-            $data['per_page'] = $per_page;
-            $items = $category->getRecurseProducts()->paginate($per_page);
-            $count = $category->getRecurseProductsCount();
-//        }
+        }
+        $data['per_page'] = $per_page;
+
+        $sort_by = \request()->get('sort_by') ?: 'name';
+        $sort_direction = \request()->get('sort_direction') ?: 'asc';
+
+        $items = $category->getRecurseProducts()
+            ->orderBy($sort_by, $sort_direction)
+            ->paginate($per_page);
+        $count = $category->getRecurseProductsCount();
 
 //        Auth::init();
 //        if (Auth::user() && Auth::user()->isAdmin) {
@@ -100,9 +100,9 @@ class CatalogController extends Controller
             'items' => $items,
             'count' => $count,
             'per_page' => $per_page,
-            'page_n' => $page_n
-//            'asideName' => $root->name,
-//            'root' => $root,
+            'page_n' => $page_n,
+            'sort_by' => $sort_by,
+            'sort_direction' => $sort_direction
         ];
 
         if (request()->ajax()) {

@@ -290,13 +290,15 @@
                         </div>
                         <div class="main-toolbar-sorter f-right">
                             <div class="toolbar-sorter">
-                                <label>sort by</label>
-                                <select class="sorter" name="sorter">
-                                    <option value="Position" selected="selected">position</option>
-                                    <option value="Product Name">Product Name</option>
-                                    <option value="Price">Price</option>
+                                <label>Сортировка по</label>
+                                <select class="name-sorter" name="name-sorter" data-url="{{ Request::url() }}">
+                                    <option value="name" {{ !isset($sort_by) || $sort_by == 'name' ? 'selected' : null }}>Имени</option>
+                                    <option value="price" {{ isset($sort_by) && $sort_by == 'price' ? 'selected' : null }}>Цене</option>
+{{--                                    <option value="rate" {{ isset($name_sorter) && $name_sorter == 'rate' ? 'selected' : null }}>Рейтингу</option>--}}
                                 </select>
-                                <span><a href="#"><i class="fa fa-arrow-up"></i></a></span>
+                                <a href="#" class="sorter-direction">
+                                    <i class="fa fa-arrow-{{ !isset($sort_direction) || $sort_direction == 'asc' ? 'down' : 'up' }}"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

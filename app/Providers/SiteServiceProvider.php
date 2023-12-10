@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Adminlte3\Cart;
 use Adminlte3\Models\Catalog;
 use Adminlte3\Models\Page;
 use Illuminate\Support\Facades\Cache;
@@ -47,10 +48,13 @@ class SiteServiceProvider extends ServiceProvider
                 $current_city = null;
 //            }
 
+            $cart_items = Cart::all();
+
             $view->with(compact(
                 'topMenu',
                 'topCatalog',
-                'current_city'
+                'current_city',
+                'cart_items'
             ));
         });
 

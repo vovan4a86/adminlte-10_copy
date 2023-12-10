@@ -5,16 +5,18 @@ use Session;
 
 class Cart {
 
-    private static $key = 'cart';
+    private static string $key = 'cart';
 
-    public static function add($item) {
+    public static function add($item): void
+    {
         $cart = self::all();
 
         $cart[$item['id']] = $item;
         Session::put(self::$key, $cart);
     }
 
-    public static function remove($id) {
+    public static function remove($id): void
+    {
         $cart = self::all();
         unset($cart[$id]);
         Session::put(self::$key, $cart);
@@ -25,10 +27,11 @@ class Cart {
         return isset($cart[$id]);
     }
 
-    public static function updateCount($id, $count) {
+    public static function updateCount($id, $qnt): void
+    {
         $cart = self::all();
         if (isset($cart[$id])) {
-            $cart[$id]['count'] = $count;
+            $cart[$id]['qnt'] = $qnt;
             Session::put(self::$key, $cart);
         }
     }
@@ -45,9 +48,9 @@ class Cart {
     public static function sum(): int {
         $cart = self::all();
         $sum = 0;
-//        foreach ($cart as $item) {
-//            $sum += $item['count'] * $item['price'];
-//        }
+        foreach ($cart as $item) {
+            $sum += $item['qnt'] * $item['price'];
+        }
         return $sum;
     }
 

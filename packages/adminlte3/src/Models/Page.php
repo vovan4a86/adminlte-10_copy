@@ -2,6 +2,7 @@
 
 namespace Adminlte3\Models;
 
+use App\Traits\HasH1;
 use App\Traits\HasImage;
 use App\Traits\HasSeo;
 use App\Traits\OgGenerate;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class Page extends Model
 {
-    use HasImage, HasSeo, OgGenerate;
+    use HasH1, HasImage, HasSeo, OgGenerate;
 
     const UPLOAD_URL = '/uploads/pages/';
 
@@ -69,6 +70,43 @@ class Page extends Model
         $page->update(['published' => 0]);
         foreach ($page->children()->get() as $child){
             self::updateUrlRecurse($child);
+        }
+    }
+
+    public function getBread(): array {
+        $bread = [];
+
+        foreach ($this->getParents(true) as $p) {
+            $bread[] = [
+                'url'  => $p->url,
+                'name' => $p->name
+            ];
+        }
+
+        return array_reverse($bread);
+    }
+
+    public static function getByPath($path, $id = 1) {
+        $parent_id = $id;
+        $page = null;
+
+        /* проверка по пути */
+        foreach ($path as $alias) {
+            $page = Page::whereAlias($alias)
+                ->whereParentId($parent_id)
+                ->public()
+                ->get(['id', 'alias', 'parent_id'])
+                ->first();
+            if ($page === null) {
+                return null;
+            }
+            $parent_id = $page->id;
+        }
+
+        if ($page && $page->id > 0) {
+            return Page::find($page->id);
+        } else {
+            return null;
         }
     }
 

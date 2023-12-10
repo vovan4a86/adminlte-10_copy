@@ -73,9 +73,10 @@
                             @endif
                         </div>
                         <div class="box-quantity">
-                            <form action="#">
+                            <form action="{{ route('ajax.cart.add') }}">
+                                @csrf
                                 <input class="number" id="numeric" type="number" min="1" value="1">
-                                <a class="add-cart" href="cart.html">В корзину</a>
+                                <button class="add-cart" data-id="{{ $product->id }}">В корзину</button>
                             </form>
                         </div>
                         <div class="product-link">

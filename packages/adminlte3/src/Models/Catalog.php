@@ -182,7 +182,15 @@ class Catalog extends Model {
         return $res;
     }
 
-	public function getUrlAttribute() {
+    public static function getByPath($path): ?Catalog {
+        if(is_array($path)){
+            $path = implode('/', $path);
+        }
+
+        return self::query()->public()->whereSlug($path)->first();
+    }
+
+    public function getUrlAttribute() {
 		$path = '/catalog/' . $this->slug;
 //		$current_city = SiteHelper::getCurrentCity();
 //		if ($current_city) {
@@ -244,14 +252,6 @@ class Catalog extends Model {
         }
         return $cur_cat;
     }
-
-	public static function getByPath($path): ?Catalog {
-		if(is_array($path)){
-			$path = implode('/', $path);
-		}
-
-		return self::query()->public()->whereSlug($path)->first();
-	}
 
 	public function getBread(): array {
 		$bread = [];
@@ -407,13 +407,8 @@ class Catalog extends Model {
     }
 
     public function getRecurseProducts() {
-//        if($this->parent_id == 0) {
             $ids = self::getRecurseChildrenIds();
-            return Product::public()->whereIn('catalog_id', $ids)
-                ->orderBy('name');
-//        } else {
-//            return $this->products();
-//        }
+            return Product::public()->whereIn('catalog_id', $ids);
     }
 
     public function getImageSrcAttribute(): string {

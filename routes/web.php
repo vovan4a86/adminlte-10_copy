@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -14,13 +15,24 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('callback', [AjaxController::class, 'postCallback'])->name('callback');
     Route::get('show-popup-cities', [AjaxController::class, 'showCitiesPopup'])->name('show-popup-cities');
     Route::post('free-request', 'AjaxController@postFreeRequest')->name('free-request');
+
+    //cart
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::post('add', [AjaxController::class, 'postCartAdd'])->name('add');
+        Route::post('remove', [AjaxController::class, 'postCartRemove'])->name('remove');
+        Route::post('update', [AjaxController::class, 'postCartUpdate'])->name('update');
+        Route::post('purge', [AjaxController::class, 'postCartPurge'])->name('purge');
+        Route::post('checkout', [AjaxController::class, 'postCartCheckout'])->name('checkout');
+        Route::get('success', [AjaxController::class, 'getSuccess'])->name('success');
+    });
+
 });
 
 
 Route::get('/', [WelcomeController::class, 'index'])->name('main');
 
 Route::prefix('catalog')->name('catalog')->group(function () {
-    Route::get('/', [CatalogController::class, 'index'])->name('.index');
+    Route::get('/', [CatalogController::class, 'index']);
     Route::get('/{alias}', [CatalogController::class, 'view'])->name('.view')
         ->where('alias', '([A-Za-z0-9\-\/_]+)');
 });
@@ -31,7 +43,10 @@ Route::prefix('news')->name('news')->group(function () {
         ->where('alias', '([A-Za-z0-9\-\/_]+)');
 });
 
-Route::get('cart', [App\Http\Controllers\HomeController::class, 'index'])->name('cart');
+Route::prefix('cart')->name('cart')->group(function () {
+    Route::get('/', [CartController::class, 'getIndex']);
+    Route::get('checkout', [CartController::class, 'getCartCheckout'])->name('.checkout');
+});
 
 Route::any('search',[App\Http\Controllers\HomeController::class, 'index'])->name('search');
 

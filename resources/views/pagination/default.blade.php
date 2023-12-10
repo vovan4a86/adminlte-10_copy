@@ -35,9 +35,9 @@
                     @endif
                 @endif
             @endfor
-
+                <li><a href="javascript:void(0)">...</a></li>
             @if($to < $paginator->lastPage())
-                <li><a href="{{ $paginator->url($paginator->lastPage()) }}">...</a></li>
+                <li><a href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a></li>
                 @endif
             @if ($paginator->currentPage() < $paginator->lastPage())
                 <li>
@@ -49,17 +49,14 @@
         </ul>
     @endif
 @endif
-{{--<ul class="blog-pagination ">--}}
-{{--    <li><a href="#">1</a></li>--}}
-{{--    <li class="active"><a href="#">2</a></li>--}}
-{{--    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>--}}
-{{--</ul>--}}
 <div class="toolbar-sorter-footer">
-    <label>show</label>
-    <select class="sorter" name="sorter">
-        <option value="Position" selected="selected">12</option>
-        <option value="Product Name">15</option>
-        <option value="Price">30</option>
+    <label>Показывать по</label>
+    <select class="page-sorter" name="per_page" data-url="{{ Request::url() }}">
+        @foreach([12, 24, 48] as $n)
+            <option value="{{ $n }}" {{ isset($per_page) && $per_page == $n ? 'selected' : null }}>
+                {{ $n }}
+            </option>
+        @endforeach
     </select>
-    <span>per page</span>
+    <span>на стр.</span>
 </div>

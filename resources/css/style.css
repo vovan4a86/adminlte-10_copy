@@ -7,7 +7,7 @@
     2. Newsletter Popup CSS
     3. Header CSS
         3.1 Header Top CSS
-        3.2 Header Bottom CSS 
+        3.2 Header Bottom CSS
     4. Slider CSS
     5. New Products CSS
     6. Company Policy CSS
@@ -28,7 +28,7 @@
     21. About Us CSS
     22. My Account CSS
     23. Home Three CSS
-  
+
 -----------------------------------------------------*/
 
 /*----------------------------------------*/
@@ -445,7 +445,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 /*----------------------------------------*/
-/* 3.2 Header Bottom CSS 
+/* 3.2 Header Bottom CSS
 /*----------------------------------------*/
 .header-sticky.sticky {
     -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
@@ -907,11 +907,11 @@ ul.ht-dropdown.dropdown-style-two li {
     background: #31a2e2;
 }
 
-.new-pro-active .owl-nav div, .side-product-list-active .owl-nav div, 
-.best-selling-pro .owl-nav div, .blog-active .owl-nav div,.blog-active2 .owl-nav div, .testext_active .owl-nav div, 
-.best-seller-pro-active .owl-nav div, 
-.hand-tool-active .owl-nav div, 
-.new-upsell-pro .owl-nav div, 
+.new-pro-active .owl-nav div, .side-product-list-active .owl-nav div,
+.best-selling-pro .owl-nav div, .blog-active .owl-nav div,.blog-active2 .owl-nav div, .testext_active .owl-nav div,
+.best-seller-pro-active .owl-nav div,
+.hand-tool-active .owl-nav div,
+.new-upsell-pro .owl-nav div,
 .testimonial__container .dcare-arrow, .home-2 .best-seller-pro .owl-nav div, .best-selling-items .owl-nav div,
   .best-seller-unique .owl-nav div {
     background: #f1f1f1;
@@ -1017,7 +1017,7 @@ ul.ht-dropdown.dropdown-style-two li {
 
 .best-seller-pro .owl-nav div.owl-next,
 .best-seller-unique .owl-nav div.owl-next {
-    right: 20;
+    right: 20px;
 }
 
 /*----------------------------------------*/
@@ -1041,7 +1041,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .product-list li a.active,
 .best-selling-items .product-list li a.active {
     color: #f1ac06;
-    border-color:#f1ac06; 
+    border-color:#f1ac06;
 }
 .new-products .product-list {
     margin-bottom: 30px;
@@ -1424,7 +1424,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .breadcrumb-area .breadcrumb {
     background-color: #f5f5f5;
     margin-bottom: 0;
-    padding: 25px 15px;
+    padding: 10px 15px;
 }
 
 .breadcrumb-area .breadcrumb li.active a,.breadcrumb li:hover a {
@@ -1577,7 +1577,7 @@ ul.ht-dropdown.dropdown-style-two li {
 
 .amount,
 .price-button {
-    word-spacing: 25px;
+    /*word-spacing: 25px;*/
     width: 100%;
     text-align: center;
 }
@@ -1650,7 +1650,6 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .main-categorie #list-view .pro-content {
     overflow: hidden;
-    padding: 25px;
     text-align: left;
     padding: 0px 20px 5px;
 }
@@ -1664,7 +1663,7 @@ ul.ht-dropdown.dropdown-style-two li {
     visibility: visible;
     transform: translateY(0);
     margin-top: 23px;
-    align-content: ;
+    align-content: center;
 }
 .main-categorie #list-view .pro-content h4 a {
     margin-bottom: 7px;
@@ -1792,7 +1791,7 @@ ul.ht-dropdown.dropdown-style-two li {
     background: #f1ac06 none repeat scroll 0 0;
     border-color: #f1ac06;
     border-radius: 3px;
-    color: #fff;
+    color: #000;
     display: inline-block;
     height: 35px;
     line-height: 36px;
@@ -1805,6 +1804,7 @@ ul.ht-dropdown.dropdown-style-two li {
 .add-cart:hover,.add-cart:focus {
     opacity: 0.8;
     color: #fff;
+    cursor: pointer;
 }
 
 .product-link {
@@ -2751,7 +2751,7 @@ p.checkout-coupon input[type="submit"] {
 .blog-pagination li a {
     display: block;
     font-size: 16px;
-    color: 808080;
+    color: #808080;
     border: 1px solid #e7e7e7;
     width: 40px;
     text-align: center;
@@ -2817,7 +2817,7 @@ p.checkout-coupon input[type="submit"] {
     margin-right: 5px;
 }
 .blog-img.blog-single-img{
-    margin-bottom: 0;                                                   
+    margin-bottom: 0;
 }
 .category-text {
     font-size: 16px;
@@ -3977,7 +3977,7 @@ legend {
   max-width: 1340px;
 }
 .box-wrapper {
-  background: rgba(0, 0, 0, 0) url("img/banner/pattern.png") repeat fixed 0 0;
+  background: rgba(0, 0, 0, 0) url("/img/banner/pattern.png") repeat fixed 0 0;
 }
 .box-layout {
   background: #fff none repeat scroll 0 0;

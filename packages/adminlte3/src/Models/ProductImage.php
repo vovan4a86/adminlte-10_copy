@@ -34,7 +34,7 @@ class ProductImage extends Model {
 	public $timestamps = false;
 
 	const UPLOAD_URL = '/uploads/products/';
-	const NO_IMAGE = '/vendor/no_image';
+	const NO_IMAGE = '/vendor/no_image.png';
 
 	public static array $thumbs = [
 		1 => '116x90', //admin product
