@@ -308,14 +308,14 @@
                                 <div class="row">
                                     @foreach($items as $item)
                                         <div class="col-lg-4 col-sm-6">
-                                            @include('pages.index.single_product')
+                                            @include('catalog.single_product')
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                             <div id="list-view" class="tab-pane active">
                                 @foreach($items as $item)
-                                    @include('pages.index.single_product_list')
+                                    @include('catalog.single_product_list')
                                 @endforeach
                             </div>
                         </div>

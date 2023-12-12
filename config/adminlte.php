@@ -15,7 +15,7 @@ return [
     */
 
     'title' => 'AdminLTE 3',
-    'title_prefix' => 'Admin - ',
+    'title_prefix' => '',
     'title_postfix' => '',
 
     /*
@@ -153,7 +153,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => false,
+    'layout_dark_mode' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -313,8 +313,8 @@ return [
 //        ],
 //        ['header' => 'НАВИГАЦИЯ'],
 //        [
-//            'text'        => 'Структура сайта',
-//            'url'         => 'admin/pages',
+//            'text'        => 'Dashboard',
+//            'url'         => '/admin',
 //            'icon'        => 'far fa-fw fa-clone',
 //        ],
 //        ['header' => 'account_settings'],

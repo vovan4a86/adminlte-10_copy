@@ -39,7 +39,7 @@
                                     <li><a href="#">ENG</a></li>
                                 </ul>
                             </li>
-                        <!-- Currency End -->
+                            <!-- Currency End -->
                         </ul>
                         <!-- Header-list-menu End -->
                     </div>
@@ -87,24 +87,26 @@
                                                 @if(count($topCatalog))
                                                     <ul class="ht-dropdown dropdown-style-two">
                                                         @foreach($topCatalog as $catItem)
-                                                        <li><a href="{{ $catItem->url }}">{{ $catItem->name }}</a>
-                                                            @if(count($catItem->children))
-                                                                <ul class="ht-dropdown dropdown-style-two sub-menu">
-                                                                    @foreach($catItem->children as $child)
-                                                                        <li><a href="{{ $child->url }}">{{ $child->name }}</a>
-                                                                            @if(count($child->children))
-                                                                                <ul class="ht-dropdown dropdown-style-two sub-menu">
-                                                                                    @foreach($child->children as $grandchild)
-                                                                                        <li><a href="{{ $grandchild->url }}">{{ $grandchild->name }}</a>
-                                                                                        </li>
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            @endif
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
-                                                        </li>
+                                                            <li><a href="{{ $catItem->url }}">{{ $catItem->name }}</a>
+                                                                @if(count($catItem->children))
+                                                                    <ul class="ht-dropdown dropdown-style-two sub-menu">
+                                                                        @foreach($catItem->children as $child)
+                                                                            <li>
+                                                                                <a href="{{ $child->url }}">{{ $child->name }}</a>
+                                                                                @if(count($child->children))
+                                                                                    <ul class="ht-dropdown dropdown-style-two sub-menu">
+                                                                                        @foreach($child->children as $grandchild)
+                                                                                            <li>
+                                                                                                <a href="{{ $grandchild->url }}">{{ $grandchild->name }}</a>
+                                                                                            </li>
+                                                                                        @endforeach
+                                                                                    </ul>
+                                                                                @endif
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
                                                         @endforeach
                                                     </ul>
                                                 @endif
@@ -115,8 +117,8 @@
                             </nav>
                         </div>
                     </div>
-            @endif
-            <!-- Search Box End -->
+                @endif
+                <!-- Search Box End -->
                 <!-- Cartt Box Start -->
                 <div class="col-lg-3 col-sm-7 col-7">
                     <div class="cart-box text-right">
@@ -128,7 +130,7 @@
                                     <li><a href="account.html">Account</a></li>
                                 </ul>
                             </li>
-                            <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                            @include('blocks.header_favorites')
                             @include('blocks.header_cart')
                         </ul>
                     </div>

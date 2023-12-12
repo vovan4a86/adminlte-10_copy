@@ -26,19 +26,25 @@ class Run extends Command
      */
     public function handle()
     {
-//        $products = Product::all();
-//        $this->info('Products: ' . count($products));
+        $products = Product::where('in_stock', '>', 0)->get();
+//        $this->info('Products: ' . $products);
 
-        $i = 1;
-        while ($i <= 30) {
-            $n = rand(1, 10500);
-            $p = Product::find($n);
+//        foreach ($products as $product) {
+//          $product->update(['product_count' => rand(10,500)]);
+//        }
+//        $this->info('end');
 
-            if($p->price) {
-                $p->update(['is_top_rated' => 1]);
-                $this->info($p->name);
-                $i++;
-            }
-        }
+
+//        $i = 1;
+//        while ($i <= 30) {
+//            $n = rand(1, 10500);
+//            $p = Product::find($n);
+//
+//            if($p->price) {
+//                $p->update(['is_top_rated' => 1]);
+//                $this->info($p->name);
+//                $i++;
+//            }
+//        }
     }
 }

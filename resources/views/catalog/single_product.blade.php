@@ -1,4 +1,4 @@
-<div class="single-product">
+<div class="single-product" data-id="{{ $item->id }}">
     <div class="pro-img">
         <a href="{{ $item->url }}">
             @if(count($item->images))
@@ -14,11 +14,21 @@
     </div>
     <div class="pro-content">
         <div class="product-rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
+            @if($item->rate == 0)
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+            @else
+                @foreach([1,2,3,4,5] as $n)
+                    @if($n <= $item->rate)
+                        <i class="fa fa-star"></i>
+                    @else
+                        <i class="fa fa-star-o"></i>
+                    @endif
+                @endforeach
+            @endif
         </div>
         <h4><a href="{{ $item->url }}">{{ $item->name }}</a></h4>
         <p>
@@ -32,13 +42,6 @@
                 <del class="prev-price">{{ number_format($item->old_price, 0, '.', ' ') }} ₽</del>
             @endif
         </p>
-        <p>{{ $item->announce ?: 'Анонс' }}</p>
-        <div class="pro-actions">
-            <div class="actions-secondary">
-                <a href="wishlist.html" data-toggle="tooltip" title="В список желаний"><i class="fa fa-heart"></i></a>
-                <a class="add-cart" href="cart.html" data-toggle="tooltip" title="В корзину">В корзину</a>
-                <a href="compare.html" data-toggle="tooltip" title="Добавить в сравнение"><i class="fa fa-signal"></i></a>
-            </div>
-        </div>
+        @include('catalog.pro_actions')
     </div>
 </div>

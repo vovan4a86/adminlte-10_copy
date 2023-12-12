@@ -26,6 +26,11 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
         Route::get('success', [AjaxController::class, 'getSuccess'])->name('success');
     });
 
+    //compare & favorites
+    Route::post('compare', [AjaxController::class, 'postCompare'])->name('compare');
+    Route::post('compare-delete', [AjaxController::class, 'postCompareDelete'])->name('compare-delete');
+    Route::post('favorite', [AjaxController::class, 'postFavorite'])->name('favorite');
+
 });
 
 
@@ -47,6 +52,9 @@ Route::prefix('cart')->name('cart')->group(function () {
     Route::get('/', [CartController::class, 'getIndex']);
     Route::get('checkout', [CartController::class, 'getCartCheckout'])->name('.checkout');
 });
+
+Route::any('favorites',[PageController::class, 'getFavoritesList'])->name('favorites');
+Route::any('compare',[PageController::class, 'getCompareList'])->name('compare');
 
 Route::any('search',[App\Http\Controllers\HomeController::class, 'index'])->name('search');
 

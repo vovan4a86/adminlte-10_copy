@@ -32,7 +32,7 @@
                         <div id="new-arrival" class="tab-pane active">
                             <div class="new-pro-active owl-carousel">
                                 @foreach($new_products as $item)
-                                    @include('pages.index.single_product')
+                                    @include('catalog.single_product')
                                 @endforeach
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                         <div id="featured" class="tab-pane">
                             <div class="new-pro-active owl-carousel">
                                 @foreach($featured_products as $item)
-                                    @include('pages.index.single_product')
+                                    @include('catalog.single_product')
                                 @endforeach
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                         <div id="toprated" class="tab-pane">
                             <div class="new-pro-active owl-carousel">
                                 @foreach($top_rated_products as $item)
-                                    @include('pages.index.single_product')
+                                    @include('catalog.single_product')
                                 @endforeach
                             </div>
                         </div>

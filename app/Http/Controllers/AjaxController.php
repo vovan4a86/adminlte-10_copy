@@ -178,4 +178,92 @@ class AjaxController extends Controller
         return view('cart.success', compact('unique_id'));
     }
 
+    public function postFavorite(): array
+    {
+        $id = \request()->get('id');
+
+        if (!$id) {
+            return ['success' => false, 'msg' => 'Нет ID'];
+        }
+
+        $favorites = session('favorites', []);
+
+        $added = false;
+        if (!in_array($id, $favorites)) {
+            session()->push('favorites', $id);
+            $added = true;
+        } else {
+            foreach($favorites as $key => $item){
+                if ($item == $id){
+                    unset($favorites[$key]);
+                }
+            }
+            session()->forget('favorites');
+            if(count($favorites)) {
+                foreach ($favorites as $item) {
+                    session()->push('favorites', $item);
+                }
+            }
+        }
+
+        $header_favorites = view('blocks.header_favorites')->render();
+
+        return [
+            'success' => true,
+            'header_favorites' => $header_favorites,
+            'added' => $added
+        ];
+    }
+
+    public function postCompare(): array
+    {
+        $id = \request()->get('id');
+
+        if (!$id) {
+            return ['success' => false, 'msg' => 'Нет ID'];
+        }
+
+        $compare = \Session::get('compare', []);
+
+        $add = true;
+        if (count($compare) == 0) {
+            \Session::push('compare', $id);
+        } else {
+            if (!in_array($id, $compare)) {
+                \Session::push('compare', $id);
+            } else {
+                foreach($compare as $key => $item){
+                    if ($item == $id){
+                        unset($compare[$key]);
+                    }
+                }
+                \Session::forget('compare');
+                \Session::put('compare', $compare);
+                $add = false;
+            }
+        }
+
+        return ['success' => true, 'count' => count(\Session::get('compare')), 'add' => $add];
+    }
+
+    public function postCompareDelete()
+    {
+        $id = \request()->get('id');
+
+        if (!$id) {
+            return ['success' => false, 'msg' => 'Нет ID'];
+        }
+
+        $compare = \Session::get('compare', []);
+        foreach($compare as $key => $item){
+            if ($item == $id){
+                unset($compare[$key]);
+            }
+        }
+        \Session::forget('compare');
+        \Session::put('compare', $compare);
+
+        return ['success' => true, 'count' => count(\Session::get('compare'))];
+    }
+
 }

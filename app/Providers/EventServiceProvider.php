@@ -29,6 +29,11 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) {
             // Add some items to the menu...
+            $event->menu->add([
+                'text'        => 'Dashboard',
+                'url'         => '/admin',
+                'icon'        => 'fa fa-anchor mr-1',
+            ]);
             $event->menu->add('НАВИГАЦИЯ');
             $event->menu->add([
                                   'text'        => 'Структура сайта',

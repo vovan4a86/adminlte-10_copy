@@ -17,6 +17,8 @@ class SiteServiceProvider extends ServiceProvider
     public function register(): void
     {
         View::composer(['blocks.header'], function (\Illuminate\View\View $view) {
+//            session()->forget('favorites');
+
 //            $topMenu = Cache::get('top_menu', collect());
 //            if(!count($topMenu)) {
                 $topMenu = Page::query()

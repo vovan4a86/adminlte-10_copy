@@ -36,3 +36,12 @@
     align-items: center;
     justify-content: center;
 }
+.actions-secondary .add-cart-card.added {
+    background: #f1ac06;
+    color: #fff;
+}
+
+.actions-secondary .favorites.added {
+    background: #f1ac06;
+    color: #fff;
+}
