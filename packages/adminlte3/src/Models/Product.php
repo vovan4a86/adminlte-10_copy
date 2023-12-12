@@ -385,4 +385,13 @@ class Product extends Model
         $end = explode('.', $file_name);
         return array_pop($end) == 'pdf';
     }
+
+    public function getCharByName($name)
+    {
+        $ch = $this->chars()->where('name', $name)->first('value');
+        if ($ch) {
+            return $ch->value;
+        }
+        return null;
+    }
 }

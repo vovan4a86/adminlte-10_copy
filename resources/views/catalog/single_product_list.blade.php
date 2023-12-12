@@ -44,7 +44,7 @@
                 <del class="prev-price">{{ number_format($item->old_price, 0, '.', ' ') }} ₽</del>
             @endif
         </p>
-        <p>{{ $item->announce ?: 'Анонс' }} R: {{ $item->rate }}</p>
+        <p>{{ $item->announce ?: '' }}</p>
         @include('catalog.pro_actions')
     </div>
 </div>

@@ -45,3 +45,26 @@
     background: #f1ac06;
     color: #fff;
 }
+.actions-secondary .compare.added {
+    background: #f1ac06;
+    color: #fff;
+}
+.product-description .compare-cart {
+    background: #eef0f1 none repeat scroll 0 0;
+    border-radius: 5px;
+    color: #555;
+    display: inline-block;
+    height: 32px;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all 0.15s ease 0s;
+    transition: all 0.15s ease 0s;
+    width: 115px;
+    font-size: 12px;
+    text-transform: uppercase;
+    outline: medium none;
+}
+.product-description .compare-cart.added {
+    background: #f1ac06;
+    color: #fff;
+}

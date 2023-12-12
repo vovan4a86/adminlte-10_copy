@@ -123,13 +123,7 @@
                 <div class="col-lg-3 col-sm-7 col-7">
                     <div class="cart-box text-right">
                         <ul>
-                            <li><a href="compare.html"><i class="fa fa-cog"></i></a>
-                                <ul class="ht-dropdown">
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
-                                    <li><a href="account.html">Account</a></li>
-                                </ul>
-                            </li>
+                            @include('blocks.header_compare')
                             @include('blocks.header_favorites')
                             @include('blocks.header_cart')
                         </ul>

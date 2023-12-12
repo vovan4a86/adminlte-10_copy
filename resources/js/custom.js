@@ -65,7 +65,7 @@ $('.favorites').click(function (e) {
     sendAjax(url, {id}, function (json) {
        if (json.success && json.added) {
            $('.header-favorites').replaceWith(json.header_favorites)
-           btn.attr('title', 'В списке желаний');
+           btn.attr('title', 'Убрать из списка желаний');
            btn.addClass('added');
        } else if (json.success && json.added === false) {
            $('.header-favorites').replaceWith(json.header_favorites)
@@ -74,6 +74,45 @@ $('.favorites').click(function (e) {
         }
     });
 })
+
+//добавить в сравнение
+$('.compare').click(function (e) {
+    e.preventDefault();
+    const btn = $(this);
+    const url = $(btn).attr('href');
+    const id = $(this).closest('.single-product').data('id');
+
+    sendAjax(url, {id}, function (json) {
+       if (json.success && json.added) {
+           $('.header-compare').replaceWith(json.header_compare)
+           btn.attr('title', 'Убрать из сравнения');
+           btn.addClass('added');
+       } else if (json.success && json.added === false) {
+           $('.header-compare').replaceWith(json.header_compare)
+           btn.attr('title', 'Добавить в сравнение');
+           btn.removeClass('added');
+        }
+    });
+})
+
+//удалить из сравнения
+$('.product-description.delete i').click(function (e) {
+   const url = $(this).data('url');
+   const id = $(this).data('id');
+
+    // let elemsToDelete = $('.product_' + id);
+    // console.log(elemsToDelete.length);
+
+   sendAjax(url, {id}, function (json) {
+       if (json.success) {
+           let elemsToDelete = $('.product_' + id);
+           $.each(elemsToDelete, function (i, elem) {
+               $(elem).fadeOut(300, function(){ $(this).remove(); });
+           })
+           $('.header-compare').replaceWith(json.header_compare)
+       }
+   })
+});
 
 //удалить товар из корзины в шапке
 $('.single-cart-box .del-icone').click(function (e) {
@@ -173,3 +212,4 @@ $('.name-sorter').change(function () {
 
     location.href = url + '/?sort_by=' + sort_by + '&sort_direction=' + sort_direction;
 });
+

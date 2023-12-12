@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 class AjaxController extends Controller
 {
     //РАБОТА С КОРЗИНОЙ
-    public function postCartAdd(Request $request): array {
+    public function postCartAdd(Request $request): array
+    {
         $id = $request->get('id');
         $qnt = $request->get('qnt');
 
@@ -43,7 +44,8 @@ class AjaxController extends Controller
         ];
     }
 
-    public function postEditCartProduct(Request $request): array {
+    public function postEditCartProduct(Request $request): array
+    {
         $id = $request->get('id');
         $count = $request->get('count');
         /** @var Product $product */
@@ -62,7 +64,8 @@ class AjaxController extends Controller
         return ['cart_popup' => $popup];
     }
 
-    public function postCartUpdate(Request $request): array {
+    public function postCartUpdate(Request $request): array
+    {
         $id = $request->get('id');
         $qnt = $request->get('qnt');
 
@@ -81,7 +84,8 @@ class AjaxController extends Controller
         }
     }
 
-    public function postCartRemove(Request $request): array {
+    public function postCartRemove(Request $request): array
+    {
         $id = $request->get('id');
         Cart::remove($id);
         $header_cart = view('blocks.header_cart', ['cart_items' => Cart::all()])->render();
@@ -91,7 +95,8 @@ class AjaxController extends Controller
         ];
     }
 
-    public function postCartPurge(): array {
+    public function postCartPurge(): array
+    {
         Cart::purge();
         $total = view('cart.table_row_total')->render();
         $header_cart = view('blocks.header_cart', ['innerPage' => true])->render();
@@ -102,7 +107,8 @@ class AjaxController extends Controller
         ];
     }
 
-    public function postCartCheckout(Request $request) {
+    public function postCartCheckout(Request $request)
+    {
         $data = $request->only([
             'name',
             'city',
@@ -121,13 +127,13 @@ class AjaxController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
         ], [
-            'name.required'            => 'Не указаны ваши ФИО!',
-            'city.required'            => 'Не указан город!',
-            'address.required'         => 'Не указан адрес!',
-            'index.required'           => 'Не указан индекс!',
-            'email.required'           => 'Не указан ваш e-mail адрес!',
-            'email.email'              => 'Не корректный e-mail адрес!',
-            'phone.required'           => 'Не заполнено поле Телефон',
+            'name.required' => 'Не указаны ваши ФИО!',
+            'city.required' => 'Не указан город!',
+            'address.required' => 'Не указан адрес!',
+            'index.required' => 'Не указан индекс!',
+            'email.required' => 'Не указан ваш e-mail адрес!',
+            'email.email' => 'Не корректный e-mail адрес!',
+            'phone.required' => 'Не заполнено поле Телефон',
         ]);
         if ($valid->fails()) {
             return ['success' => false, 'errors' => $valid->messages()];
@@ -163,7 +169,7 @@ class AjaxController extends Controller
 //				->subject('allant.ru - Новый заказ');
 //		});
 
-		Cart::purge();
+        Cart::purge();
 
         return [
             'success' => true,
@@ -172,9 +178,12 @@ class AjaxController extends Controller
         ];
     }
 
-    public function getSuccess() {
+    public function getSuccess()
+    {
         $unique_id = request()->get('unique_id');
-        if (!$unique_id) abort(404);
+        if (!$unique_id) {
+            abort(404);
+        }
         return view('cart.success', compact('unique_id'));
     }
 
@@ -193,13 +202,13 @@ class AjaxController extends Controller
             session()->push('favorites', $id);
             $added = true;
         } else {
-            foreach($favorites as $key => $item){
-                if ($item == $id){
+            foreach ($favorites as $key => $item) {
+                if ($item == $id) {
                     unset($favorites[$key]);
                 }
             }
             session()->forget('favorites');
-            if(count($favorites)) {
+            if (count($favorites)) {
                 foreach ($favorites as $item) {
                     session()->push('favorites', $item);
                 }
@@ -223,27 +232,32 @@ class AjaxController extends Controller
             return ['success' => false, 'msg' => 'Нет ID'];
         }
 
-        $compare = \Session::get('compare', []);
+        $compare = session('compare', []);
 
-        $add = true;
-        if (count($compare) == 0) {
-            \Session::push('compare', $id);
+        $added = false;
+        if (!in_array($id, $compare)) {
+            session()->push('compare', $id);
+            $added = true;
         } else {
-            if (!in_array($id, $compare)) {
-                \Session::push('compare', $id);
-            } else {
-                foreach($compare as $key => $item){
-                    if ($item == $id){
-                        unset($compare[$key]);
-                    }
+            foreach ($compare as $key => $item) {
+                if ($item == $id) {
+                    unset($compare[$key]);
                 }
-                \Session::forget('compare');
-                \Session::put('compare', $compare);
-                $add = false;
+            }
+            session()->forget('compare');
+            if (count($compare)) {
+                foreach ($compare as $item) {
+                    session()->push('compare', $item);
+                }
             }
         }
+        $header_compare = view('blocks.header_compare')->render();
 
-        return ['success' => true, 'count' => count(\Session::get('compare')), 'add' => $add];
+        return [
+            'success' => true,
+            'header_compare' => $header_compare,
+            'added' => $added
+        ];
     }
 
     public function postCompareDelete()
@@ -254,16 +268,26 @@ class AjaxController extends Controller
             return ['success' => false, 'msg' => 'Нет ID'];
         }
 
-        $compare = \Session::get('compare', []);
-        foreach($compare as $key => $item){
-            if ($item == $id){
+        $compare = session('compare', []);
+        foreach ($compare as $key => $item) {
+            if ($item == $id) {
                 unset($compare[$key]);
             }
         }
-        \Session::forget('compare');
-        \Session::put('compare', $compare);
+        session()->forget('compare');
+        if (count($compare)) {
+            foreach ($compare as $item) {
+                session()->push('compare', $item);
+            }
+        }
 
-        return ['success' => true, 'count' => count(\Session::get('compare'))];
+        $header_compare = view('blocks.header_compare')->render();
+
+
+        return [
+            'success' => true,
+            'header_compare' => $header_compare,
+        ];
     }
 
 }

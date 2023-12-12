@@ -3,7 +3,7 @@
         @if(in_array($item->id, session('favorites', [])))
             <a href="{{ route('ajax.favorite') }}"
                class="favorites added"
-               data-toggle="tooltip" title="В списке желаний">
+               data-toggle="tooltip" title="Убрать из списка желаний">
                 <i class="fa fa-heart"></i>
             </a>
         @else
@@ -26,6 +26,18 @@
                 В корзину
             </a>
         @endif
-        <a href="compare.html" data-toggle="tooltip" title="Добавить в сравнение"><i class="fa fa-signal"></i></a>
+        @if(in_array($item->id, session('compare', [])))
+            <a href="{{ route('ajax.compare') }}"
+               class="compare added"
+               data-toggle="tooltip" title="Убрать из сравнения">
+                <i class="fa fa-signal"></i>
+            </a>
+        @else
+            <a href="{{ route('ajax.compare') }}"
+               class="compare"
+               data-toggle="tooltip" title="Добавить в сравнение">
+                <i class="fa fa-signal"></i>
+            </a>
+        @endif
     </div>
 </div>
