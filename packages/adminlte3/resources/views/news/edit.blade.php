@@ -50,25 +50,7 @@
                 {{--param_tab--}}
                 <div class="tab-pane fade show active" id="tabs-three-params" role="tabpanel"
                      aria-labelledby="tab-param">
-
-                    <div class="row">
-                        <div class="tags">
-                            @foreach($article->tags as $tag)
-                                <span>{{ $tag->name }}</span>
-                            @endforeach
-                        </div>
-
-                        <input type="text" name="tag">
-                        <button class="btn btn-info"
-                                data-url="{{ route('admin.news.add-tag', $article->id) }}"
-                                onclick="addNewsTag(this, event)">
-                            Добавить
-                        </button>
-                    </div>
-
-                    {!! Form::groupDate('date', $article->date, 'Дата') !!}
-
-                    {{ Form::groupSelect('news_category', array_merge([0 => 'Без категории'], $news_categories), $article->news_category, 'Категория') }}
+                        {!! Form::groupDate('date', $article->date, 'Дата') !!}
 
                     <div class="row">
                         {{ Form::groupText('name', $article->name, 'Название', [], 'col-6') }}
