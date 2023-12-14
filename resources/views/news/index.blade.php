@@ -1,25 +1,49 @@
 @extends('template')
 @section('content')
     @include('blocks.bread')
-    <main>
-        <section class="news">
-            <div class="news__container container">
-                <h1 class="v-hidden">{{ $title }}</h1>
-                <div class="news__title">{{ $title }}</div>
-                <div class="news__subtitle">{!! $text !!}</div>
-                <div class="news__list">
-                    @foreach($items as $item)
-                        @if($item->is_action)
-                            @include('news.list_item_action')
-                        @else
-                            @include('news.list_item')
-                        @endif
+
+    <div class="blog-page pb-60">
+        <div class="container">
+            <div class="category-items">
+                <div class="cat-elem">
+                    <a href="{{ route('news') }}"
+                       class="{{ !isset($cat) ? 'active' : null }}">
+                        Все
+                    </a>
+                </div>
+                <div class="cat-elem">
+                    <a href="{{ route('news', ['cat' => 0]) }}"
+                       class="{{ isset($cat) && $cat == 0 ? 'active' : null }}">
+                        Без категории
+                    </a>
+                </div>
+                @foreach($news_categories as $category)
+                    <div class="cat-elem">
+                        <a href="{{ route('news', ['cat' => $category->id]) }}"
+                           class="{{ isset($cat) && $cat == $category->id ? 'active' : null }}">
+                            {{ $category->name }}
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+            @if(count($news))
+                <div class="row">
+                    @foreach($news as $item)
+                        @include('news.list_item')
                     @endforeach
                 </div>
-                <div class="pagination">
-                    @include('paginations.with_pages', ['paginator' => $items])
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        @include('pagination.news', ['paginator' => $news])
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            @else
+                <h4>Нет новостей</h4>
+            @endif
+        </div>
+    </div>
+
+    @include('blocks.brands')
+
 @endsection

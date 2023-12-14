@@ -68,3 +68,16 @@
     background: #f1ac06;
     color: #fff;
 }
+.cart-main-area.wish-list .product-add-to-cart .favorites-add-cart {
+    background: #eef0f1 none repeat scroll 0 0;
+    color: #555;
+}
+
+.cart-main-area.wish-list .product-add-to-cart .favorites-add-cart.added {
+    background: #f1ac06;
+    color: #fff;
+}
+
+.cat-elem .active {
+    color: #f1ac06;
+}

@@ -30,6 +30,7 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('compare', [AjaxController::class, 'postCompare'])->name('compare');
     Route::post('compare-delete', [AjaxController::class, 'postCompareDelete'])->name('compare-delete');
     Route::post('favorite', [AjaxController::class, 'postFavorite'])->name('favorite');
+    Route::post('favorite-delete', [AjaxController::class, 'postFavoriteDelete'])->name('favorite-delete');
 
 });
 
@@ -43,7 +44,7 @@ Route::prefix('catalog')->name('catalog')->group(function () {
 });
 
 Route::prefix('news')->name('news')->group(function () {
-    Route::get('/', [NewsController::class, 'index'])->name('.index');
+    Route::get('/', [NewsController::class, 'index']);
     Route::get('/{alias}', [NewsController::class, 'item'])->name('.item')
         ->where('alias', '([A-Za-z0-9\-\/_]+)');
 });

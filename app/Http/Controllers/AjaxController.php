@@ -91,7 +91,8 @@ class AjaxController extends Controller
         $header_cart = view('blocks.header_cart', ['cart_items' => Cart::all()])->render();
         return [
             'success' => true,
-            'header_cart' => $header_cart
+            'header_cart' => $header_cart,
+            'empty' => count(Cart::all()) == 0
         ];
     }
 
@@ -287,6 +288,38 @@ class AjaxController extends Controller
         return [
             'success' => true,
             'header_compare' => $header_compare,
+            'empty' => count($compare) == 0
+        ];
+    }
+
+    public function postFavoriteDelete()
+    {
+        $id = \request()->get('id');
+
+        if (!$id) {
+            return ['success' => false, 'msg' => 'Нет ID'];
+        }
+
+        $favorites = session('favorites', []);
+        foreach ($favorites as $key => $item) {
+            if ($item == $id) {
+                unset($favorites[$key]);
+            }
+        }
+        session()->forget('favorites');
+        if (count($favorites)) {
+            foreach ($favorites as $item) {
+                session()->push('favorites', $item);
+            }
+        }
+
+        $header_favorites = view('blocks.header_favorites')->render();
+
+
+        return [
+            'success' => true,
+            'header_favorites' => $header_favorites,
+            'empty' => count($favorites) == 0
         ];
     }
 

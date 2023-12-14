@@ -30,45 +30,57 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) {
             // Add some items to the menu...
             $event->menu->add([
-                'text'        => 'Dashboard',
-                'url'         => '/admin',
-                'icon'        => 'fa fa-anchor mr-1',
+                'text' => 'Dashboard',
+                'url' => '/admin',
+                'icon' => 'fa fa-anchor mr-1',
             ]);
             $event->menu->add('НАВИГАЦИЯ');
             $event->menu->add([
-                                  'text'        => 'Структура сайта',
-                                  'url'         => 'admin/pages',
-                                  'icon'        => 'fa fa-clone mr-1',
-                              ]);
+                'text' => 'Структура сайта',
+                'url' => 'admin/pages',
+                'icon' => 'fa fa-clone mr-1',
+            ]);
             $event->menu->add([
-                                  'text'        => 'Каталог',
-                                  'url'         => 'admin/catalog',
-                                  'icon'        => 'fa fa-bars mr-1',
-                              ]);
+                'text' => 'Каталог',
+                'url' => 'admin/catalog',
+                'icon' => 'fa fa-bars mr-1',
+            ]);
             $event->menu->add([
-                                  'text'        => 'Новости',
-                                  'url'         => 'admin/news',
-                                  'icon'        => 'fa fa-calendar mr-1',
-                              ]);
+                'text' => 'Новости',
+                'url' => '#',
+                'icon' => 'fa fa-calendar mr-1',
+                'submenu' => [
+                    [
+                        'text' => 'Новости',
+                        'url' => 'admin/news',
+                        'icon' => 'fa fa-calendar mr-1',
+                    ],
+                    [
+                        'text' => 'Категории',
+                        'url' => 'admin/news-categories',
+                        'icon' => 'fa fa-calendar mr-1',
+                    ],
+                ]
+            ]);
             $event->menu->add([
-                                  'text'        => 'Отзывы',
-                                  'url'         => 'admin/reviews',
-                                  'icon'        => 'fa fa-comment mr-1',
-                              ]);
+                'text' => 'Отзывы',
+                'url' => 'admin/reviews',
+                'icon' => 'fa fa-comment mr-1',
+            ]);
             $event->menu->add('НАСТРОЙКИ ПРОФИЛЯ');
             $event->menu->add([
-                                  'text' => 'Пользователи',
-                                  'url' => 'admin/users',
-                                  'icon' => 'fa fa-users mr-1',
-                                  'label' => User::all()->count(),
-                                  'label_color' => 'success',
-                              ]);
+                'text' => 'Пользователи',
+                'url' => 'admin/users',
+                'icon' => 'fa fa-users mr-1',
+                'label' => User::all()->count(),
+                'label_color' => 'success',
+            ]);
             $event->menu->add('НАСТРОЙКИ САЙТА');
             $event->menu->add([
-                                  'text' => 'Общие',
-                                  'url' => 'admin/settings',
-                                  'icon' => 'fa fa-cogs mr-1',
-                              ]);
+                'text' => 'Общие',
+                'url' => 'admin/settings',
+                'icon' => 'fa fa-cogs mr-1',
+            ]);
         });
     }
 

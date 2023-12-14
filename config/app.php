@@ -2,6 +2,7 @@
 
 use Adminlte3\AdminLogServiceProvider;
 use Adminlte3\AdminLteServiceProvider;
+use Adminlte3\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -172,6 +173,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
         AdminLteServiceProvider::class,
+        AuthServiceProvider::class,
         AdminLogServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -182,6 +184,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Text' => Adminlte3\Models\Text::class,
+        'Auth' => Adminlte3\Auth\Auth::class,
         'Settings' => Adminlte3\Settings::class,
         'Thumb' => Adminlte3\Thumb::class,
         'Cart' => Adminlte3\Cart::class,

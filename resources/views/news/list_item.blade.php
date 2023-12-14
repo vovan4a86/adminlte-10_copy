@@ -1,14 +1,25 @@
-<div class="news__item">
-    <div class="news-card">
-        <a href="{{ $item->url }}" title="{{ $item->title }}">
-            <picture>
-                <img class="news-card__pic lazy" src="/" data-src="{{ $item->thumb(2) }}" width="380" height="260" alt="" />
-            </picture>
-        </a>
-        <a href="{{ $item->url }}" title="{{ $item->name }}">
-            <span class="news-card__title">{{ $item->name }}</span>
-        </a>
-        <div class="news-card__text">{{ $item->announce }}</div>
-        <time class="news-card__date" datetime="{{ $item->dateFormat('Y-m-d') }}">{{ $item->dateFormat() }}</time>
+<div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="single-blog">
+        <div class="blog-img">
+            <a href="{{ $item->url }}">
+                <img src="{{ $item->thumb(2) }}" alt="{{ $item->name }}">
+            </a>
+        </div>
+        <div class="blog-content">
+            <h4 class="blog-title">
+                <a href="{{ $item->url }}">
+                    {{ $item->name }}
+                </a>
+            </h4>
+            <div class="blog-meta">
+                <ul style="display: flex; justify-content: space-between">
+                    <li><a href="#">{{ $item->dateFormat('d m, Y') }}</a></li>
+                    <li><a href="#">{{ $item->news_category ? $item->category->name : 'Без категории' }}</a></li>
+                </ul>
+            </div>
+            <div class="readmore">
+                <a href="{{ $item->url }}">Читать...</a>
+            </div>
+        </div>
     </div>
 </div>

@@ -55,6 +55,44 @@ $('.add-cart-card').click(function (e) {
     });
 })
 
+//добавить товар из списка желаний
+$('.favorites-add-cart').click(function (e) {
+    e.preventDefault();
+    const btn = $(this);
+    const url = $(btn).attr('href');
+    const id = $(this).closest('tr').data('id');
+
+    sendAjax(url, {id, qnt: 1}, function (json) {
+       if (json.success) {
+           $('.header-cart').replaceWith(json.header_cart)
+           btn.text('В корзине');
+           btn.addClass('added');
+       }
+    });
+})
+
+//удалить из списка желаний
+$('.product-remove.favorite i').click(function (e) {
+    e.preventDefault();
+    const tr = $(this).closest('tr');
+    const url = $(this).closest('a').attr('href');
+    const id = $(tr).data('id');
+
+    sendAjax(url, {id}, function (json) {
+        if (json.success) {
+            $(tr).fadeOut(300, function(){ $(this).remove(); });
+            $('.header-favorites').replaceWith(json.header_favorites);
+
+            if (json.empty) {
+                const empty = '<h4>Пусто</h4>';
+                const row = $('.row .col-md-12');
+                $(row).empty();
+                $(row).append(empty);
+            }
+        }
+    })
+});
+
 //в список желаний
 $('.favorites').click(function (e) {
     e.preventDefault();
@@ -110,6 +148,13 @@ $('.product-description.delete i').click(function (e) {
                $(elem).fadeOut(300, function(){ $(this).remove(); });
            })
            $('.header-compare').replaceWith(json.header_compare)
+
+           if (json.empty) {
+               const empty = '<h4>Пусто</h4>';
+               const row = $('.compare-product .container');
+               $(row).empty();
+               $(row).append(empty);
+           }
        }
    })
 });
@@ -138,6 +183,13 @@ $('.cart-item-remove').click(function (e) {
         if (json.success) {
             $('.header-cart').replaceWith(json.header_cart)
             tr.fadeOut(300, function(){ $(this).remove(); });
+
+            if (json.empty) {
+                const empty = '<h4>Пока ничего не добавлено...</h4>';
+                const row = $('.row .col-md-12');
+                $(row).empty();
+                $(row).append(empty);
+            }
         }
     });
 })
