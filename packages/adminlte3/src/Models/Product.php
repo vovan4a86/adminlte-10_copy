@@ -394,4 +394,14 @@ class Product extends Model
         }
         return null;
     }
+
+    public function getImage($thumb_size = 2): string
+    {
+        if ($img = $this->images()->first()) {
+            return $img->thumb($thumb_size, $this->catalog->alias);
+        }
+
+        return ProductImage::NO_IMAGE;
+    }
+
 }

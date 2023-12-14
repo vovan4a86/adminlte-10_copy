@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-7">
                                 <div class="buttons-cart">
-                                    <a href="{{ route('catalog.index') }}">Продолжить покупки</a>
+                                    <a href="{{ route('catalog') }}">Продолжить покупки</a>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12">

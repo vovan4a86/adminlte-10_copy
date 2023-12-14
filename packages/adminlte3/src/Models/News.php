@@ -5,12 +5,16 @@ use Adminlte3\SiteHelper;
 use App\Traits\HasH1;
 use App\Traits\HasImage;
 use App\Traits\HasSeo;
+use App\Traits\OgGenerate;
 use Database\Factories\NewsFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Adminlte3\News
@@ -64,8 +68,7 @@ use Carbon\Carbon;
  */
 class News extends Model
 {
-
-    use HasImage, HasH1, HasSeo, HasFactory;
+    use HasImage, HasH1, HasSeo, HasFactory, OgGenerate;
 
     protected static function newFactory(): NewsFactory
     {
@@ -87,6 +90,16 @@ class News extends Model
         2 => '370x240|fit', //top_list
     ];
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(NewsCategory::class, 'news_category', 'id');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(NewsTag::class);
+    }
+
     public function scopePublic($query)
     {
         return $query->where('published', 1);
@@ -94,7 +107,9 @@ class News extends Model
 
     public function getUrlAttribute(): string
     {
-        return route('news.item', ['alias' => $this->alias]);
+//        return route('news.item', ['alias' => $this->alias]);
+        $path = '/news/' . $this->alias;
+        return url($path);
     }
 
     public function dateFormat($format = 'd.m.Y'): array|string|null

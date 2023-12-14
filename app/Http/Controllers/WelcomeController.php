@@ -7,11 +7,14 @@ use Adminlte3\Models\News;
 use Adminlte3\Models\Page;
 use Adminlte3\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
 {
     public function index()
     {
+//        Auth::logout();
+
         $page = Page::find(1);
 //        $page = $this->add_region_seo($page);
         $page->ogGenerate();

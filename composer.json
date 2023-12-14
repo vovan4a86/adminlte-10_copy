@@ -32,7 +32,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Adminlte3\\": "packages/adminlte3/src/"
+            "Adminlte3\\": "packages/adminlte3/src/",
+            "Adminlte3\\Auth\\": "packages/auth/src/"
         }
     },
     "autoload-dev": {

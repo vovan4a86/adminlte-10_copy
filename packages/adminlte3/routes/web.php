@@ -2,6 +2,7 @@
 
 use Adminlte3\Http\Controllers\AdminCatalogController;
 use Adminlte3\Http\Controllers\AdminMainController;
+use Adminlte3\Http\Controllers\AdminNewsCategoriesController;
 use Adminlte3\Http\Controllers\AdminNewsController;
 use Adminlte3\Http\Controllers\AdminPagesController;
 use Adminlte3\Http\Controllers\AdminReviewsController;
@@ -183,6 +184,28 @@ Route::middleware('admin.auth')->group(function () {
 
         Route::post('delete-image/{id?}', [AdminNewsController::class, 'postDeleteImage'])
             ->name('.delete-image');
+
+        Route::post('add-tag/{id}', [AdminNewsController::class, 'postAddTag'])
+            ->name('.add-tag');
+    });
+
+    Route::prefix('news-categories')->name('news-categories')->group(function () {
+        Route::get('/', [AdminNewsCategoriesController::class, 'getIndex']);
+
+        Route::post('save', [AdminNewsCategoriesController::class, 'postSave'])
+            ->name('.save');
+
+        Route::get('edit/{id?}', [AdminNewsCategoriesController::class, 'getEdit'])
+            ->name('.edit');
+
+        Route::post('edit/{id?}', [AdminNewsCategoriesController::class, 'postEdit'])
+            ->name('.edit');
+
+        Route::post('reorder', [AdminNewsCategoriesController::class, 'postReorder'])
+            ->name('.reorder');
+
+        Route::post('delete/{id}', [AdminNewsCategoriesController::class, 'postDelete'])
+            ->name('.delete');
     });
 
     Route::prefix('settings')->name('settings')->group(function () {

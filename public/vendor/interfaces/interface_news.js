@@ -73,3 +73,28 @@ function deleteNews (elem, e) {
 
 
 }
+
+function deleteNewsCategory (elem, e) {
+    e.preventDefault();
+    const url = $(elem).attr('href');
+
+    sendAjax(url, {}, function (json) {
+        if (json.success) {
+            $(elem).closest('tr').fadeOut(function () {
+                $(this).remove();
+            })
+        }
+    });
+}
+
+function addNewsTag (elem, e) {
+    e.preventDefault();
+    const url = $(elem).data('url');
+    const name = $(elem).closest('.row').find('input[name=tag]').val();
+
+    sendAjax(url, {name}, function (json) {
+        if (json.success) {
+            $('.tags').append(json.item);
+        }
+    });
+}

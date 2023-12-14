@@ -16,21 +16,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="main-toolbar-sorter f-right">
-                            <div class="toolbar-sorter">
-                                <label>Сортировка</label>
-                                <select class="sorter" name="name-sorter">
-                                    <option value="Position" selected="selected">position</option>
-                                    <option value="Product Name">Product Name</option>
-                                    <option value="Price">Price</option>
-                                </select>
-                                <span>
-                                    <a href="#" class="sorter-direction">
-                                        <i class="fa fa-arrow-up"></i>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
                     </div>
                     <div class="main-categories">
                         <div class="tab-content fix">

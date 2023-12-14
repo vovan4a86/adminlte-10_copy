@@ -1,8 +1,11 @@
 <?php namespace Adminlte3\Http\Controllers;
 
 use Adminlte3\Models\News;
+use Adminlte3\Models\NewsCategory;
+use Adminlte3\Models\NewsTag;
 use Adminlte3\Models\Text;
 use Adminlte3\Pagination;
+use Barryvdh\Reflection\DocBlock\Tag;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,12 +26,17 @@ class AdminNewsController extends Controller {
 			$article->published = 1;
 		}
 
-		return view('adminlte::news.edit', ['article' => $article]);
+        $news_categories = NewsCategory::pluck('name', 'id')->all();
+
+		return view('adminlte::news.edit', [
+            'article' => $article,
+            'news_categories' => $news_categories,
+        ]);
 	}
 
 	public function postSave() {
 		$id = Request::input('id');
-		$data = Request::only(['date', 'name', 'announce', 'text', 'published', 'alias', 'title', 'keywords', 'description']);
+		$data = Request::only(['date', 'name', 'announce', 'news_category', 'text', 'published', 'alias', 'title', 'keywords', 'description']);
 		$image = Request::file('image');
 
 		if (!Arr::get($data, 'alias')) $data['alias'] = Text::translit($data['name']);
@@ -88,4 +96,22 @@ class AdminNewsController extends Controller {
 
 		return ['success' => true];
 	}
+
+    public function postAddTag($id): array
+    {
+        $article = News::find($id);
+
+        $name = request()->get('name');
+
+        $tag = NewsTag::where('name', $name)->first();
+        if (!$tag) {
+            $tag = NewsTag::create(['name' => $name]);
+        }
+
+        $article->tags()->attach($tag);
+
+        $item = '<span>' . $name . '</span>';
+
+        return ['success' => true, 'item' => $item];
+    }
 }
