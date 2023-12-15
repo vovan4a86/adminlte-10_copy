@@ -187,6 +187,9 @@ Route::middleware('admin.auth')->group(function () {
 
         Route::post('add-tag/{id}', [AdminNewsController::class, 'postAddTag'])
             ->name('.add-tag');
+
+        Route::post('delete-tag', [AdminNewsController::class, 'postDeleteTag'])
+            ->name('.delete-tag');
     });
 
     Route::prefix('news-categories')->name('news-categories')->group(function () {

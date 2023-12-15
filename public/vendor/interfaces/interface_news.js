@@ -94,7 +94,32 @@ function addNewsTag (elem, e) {
 
     sendAjax(url, {name}, function (json) {
         if (json.success) {
-            $('.tags').append(json.item);
+            if (json.item) {
+                $('.tags').append(json.item);
+            }
+            $('input[name=tag]').val('');
+        }
+    });
+}
+
+function addNewsTagEnter(elem, e) {
+    //если нажали Enter
+    if (e.keyCode === 13) {
+        addNewsTag(elem, e)
+    }
+}
+
+function deleteTag (elem) {
+    const url = '/admin/news/delete-tag';
+    const news_id = $('input[name=id]').val();
+    const tag_item = $(elem).closest('.tag-item');
+    const tag_id = $(tag_item).data('id');
+
+    sendAjax(url, {news_id, tag_id}, function (json) {
+        if (json.success) {
+            $(tag_item).fadeOut(function () {
+                $(this).remove();
+            })
         }
     });
 }

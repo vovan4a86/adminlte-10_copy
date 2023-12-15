@@ -13,7 +13,7 @@
                             <h1>{{ $item->name }}</h1>
                             <div class="blog-meta">
                                 <ul>
-                                    <li><a href="#">{{ $item->dateFormat('d m, Y') }}</a></li>
+                                    <li><a href="#">{{ $item->dateFormat('d F, Y') }}</a></li>
                                 </ul>
                             </div>
                             {!! $text !!}
@@ -79,125 +79,33 @@
                         </div>
                     </div>
 
-                    <div class="blog-related-post recent-post mtb-50">
-                        <h3 class="sidebar-title">related blog post</h3>
+                    @if(count($related))
+                        <div class="blog-related-post recent-post mtb-50">
+                        <h3 class="sidebar-title">Еще в разделе</h3>
                         <div class="blog-related-post-active owl-carousel">
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
+                            @foreach($related as $item)
+                                <div class="single-blog">
                                 <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/1.jpg" alt="blog-image"></a>
+                                    <a href="{{ $item->url }}">
+                                        <img src="{{ $item->thumb(2) }}" alt="{{ $item->name }}">
+                                    </a>
                                 </div>
                                 <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
+                                    <h4 class="blog-title"><a href="{{ $item->url }}">{{ $item->name }}</a></h4>
                                     <div class="blog-meta">
                                         <ul>
-                                            <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                            <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
+                                            <li><a href="#">{{ $item->dateFormat('d F, Y') }}</a></li>
                                         </ul>
                                     </div>
                                     <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
+                                        <a href="{{ $item->url }}">Читать...</a>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Single Blog End -->
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
-                                <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/2.jpg" alt="blog-image"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                                    <div class="blog-meta">
-                                        <ul>
-                                            <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                            <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Blog End -->
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
-                                <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/3.jpg" alt="blog-image"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                                    <div class="blog-meta">
-                                        <ul>
-                                            <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                            <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Blog End -->
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
-                                <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/1.jpg" alt="blog-image"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                                    <div class="blog-meta">
-                                        <ul>
-                                            <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                            <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Blog End -->
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
-                                <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/2.jpg" alt="blog-image"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                                    <div class="blog-meta">
-                                        <ul>
-                                            <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                            <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Blog End -->
-                            <!-- Single Blog Start -->
-                            <div class="single-blog">
-                                <div class="blog-img">
-                                    <a href="blog-details.html"><img src="/img/blog/3.jpg" alt="blog-image"></a>
-                                </div>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                                    <div class="blog-meta">
-                                        <ul>
-                                            <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                            <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="readmore">
-                                        <a href="blog-details.html">Read More.....</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Blog End -->
+                            @endforeach
                         </div>
                     </div>
+                    @endif
 
                     <div class="comment-area recent-post">
                         <h3 class="sidebar-title">1 COMMENTS</h3>
@@ -292,17 +200,16 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="categorie recent-post same-sidebar">
-                            <h3 class="sidebar-title mt-40">Tags</h3>
-                            <ul class="tag-list">
-                                <li><a href="#">Tools</a></li>
-                                <li><a href="#">Machine</a></li>
-                                <li><a href="#">Hardware</a></li>
-                                <li><a href="#">Electrical</a></li>
-                                <li><a href="#">Drill Machine</a></li>
-                                <li><a href="#">Power Saw</a></li>
-                            </ul>
-                        </div>
+                        @if(count($item->tags))
+                            <div class="categorie recent-post same-sidebar">
+                                <h3 class="sidebar-title mt-40">Теги</h3>
+                                <ul class="tag-list">
+                                    @foreach($item->tags as $tag)
+                                        <li><a href="#">{{ $tag->name }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

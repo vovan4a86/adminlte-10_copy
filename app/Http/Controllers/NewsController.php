@@ -101,6 +101,12 @@ class NewsController extends Controller
 
         $news_categories = NewsCategory::all();
 
+        $related = News::where('news_category', $item->news_category)
+            ->where('id', '!=', $item->id)
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
 //        $news_related = News::where('id', '!=', $item->id)
 //            ->orderBy('date', 'desc')
 //            ->public()
@@ -125,7 +131,8 @@ class NewsController extends Controller
             'next_item'    => $next_item,
             'prev_item'    => $prev_item,
             'recent_news'  => $recent_news,
-            'news_categories' => $news_categories
+            'news_categories' => $news_categories,
+            'related' => $related
         ]);
     }
 

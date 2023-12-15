@@ -5,7 +5,8 @@
 @section('content_header')
     <div class="admin-page-head row">
         <div class="col-sm-3">
-            <h5 class="admin-page-title">Новость <small style="font-style: italic;">{{ $article->id ? 'Редактировать' : 'Новая' }}</small>
+            <h5 class="admin-page-title">Новость <small
+                    style="font-style: italic;">{{ $article->id ? 'Редактировать' : 'Новая' }}</small>
             </h5>
         </div>
         <div class="col-sm-9">
@@ -50,7 +51,7 @@
                 {{--param_tab--}}
                 <div class="tab-pane fade show active" id="tabs-three-params" role="tabpanel"
                      aria-labelledby="tab-param">
-                        {!! Form::groupDate('date', $article->date, 'Дата') !!}
+                    {!! Form::groupDate('date', $article->date, 'Дата') !!}
 
                     <div class="row">
                         {{ Form::groupText('name', $article->name, 'Название', [], 'col-6') }}
@@ -66,6 +67,23 @@
                         <div class="col-6">
                             {{ Form::groupText('og_title', $article->og_title, 'OG Title') }}
                             {{ Form::groupText('og_description', $article->og_description, 'OG Description') }}
+
+                            <div class="tags-add mt-3">
+                                <label>Тег
+                                    <input type="text" name="tag" class="form-control mt-2"
+                                           onkeydown="addNewsTagEnter(this, event)">
+                                </label>
+                                <button class="btn btn-info btn-sm mb-2"
+                                        data-url="{{ route('admin.news.add-tag', $article->id) }}"
+                                        onclick="addNewsTag(this, event)">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
+                            </div>
+                            <div class="tags">
+                                @foreach($article->tags as $tag)
+                                    @include('adminlte::news.tag')
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 
@@ -85,7 +103,8 @@
                                     <img class="img-polaroid" src="{{ $article->thumb(1) }}" height="100"
                                          data-image="{{ $article->image_src }}"
                                          onclick="popupImage($(this).data('image'))" alt="">
-                                    <a class="image-delete" href="{{ route('admin.pages.delete-image', [$article->id]) }}"
+                                    <a class="image-delete"
+                                       href="{{ route('admin.pages.delete-image', [$article->id]) }}"
                                        onclick="deleteImage(this, event)">
                                         <i class="fa fa-trash text-red ml-2"></i>
                                     </a>
@@ -109,7 +128,8 @@
         <div class="card-footer">
             <button type="submit" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i>
-                Сохранить</button>
+                Сохранить
+            </button>
         </div>
     </div>
     {!! Form::close() !!}

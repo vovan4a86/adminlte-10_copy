@@ -107,11 +107,26 @@ class AdminNewsController extends Controller {
         if (!$tag) {
             $tag = NewsTag::create(['name' => $name]);
         }
+        $hasTags = $article->tags()->pluck('news_tag_id')->all();
 
-        $article->tags()->attach($tag);
-
-        $item = '<span>' . $name . '</span>';
+        $item = null;
+        if (!in_array($tag->id, $hasTags)) {
+            $article->tags()->attach($tag);
+            $item = view('adminlte::news.tag', ['tag' => $tag])->render();
+        }
 
         return ['success' => true, 'item' => $item];
+    }
+
+    public function postDeleteTag(): array
+    {
+        $news_id = request()->get('news_id');
+        $tag_id = request()->get('tag_id');
+
+        $article = News::find($news_id);
+
+        $article->tags()->detach($tag_id);
+
+        return ['success' => true];
     }
 }
