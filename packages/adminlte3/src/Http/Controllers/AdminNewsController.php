@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Validator;
 class AdminNewsController extends Controller {
 
 	public function getIndex() {
+        if (request()->user()->cannot('view')) {
+            abort(403);
+        }
+
         $news = Pagination::init(News::orderBy('date', 'desc'), 20)
             ->get();
 
