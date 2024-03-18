@@ -61,6 +61,8 @@ Route::any('search',[App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('policy', [App\Http\Controllers\HomeController::class, 'index'])->name('policy');
 
+Route::any('bot', [PageController::class, 'bot'])->name('bot');
+
 
 //Route::any('{alias}', [PageController::class, 'page'])
 //    ->where('alias', '([A-Za-z0-9\-\/_]+)');
