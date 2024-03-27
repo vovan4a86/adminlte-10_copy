@@ -47,17 +47,19 @@
 @stop
 
 @section('css')
+{{--
     <link href="/vendor/plugins/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css">
     <link href="/vendor/plugins/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" type="text/css">
     <link href="/vendor/plugins/contextmenu/jquery.contextMenu.css" rel="stylesheet" type="text/css">
+    --}}
 @stop
 
 @section('js')
-    <script src="/vendor/plugins/fancytree/jquery.fancytree-all-deps.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.dnd.js"></script>
-    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>
-    <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>
+{{--    <script src="/vendor/plugins/fancytree/jquery.fancytree-all-deps.js"></script>--}}
+{{--    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.dnd.js"></script>--}}
+{{--    <script src="/vendor/plugins/fancytree/modules/jquery.fancytree.persist.js"></script>--}}
+{{--    <script src="/vendor/plugins/contextmenu/jquery.contextMenu-custom.js"></script>--}}
 
-    <script src="/vendor/interfaces/interface.js"></script>
-    <script src="/vendor/interfaces/interface_catalog.js"></script>
+{{--    <script src="/vendor/interfaces/interface.js"></script>--}}
+{{--    <script src="/vendor/interfaces/interface_catalog.js"></script>--}}
 @stop

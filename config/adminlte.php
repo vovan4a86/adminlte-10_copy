@@ -153,7 +153,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => true,
+    'layout_dark_mode' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -492,22 +492,22 @@ return [
             ],
         ],
         'Summernote' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '/vendor/plugins/summernote/summernote-bs4.css',
+                    'location' => '/node_modules/summernote/dist/summernote-bs4.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '/vendor/plugins/summernote/summernote-bs4.js',
+                    'location' => '/node_modules/summernote/dist/summernote-bs4.js',
                 ],
             ],
         ],
         'Toastr' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'css',

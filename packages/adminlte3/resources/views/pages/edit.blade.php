@@ -128,3 +128,9 @@
         </div>
     </div>
 {!! Form::close() !!}
+<script>
+    //подгружаем здесь, потому что страница грузиться через php Laravel
+    $('.summernote').summernote({
+        height: 300
+    });
+</script>

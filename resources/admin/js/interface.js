@@ -1,4 +1,4 @@
-// import $ from "jquery";
+import $ from "jquery";
 // import {createTree} from 'jquery.fancytree';
 // import 'jquery.fancytree/dist/modules/jquery.fancytree.edit';
 // import 'jquery.fancytree/dist/modules/jquery.fancytree.filter';

@@ -46,8 +46,6 @@ function popupClose(el) {
             $(this).remove();
         });
     }
-
-
     return false;
 }
 

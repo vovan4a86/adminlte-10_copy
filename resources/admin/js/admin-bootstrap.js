@@ -13,9 +13,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import $ from 'jquery'
 window.jQuery = window.$ = $
-import 'overlayscrollbars';
-import 'bootstrap';
-// import '~adminlte/dist/js/adminlte.min.js';
 import 'admin-lte';
 
 import toastr from 'toastr';

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
 
@@ -6,16 +6,14 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-            // 'resources/js--sources/vendor/modernizr-2.8.3.min',
-            // 'resources/js--sources/bootstrap.min',
-            'resources/css/app.css',
+                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
         }),
         {
             name: 'blade',
-            handleHotUpdate({ file, server }) {
+            handleHotUpdate({file, server}) {
                 if (file.endsWith('.blade.php')) {
                     server.ws.send({
                         type: 'full-reload',

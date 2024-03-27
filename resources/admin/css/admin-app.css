@@ -1,14 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic');
+@import 'bootstrap';
+@import 'admin-custom.css';
 @import '~overlayscrollbars/styles/overlayscrollbars.min.css';
 @import '~icheck-bootstrap/icheck-bootstrap.css';
-@import '~adminlte/plugins/fontawesome-free/css/all.min.css';
-@import '~adminlte/dist/css/adminlte.min.css';
+@import '~admin-lte/plugins/fontawesome-free/css/all.min.css';
+@import '~admin-lte/dist/css/adminlte.min.css';
 
-@import '/node_modules/jquery.fancytree/dist/skin-win8/ui.fancytree.less';
-@import '../js--source/plugins/contextmenu/jquery.contextMenu.css';
+@import '~jquery.fancytree/dist/skin-lion/ui.fancytree.css'; /* стили fancytree */
+@import "~jquery-contextmenu/dist/jquery.contextMenu.css"; /* контекстное меню */
 
-@import '/node_modules/summernote/dist/summernote-bs5.css';
-@import "toastr";
+@import '~summernote/dist/summernote-bs5.css';
+@import "toastr"; /* всплывающие сообщения*/
 
-@import './custom.css';
+
+/*@import './custom.css';*/
 
