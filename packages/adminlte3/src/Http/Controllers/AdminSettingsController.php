@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
-
 class AdminSettingsController extends Controller
 {
 
@@ -78,7 +77,7 @@ class AdminSettingsController extends Controller
     public function anyEditSetting($id = null)
     {
         if (!$id || !$setting = Setting::findOrFail($id)) {
-            $setting = new Setting;
+            $setting = new Setting();
             $setting->group_id = Request::input('group');
         }
 

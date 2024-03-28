@@ -40,10 +40,7 @@ Route::middleware('admin.auth')->group(function () {
         Route::post('save', [AdminPagesController::class, 'postSave'])
             ->name('.save');
 
-        Route::get('edit/{id?}', [AdminPagesController::class, 'getEdit'])
-            ->name('.edit');
-
-        Route::post('edit/{id?}', [AdminPagesController::class, 'postEdit'])
+        Route::any('edit/{id?}', [AdminPagesController::class, 'anyEdit'])
             ->name('.edit');
 
         Route::post('reorder', [AdminPagesController::class, 'postReorder'])

@@ -49,8 +49,3 @@
         </div>
     </div>
 @stop
-
-@section('js')
-    <script src="/vendor/interfaces/interface.js" defer></script>
-    <script src="/vendor/interfaces/interface_settings.js" defer></script>
-@stop

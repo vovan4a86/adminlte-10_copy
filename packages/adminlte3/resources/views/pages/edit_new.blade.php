@@ -1,5 +1,5 @@
 {!! Form::open(['route' => 'admin.pages.save', 'id' => 'page-form']) !!}
-    {{ Form::hidden('id', $page->id) }}
+    {{ Form::hidden('id', $page->id ?? null) }}
     <div class="card card-primary card-outline card-tabs">
         <div class="card-header p-0 pt-1 border-bottom-0">
             <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -13,7 +13,7 @@
                        data-toggle="pill" href="#tabs-three-text" role="tab"
                        aria-controls="custom-tabs-three-profile" aria-selected="false">Текст</a>
                 </li>
-                @if (count($setting_groups))
+                @if (isset($setting_groups) && count($setting_groups))
                     <li class="nav-item dropdown">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" class="nav-link dropdown-toggle">Настройки</a>
@@ -67,7 +67,6 @@
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file" id="image" name="image"
-                                           onchange="pageImageAttache(this, event)"
                                            accept=".png,.jpg,.jpeg">
                                     <label class="custom-file-label" for="image">Выберите файл</label>
                                 </div>
@@ -75,8 +74,8 @@
                             <div id="page-image" class="mt-2">
                                 @if ($page->image)
                                     <img class="img-polaroid" src="{{ $page->thumb(1) }}" height="100"
-                                         data-image="{{ $page->image_src }}"
-                                         onclick="popupImage($(this).data('image'))" alt="">
+                                         data-image="{{ $page->image_src }}" alt="">
+{{--                                         onclick="popupImage($(this).data('image'))" --}}
                                     <a class="image-delete" href="{{ route('admin.pages.delete-image', [$page->id]) }}"
                                        onclick="deleteImage(this, event)">
                                         <i class="fa fa-trash text-red ml-2"></i>
@@ -112,8 +111,9 @@
 
                         <input type="hidden" name="setting_group[]" value="{{ $item->id }}">
 
-                        <a class="margin popup-ajax" href="{{ route('admin.settings.edit').'?group='.$item->id }}">Добавить
-                            настройку <i class="fa fa-plus-circle"></i></a>
+                        <a class="popup-ajax" href="{{ route('admin.settings.edit', ['group' => $item->id]) }}">
+                            Добавить настройку <i class="fa fa-plus-circle"></i>
+                        </a>
                         <div id="settings-group-{{ $item->id }}">
                             @include('adminlte::settings.items', ['settings' => $item->settings()->orderBy('order')->get()])
                         </div>
@@ -130,7 +130,7 @@
 {!! Form::close() !!}
 <script type="module">
     //подгружаем здесь, потому что страница грузиться через php Laravel
-    $('.summernote').summernote({
-        height: 300
-    });
+    // $('.summernote').summernote({
+    //     height: 300
+    // });
 </script>

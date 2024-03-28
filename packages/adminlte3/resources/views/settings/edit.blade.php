@@ -1,6 +1,6 @@
 <form action="{{ route('admin.settings.editSave') }}" onsubmit="settingsSaveEdit(this, event)">
     @csrf
-	<input type="hidden" name="id" value="{{ $setting->id }}">
+	<input type="hidden" name="id" value="{{ $setting->id ?? null }}">
 	<input type="hidden" name="group_id" value="{{ $setting->group_id }}">
 
 	<div class="form-group">
@@ -24,7 +24,9 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label for="setting-type">Тип</label>
-				<select id="setting-type" class="form-control" name="type" data-url="{{ route('admin.settings.blockParams') }}" onchange="settingsBlocParams(this, event)">
+				<select id="setting-type" class="form-control" name="type"
+                        data-url="{{ route('admin.settings.blockParams') }}">
+{{--                        onchange="settingsBlocParams(this, event)"--}}
 					@foreach ($setting::$types as $typeId => $typeName)
 						<option value="{{ $typeId }}" {{ $setting->type == $typeId ? 'selected' : '' }}>{{ $typeName }}</option>
 					@endforeach

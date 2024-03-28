@@ -19,17 +19,43 @@ class AdminPagesController extends Controller
 
     public function getIndex(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('adminlte::pages.index');
+        return view('adminlte::pages.index_new');
     }
 
-    public function getEdit($id = null)
-    {
-        return view(
-            'adminlte::pages.index',['content' => $this->postEdit($id)]
-        );
-    }
+//    public function getEdit($id = null)
+//    {
+//        return view(
+//            'adminlte::pages.index',['content' => $this->postEdit($id)]
+//        );
+//    }
+//
+//    public function postEdit($id = null)
+//    {
+//        if (!$id || !($page = Page::findOrFail($id))) {
+//            $page = new Page();
+//            $page->parent_id = request()->get('parent', 1);
+//            $page->published = 1;
+//        }
+//
+//        // Загружаем настройки, если есть
+//        $setting_groups = [];
+//        if ($page->id) {
+//            $setting_groups = $page->settingGroups ?? [];
+//        }
+//
+//        $pages_list = $this->getPageRecurse();
+//
+//        return view(
+//            'adminlte::pages.edit',
+//            [
+//                'page' => $page,
+//                'setting_groups' => $setting_groups,
+//                'pages_list' => $pages_list,
+//            ]
+//        );
+//    }
 
-    public function postEdit($id = null)
+    public function anyEdit($id = null)
     {
         if (!$id || !($page = Page::findOrFail($id))) {
             $page = new Page();
@@ -46,7 +72,7 @@ class AdminPagesController extends Controller
         $pages_list = $this->getPageRecurse();
 
         return view(
-            'adminlte::pages.edit',
+            'adminlte::pages.index_new',
             [
                 'page' => $page,
                 'setting_groups' => $setting_groups,
@@ -91,7 +117,6 @@ class AdminPagesController extends Controller
     {
         $id = request()->get('id');
         $data = request()->except(['setting', 'setting_group']);
-
         $data = array_filter($data, function ($key) {
             return !Str::startsWith($key, 'setting_file_');
         }, ARRAY_FILTER_USE_KEY);
@@ -101,7 +126,6 @@ class AdminPagesController extends Controller
         $data['on_header'] = !Arr::get($data, 'on_header') ? 0 : 1;
         $data['on_footer'] = !Arr::get($data, 'on_footer') ? 0 : 1;
         $data['on_mobile'] = !Arr::get($data, 'on_mobile') ? 0 : 1;
-
 
         $page = Page::find($id);
 
@@ -144,7 +168,7 @@ class AdminPagesController extends Controller
                 $page->save();
             }
 
-            return ['redirect' => route('admin.pages.edit', [$page->id])];
+            return ['redirect' => route('admin.pages.edit', $page->id)];
         } else {
             if ($page->system == 1) {
                 unset($data['alias']);

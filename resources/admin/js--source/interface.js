@@ -33,18 +33,18 @@ export const sendFiles = (url, data, callback, type) => {
         dataType: type,
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        beforeSend: function(request) {
+        beforeSend: function (request) {
             return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
         },
-        success: function(json, textStatus, jqXHR)
-        {
+        success: function (json, textStatus, jqXHR) {
             if (typeof callback == 'function') {
                 callback(json);
             }
         },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            alert('Не удалось выполнить запрос! Ошибка на сервере.');
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            toastr.error('Не удалось выполнить ajax запрос!', 'Ошибка на сервере.')
+            console.log(XMLHttpRequest);
+            // alert('Не удалось выполнить запрос! Ошибка на сервере.');
         }
     });
 }
@@ -96,30 +96,38 @@ export const popup = (content, title = 'Информация') => {
         '      <div class="modal-body">\n' +
         content +
         '      </div>\n' +
-        '      <div class="modal-footer">\n' +
-        '        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>\n' +
-        '      </div>\n' +
+        // '      <div class="modal-footer">\n' +
+        // '        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>\n' +
+        // '      </div>\n' +
         '    </div>\n' +
         '  </div>\n' +
-        '</div>'
+        '</div>';
     $('body').append(modal);
     $('.modal').modal({
         'backdrop': false,
         'show': true
-    })
+    });
+    $('.close').click(function () {
+        $(this).closest('.modal').fadeOut(300, function () {
+            $(this).remove();
+        })
+    });
 }
 
-export const popupClose = (el) => {
-    if (typeof (el) !== 'undefined') {
-        $(el).closest('.modal').fadeOut(300, function () {
-            $(this).remove();
-        });
-    } else {
-        $('.modal').fadeOut(300, function () {
-            $(this).remove();
-        });
-    }
-    return false;
+export const renderImage = (file, callback) => {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+        if (typeof callback == 'function') {
+            callback(event.target.result);
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+export const popupAjax = (url) => {
+    sendAjax(url, {}, function (html) {
+        popup(html, 'Добавление настроек');
+    }, 'html');
 }
 
 let autoHideMsgNextId = 0;
