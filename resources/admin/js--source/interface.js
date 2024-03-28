@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import {test} from "./pages";
 
 export const sendAjax = (url, data, callback, type) => {
     data = data || {};
@@ -81,9 +82,19 @@ export const pageContent = (url) => {
     return false;
 }
 
+export const renderImage = (file, callback) => {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+        if (typeof callback == 'function') {
+            callback(event.target.result);
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
 //https://bootstrap-4.ru/docs/4.0/components/modal/#via-javascript
 //есть большие и малые размеры
-export const popup = (content, title = 'Информация') => {
+export const popup = (content, title = 'Информация', callback) => {
     const modal = '<div class="modal fade" tabindex="-1" role="dialog">\n' +
         '  <div class="modal-dialog modal-lg" role="document">\n' +
         '    <div class="modal-content">\n' +
@@ -112,21 +123,15 @@ export const popup = (content, title = 'Информация') => {
             $(this).remove();
         })
     });
+
+    if (typeof callback == 'function') {
+        callback();
+    }
 }
 
-export const renderImage = (file, callback) => {
-    let reader = new FileReader();
-    reader.onload = function (event) {
-        if (typeof callback == 'function') {
-            callback(event.target.result);
-        }
-    };
-    reader.readAsDataURL(file);
-}
-
-export const popupAjax = (url) => {
+export const popupAjax = (url, title, callback) => {
     sendAjax(url, {}, function (html) {
-        popup(html, 'Добавление настроек');
+        popup(html, title, callback);
     }, 'html');
 }
 

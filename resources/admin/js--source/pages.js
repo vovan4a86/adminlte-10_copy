@@ -332,9 +332,34 @@ $(document).ready(function () {
     $('.popup-ajax').click((e) => {
         e.preventDefault();
         const url = $(this).find('.popup-ajax').attr('href');
-        popupAjax(url);
+        popupAjax(url, 'Добавление настроек', function() {
+            settingsBlocParams();
+            // const form = $(elem).find('form');
+            // const id = $(form).find('[name=id]').val();
+            // const type = $(form).val();
+            // const url = $(elem).data('url');
+            // console.log(url);
+
+            // sendAjax(url, {id: id, type: type}, function(html){
+            //     $('#setting-params').html(html);
+            // }, 'html');
+        });
     })
 })
+
+export const settingsBlocParams = () => {
+    $('#setting-type').change(function () {
+        const id = $(this).closest('form').find('[name=id]').val();
+        const type = $(this).val();
+        const url = $(this).data('url');
+
+        alert(url);
+
+        // sendAjax(url, {id: id, type: type}, function(html){
+        //     $('#setting-params').html(html);
+        // }, 'html');
+    });
+}
 
 //tests
 $('.toast-btn').click((e) => {
@@ -343,8 +368,14 @@ $('.toast-btn').click((e) => {
 })
 
 $('.popup-btn').click(() => {
-    popup('Модальное окно с инфой.')
+    popup('Модальное окно с инфой.', 'Инфо', function () {
+        test();
+    })
 })
+
+export const test = () => {
+    alert('test!');
+}
 
 //так не работает, подгружаем в php файле <script>
 // export const applySummernote = () => {
